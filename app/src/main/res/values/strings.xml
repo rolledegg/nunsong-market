@@ -5,6 +5,10 @@
     <string name="bottom_nav_tap_post">등록</string>
     <string name="bottom_nav_tap_chatting">채팅</string>
     <string name="bottom_nav_tap_mypage">내 정보</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    // HomeFragement
+    <string name="recent_article_list_title">최근 게시글</string>
+
+    // PublishActivity
+    <string name="publish_activity_title">상품 등록</string>
 </resources>
