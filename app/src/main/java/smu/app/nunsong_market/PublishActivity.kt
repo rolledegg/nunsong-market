@@ -28,6 +28,7 @@ class PublishActivity : AppCompatActivity() {
         }
         val categorItems = arrayOf("의류","전자기기","생활용품","도서","기타")
 
+        //TODO: Add spinner hint
         val categoryAdapter = ArrayAdapter(this,R.layout.item_category,categorItems)
         categorySpinner.adapter = categoryAdapter
         categorySpinner.onItemLongClickListener = object : AdapterView.OnItemSelectedListener,
