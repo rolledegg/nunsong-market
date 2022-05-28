@@ -32,6 +32,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        //for test
+        val intent = Intent(this,LoginActivity::class.java)
+        startActivity(intent)
+
         // default fragment
         supportFragmentManager.beginTransaction().add(R.id.container,homeFragment).commit()
 
@@ -60,7 +65,5 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-
     }
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1072180468588",
+    "project_id": "nunsong-market",
+    "storage_bucket": "nunsong-market.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072180468588:android:a0ad1bcb4b9761c49c3149",
+        "android_client_info": {
+          "package_name": "smu.app.nunsong_market"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072180468588-3qm3t5kadp3kdf0ftjlatgiqopien8im.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "smu.app.nunsong_market",
+            "certificate_hash": "a6563fc68284db37d00d7e26ef170c9faf39c8fa"
+          }
+        },
+        {
+          "client_id": "1072180468588-ehdve631ecrd9gel88nhrb5rjnv928f7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQuZR7lCPbDSrKLs8hCkZXDT23NJtsr1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072180468588-ehdve631ecrd9gel88nhrb5rjnv928f7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
