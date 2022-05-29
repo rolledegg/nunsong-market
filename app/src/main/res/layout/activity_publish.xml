@@ -45,13 +45,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_tv" />
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line1">
+<!--    <ScrollView-->
+<!--        android:id="@+id/scrollView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/line1">-->
 
         <LinearLayout
             android:id="@+id/liner_layout"
@@ -151,7 +151,7 @@
                 android:textSize="11sp" />
 
             <EditText
-                android:id="@+id/publish_activity_discription_et"
+                android:id="@+id/discription_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20sp"
@@ -163,9 +163,10 @@
                 android:textSize="12.5sp" />
 
         </LinearLayout>
-    </ScrollView>
+<!--    </ScrollView>-->
 
     <Button
+        android:id="@+id/publish_btn"
         android:layout_width="0sp"
         android:layout_height="50sp"
         android:layout_marginStart="16sp"
@@ -175,6 +176,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scrollView"
+        app:layout_constraintTop_toBottomOf="@id/liner_layout"
         app:layout_constraintVertical_bias="0.202" />
 </androidx.constraintlayout.widget.ConstraintLayout>
