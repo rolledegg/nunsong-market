@@ -31,40 +31,39 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        //configure the Google signin
+        val googleSignInOptions=GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
+            .requestEmail() //
             .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this@LoginActivity, googleSignInOptions)
-
+        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions)
+        //init firebase
         firebaseAuth = FirebaseAuth.getInstance()
-
         checkUser()
 
-        binding.googleBtn.setOnClickListener {
-            Log.d(TAG, "onCreate: login button clicked")
+        //Google SignIn bun, Click to begin google sign
+        binding.googleBtn.setOnClickListener{
+            Log.d(TAG,"onCreate: begin Google SignIn clicked")
             val Intent = googleSignInClient.signInIntent
             startActivityForResult(Intent, RC_SIGN_IN)
-
         }
     }
 
     private fun checkUser() {
         val firebaseUser = firebaseAuth.currentUser
-
-        if (firebaseUser != null) {
-            Log.d(TAG, "checkUser: user already loggedin")
-            Log.d(TAG, "checkUser: ${firebaseUser.uid}")
-            Log.d(TAG, "checkUser: ${firebaseUser.email}")
-            this.finish()
+        if (firebaseUser !=null){
+            //user is logged in
+            //start main activity
+            Log.d(TAG, "checkUser: already Logged in")
+            Log.d(TAG, "checkUser: ${firebaseUser?.email}")
+            startActivity(Intent(this,MainActivity::class.java))
+            finish()
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAG, "onActivityResult: ")
-
         if (requestCode == RC_SIGN_IN) {
             Log.d(TAG, "onActivityResult: Google SignIn intent result")
             val accoutTask = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -99,11 +98,11 @@ class LoginActivity : AppCompatActivity() {
                 //check if user is new or existing
                 if (authResult.additionalUserInfo!!.isNewUser) {
                     // user is new = Account created
-                    Log.d(TAG, "firebaseAuthWithGoogleAccount: Account created... \n$email")
+                    Log.d(TAG, "firebaseAuthWithGoogleAccount: [Account created] \n$email")
                     Toast.makeText(this, "Account created... \n$email", Toast.LENGTH_SHORT).show()
                 } else {
                     //existing user - LoggedIn
-                    Log.d(TAG, "firebaseAuthWithGoogleAccount: Existing user... \n$email")
+                    Log.d(TAG, "firebaseAuthWithGoogleAccount: [Existing user] \n$email")
                     Toast.makeText(this, "LoggedIn... \n$email", Toast.LENGTH_SHORT).show()
                 }
 

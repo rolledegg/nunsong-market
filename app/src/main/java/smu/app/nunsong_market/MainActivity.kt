@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
 
 
         //for test
-        val intent = Intent(this,LoginActivity::class.java)
-        startActivity(intent)
+//        val intent = Intent(this,LoginActivity::class.java)
+//        startActivity(intent)
 
         // default fragment
         supportFragmentManager.beginTransaction().add(R.id.container,homeFragment).commit()

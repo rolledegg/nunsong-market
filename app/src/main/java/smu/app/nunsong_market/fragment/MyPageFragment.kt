@@ -61,6 +61,7 @@ class MyPageFragment : Fragment() {
         if(firebaseUser == null){
             // user not logged in
             Log.d(TAG, "checkUser: ${firebaseUser?.email}")
+            //TODO: 액티비티 하나만 뜨도록
             startActivity(Intent(requireContext(),LoginActivity::class.java))
 
         }
