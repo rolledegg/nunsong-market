@@ -49,7 +49,7 @@ class PublishActivity : AppCompatActivity() {
         val productApi = retrofit.create(ProductApi::class.java)
 
 
-
+        // TODO: 등록완료하면 홈 액티비티로 돌아가기 (네비게이션 바도 홈으로 클릭외어있어야함)
         binding.publishBtn.setOnClickListener{
             val title = binding.titleEt.text.toString()
             val price = binding.priceEt.text.toString() + "원"
