@@ -60,7 +60,7 @@
         android:id="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="1sp"
-        android:background="@color/lighter_gray"
+        android:background="@color/lightest_gray"
         android:fontFamily="@font/one_mobile_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

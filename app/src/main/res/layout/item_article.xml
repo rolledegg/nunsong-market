@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:contentPaddingBottom="1dp"
-    app:cardBackgroundColor="@color/lighter_gray"
+    app:cardBackgroundColor="@color/lightest_gray"
     app:cardElevation="@dimen/cardview_compat_inset_shadow">
 
     <androidx.constraintlayout.widget.ConstraintLayout

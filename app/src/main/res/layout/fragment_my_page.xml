@@ -1,15 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightest_gray"
+    android:orientation="vertical"
     tools:context=".fragment.MyPageFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1sp"
+        android:background="@color/white"
         android:gravity="center"
-        android:text="mypage_fragment" />
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp"
+        android:text="@string/my_page_fragment_title"
+        android:textColor="@color/dark_gray"
+        android:textSize="13sp" />
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5sp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/profile_iv"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="25sp"
+            android:layout_marginBottom="25sp"
+            android:src="@drawable/img_my_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nickname_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15sp"
+            android:layout_marginTop="5sp"
+            android:text="계란말이"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/email_tv"
+            app:layout_constraintStart_toEndOf="@id/profile_iv"
+            app:layout_constraintTop_toTopOf="@id/profile_iv" />
+
+        <TextView
+            android:id="@+id/email_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15sp"
+            android:layout_marginTop="3sp"
+            android:hint="wkadlf05@sookmyung.ac.kr"
+            android:textColor="@color/gray"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/profile_iv"
+            app:layout_constraintTop_toBottomOf="@id/nickname_tv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/my_article_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1sp"
+        android:background="@color/white"
+        android:paddingStart="25sp"
+        android:paddingTop="14sp"
+        android:paddingBottom="14sp"
+        android:text="@string/my_article"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/my_promise_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5sp"
+        android:background="@color/white"
+        android:paddingStart="25sp"
+        android:paddingTop="14sp"
+        android:paddingBottom="14sp"
+        android:text="@string/my_promise"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/logout_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1sp"
+        android:background="@color/white"
+        android:paddingStart="25sp"
+        android:paddingTop="14sp"
+        android:paddingBottom="14sp"
+        android:text="@string/google_logout"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/delete_account_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1sp"
+        android:background="@color/white"
+        android:paddingStart="25sp"
+        android:paddingTop="14sp"
+        android:paddingBottom="14sp"
+        android:text="@string/google_delete_account"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+</LinearLayout>
