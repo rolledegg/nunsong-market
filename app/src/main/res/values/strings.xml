@@ -6,9 +6,16 @@
     <string name="bottom_nav_tap_chatting">채팅</string>
     <string name="bottom_nav_tap_mypage">내 정보</string>
 
-    // HomeFragement
+    // HomeFragment
     <string name="recent_article_list_title">최근 게시글</string>
 
     // PublishActivity
     <string name="publish_activity_title">상품 등록</string>
+
+    //MyPageFragment
+    <string name="my_page_fragment_title">내 정보</string>
+    <string name="my_article">내가 쓴 글</string>
+    <string name="my_promise">내 약속</string>
+    <string name="google_logout">로그 아웃</string>
+    <string name="google_delete_account">계정 탈퇴</string>
 </resources>

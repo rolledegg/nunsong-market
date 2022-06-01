@@ -22,7 +22,7 @@ import smu.app.nunsong_market.databinding.FragmentMyPageBinding
 
 class MyPageFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private lateinit var btn: Button
+    private lateinit var btn: TextView
     private lateinit var emailTv: TextView
     private lateinit var binding: FragmentMyPageBinding
     private lateinit var firebaseAuth: FirebaseAuth
@@ -46,8 +46,8 @@ class MyPageFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         checkUser()
 
-        btn = binding.googleTestBtn
-        binding.googleTestBtn.setOnClickListener {
+        btn = binding.logoutTv
+        binding.logoutTv.setOnClickListener {
             Log.d(TAG, "onCreate: logout button clicked")
             firebaseAuth.signOut()
             checkUser()
