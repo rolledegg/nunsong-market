@@ -13,12 +13,12 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingTop="2sp"
-        android:paddingBottom="2sp"
         android:paddingEnd="14sp"
+        android:paddingBottom="2sp"
         android:src="@drawable/ic_close_24"
+        app:layout_constraintBottom_toTopOf="@id/line1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/line1"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/main_tv"
@@ -45,125 +45,152 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_tv" />
 
-<!--    <ScrollView-->
-<!--        android:id="@+id/scrollView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/line1">-->
+    <!--    <ScrollView-->
+    <!--        android:id="@+id/scrollView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/line1">-->
+
+    <ImageButton
+        android:id="@+id/camera_btn"
+        android:layout_width="80sp"
+        android:layout_height="80sp"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="16sp"
+        android:layout_marginBottom="8sp"
+        android:background="@drawable/square_publish_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line1"
+        app:srcCompat="@drawable/ic_photo_camera_24" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/camera_cv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        app:cardCornerRadius="6sp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toEndOf="@id/camera_btn"
+        app:layout_constraintTop_toTopOf="@id/camera_btn">
+
+        <ImageView
+            android:id="@+id/camera_iv"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_img"
+            android:visibility="invisible"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toEndOf="@id/camera_btn"
+            app:layout_constraintTop_toTopOf="@id/camera_btn" />
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/liner_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16sp"
+        android:paddingTop="8sp"
+        android:paddingRight="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/camera_btn">
+
 
         <LinearLayout
-            android:id="@+id/liner_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="16sp"
-            android:paddingTop="16sp"
-            android:paddingRight="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line1">
-
-            <ImageButton
-                android:id="@+id/camera_btn"
-                android:layout_width="80sp"
-                android:layout_height="80sp"
-                android:layout_marginBottom="8sp"
-                android:background="@drawable/square_publish_camera"
-                app:srcCompat="@drawable/ic_photo_camera_24" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="2sp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16sp"
-                    android:text="상품의 사진은 "
-                    android:textColor="@color/light_gray"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10sp"
-                    android:text="총 N장"
-                    android:textColor="@color/main_blue"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10sp"
-                    android:text="까지 등록할 수 있습니다."
-                    android:textColor="@color/light_gray"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/title_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10sp"
-                android:background="@drawable/square_publish_title"
-                android:hint="@string/publish_activity_title_hint"
-                android:lines="1"
-                android:paddingStart="13sp"
-                android:textColorHint="@color/light_gray"
-                android:textSize="12.5sp" />
-
-            <Spinner
-                android:id="@+id/category_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="카테고리를 선택해주세요"
-                android:background="@drawable/square_publish_title"
-                android:layout_marginBottom="20sp"/>
-
-
-            <EditText
-                android:id="@+id/price_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8sp"
-                android:background="@drawable/square_publish_title"
-                android:ems="10"
-                android:hint="@string/publish_activity_price_hint"
-                android:inputType="numberDecimal"
-                android:lines="1"
-                android:paddingStart="13sp"
-                android:text="₩"
-                android:textColor="@color/gray"
-                android:textColorHint="@color/light_gray"
-                android:textSize="12.5sp" />
+            android:orientation="horizontal"
+            android:paddingStart="2sp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20sp"
-                android:paddingStart="2sp"
-                android:text="입력하신 가격으로 상품이 등록됩니다."
-                android:textColor="@color/main_blue"
-                android:textSize="11sp" />
+                android:layout_marginBottom="16sp"
+                android:text="상품의 사진은 "
+                android:textColor="@color/light_gray"
+                android:textSize="12sp" />
 
-            <EditText
-                android:id="@+id/discription_et"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20sp"
-                android:background="@drawable/square_publish_title"
-                android:hint="@string/publish_activity_discription_hint"
-                android:lines="8"
-                android:paddingStart="12sp"
-                android:textColorHint="@color/light_gray"
-                android:textSize="12.5sp" />
+                android:layout_marginBottom="10sp"
+                android:text="총 N장"
+                android:textColor="@color/main_blue"
+                android:textSize="12sp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:text="까지 등록할 수 있습니다."
+                android:textColor="@color/light_gray"
+                android:textSize="12sp" />
         </LinearLayout>
-<!--    </ScrollView>-->
+
+        <EditText
+            android:id="@+id/title_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:background="@drawable/square_publish_title"
+            android:hint="@string/publish_activity_title_hint"
+            android:lines="1"
+            android:paddingStart="13sp"
+            android:textColorHint="@color/light_gray"
+            android:textSize="12.5sp" />
+
+        <Spinner
+            android:id="@+id/category_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
+            android:background="@drawable/square_publish_title"
+            android:hint="카테고리를 선택해주세요" />
+
+
+        <EditText
+            android:id="@+id/price_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8sp"
+            android:background="@drawable/square_publish_title"
+            android:ems="10"
+            android:hint="@string/publish_activity_price_hint"
+            android:inputType="numberDecimal"
+            android:lines="1"
+            android:paddingStart="13sp"
+            android:text="₩"
+            android:textColor="@color/gray"
+            android:textColorHint="@color/light_gray"
+            android:textSize="12.5sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
+            android:paddingStart="2sp"
+            android:text="입력하신 가격으로 상품이 등록됩니다."
+            android:textColor="@color/main_blue"
+            android:textSize="11sp" />
+
+        <EditText
+            android:id="@+id/discription_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
+            android:background="@drawable/square_publish_title"
+            android:hint="@string/publish_activity_discription_hint"
+            android:lines="8"
+            android:paddingStart="12sp"
+            android:textColorHint="@color/light_gray"
+            android:textSize="12.5sp" />
+
+    </LinearLayout>
+    <!--    </ScrollView>-->
 
     <Button
         android:id="@+id/publish_btn"

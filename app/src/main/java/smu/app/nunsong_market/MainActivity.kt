@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity() {
 //        startActivity(intent)
 
         // default fragment
+
+        //TODO: load() 함수를 만들어거나 intent flag를 통해서 startActivity를 하면 아예 액티비티가 초기화 되도록 해야함
+        // 왜냐하면 작성 액티비지에서 돌아왔을 때 버튼 초기화가 안되고 프레그먼트도 홈 프레그먼트가 안띄워져있음.
         supportFragmentManager.beginTransaction().add(R.id.container,homeFragment).commit()
 
 
@@ -51,6 +54,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.page_post->{
                     val intent = Intent(this,PublishActivity::class.java)
                     startActivity(intent)
+                    //이렇게 하면 탭바는 돌어와도 안바뀌고, 다른 페이지에서 작성탭 클릭하면 홈 프레그먼트로 변경된 뒤에 액티비티가 띄워지는게 보임
+                    //supportFragmentManager.beginTransaction().replace(R.id.container,homeFragment).commit()
                     true
                 }
                 R.id.page_chatting->{
