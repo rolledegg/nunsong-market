@@ -34,13 +34,11 @@ class HomeFragment : Fragment() {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://fakestoreapi.com")
+//            .baseUrl("https://fakestoreapi.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val productApi = retrofit.create(ProductApi::class.java)
-
-        val article1 = Product(id = 30,title = "에어팟 프로 판매합니다",price = "200,000",description = "",coverSmallUrl = "",category = "electronic")
-        this.productList.add(article1)
 
         productApi.getProducts()
             .enqueue(object: Callback<List<Product>>{
