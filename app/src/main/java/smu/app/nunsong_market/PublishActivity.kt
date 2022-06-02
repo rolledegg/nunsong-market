@@ -157,8 +157,8 @@ class PublishActivity : AppCompatActivity() {
             path = RealPathUtil.getRealPath(context,uri)
             Log.d(TAG, "onActivityResult: ${path}")
             val bitmap = BitmapFactory.decodeFile(path)
-            binding.cameraIv.setImageBitmap(bitmap)
-            binding.cameraIv.isVisible = true
+            binding.productPreviewIv.setImageBitmap(bitmap)
+            binding.productPreviewIv.isVisible = true
 
         }
     }

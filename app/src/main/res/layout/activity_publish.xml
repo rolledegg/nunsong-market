@@ -66,17 +66,17 @@
         app:srcCompat="@drawable/ic_photo_camera_24" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/camera_cv"
+        android:id="@+id/preview_cv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16sp"
-        app:cardCornerRadius="6sp"
+        app:cardCornerRadius="8sp"
         app:cardElevation="0dp"
         app:layout_constraintStart_toEndOf="@id/camera_btn"
         app:layout_constraintTop_toTopOf="@id/camera_btn">
 
         <ImageView
-            android:id="@+id/camera_iv"
+            android:id="@+id/product_preview_iv"
             android:layout_width="80sp"
             android:layout_height="80sp"
             android:scaleType="centerCrop"
@@ -87,6 +87,8 @@
             app:layout_constraintTop_toTopOf="@id/camera_btn" />
     </androidx.cardview.widget.CardView>
 
+    <!--    </ScrollView>-->
+
     <LinearLayout
         android:id="@+id/liner_layout"
         android:layout_width="match_parent"
@@ -96,6 +98,7 @@
         android:paddingTop="8sp"
         android:paddingRight="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/camera_btn">
 
@@ -163,10 +166,10 @@
             android:inputType="numberDecimal"
             android:lines="1"
             android:paddingStart="13sp"
-            android:text="₩"
             android:textColor="@color/gray"
             android:textColorHint="@color/light_gray"
             android:textSize="12.5sp" />
+        <!-- android:text="₩"-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -190,7 +193,6 @@
             android:textSize="12.5sp" />
 
     </LinearLayout>
-    <!--    </ScrollView>-->
 
     <Button
         android:id="@+id/publish_btn"
