@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var googleSignInClient: GoogleSignInClient
+    private var googleSignInClient: GoogleSignInClient? = null
 
     private companion object {
         private const val RC_SIGN_IN = 100
@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         //Google SignIn bun, Click to begin google sign
         binding.googleBtn.setOnClickListener{
             Log.d(TAG,"onCreate: begin Google SignIn clicked")
-            val Intent = googleSignInClient.signInIntent
+            val Intent = googleSignInClient?.signInIntent
             startActivityForResult(Intent, RC_SIGN_IN)
         }
     }
@@ -91,6 +91,9 @@ class LoginActivity : AppCompatActivity() {
                 //get User info
                 val uid = firebaseUser!!.uid
                 val email = firebaseUser!!.email
+                val id_domain = email.toString().split("@")
+                val domain = id_domain[1]
+
 
                 Log.d(TAG, "firebaseAuthWithGoogleAccount: Uid:${uid}")
                 Log.d(TAG, "firebaseAuthWithGoogleAccount: Email:${email}")
@@ -98,17 +101,25 @@ class LoginActivity : AppCompatActivity() {
                 //check if user is new or existing
                 if (authResult.additionalUserInfo!!.isNewUser) {
                     // user is new = Account created
-                    Log.d(TAG, "firebaseAuthWithGoogleAccount: [Account created] \n$email")
-                    Toast.makeText(this, "Account created... \n$email", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "firebaseAuthWithGoogleAccount: [Account created] ${email}")
+                    Toast.makeText(this, "Account created... ${email}", Toast.LENGTH_SHORT).show()
                 } else {
                     //existing user - LoggedIn
-                    Log.d(TAG, "firebaseAuthWithGoogleAccount: [Existing user] \n$email")
-                    Toast.makeText(this, "LoggedIn... \n$email", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "firebaseAuthWithGoogleAccount: [Existing user] ${email}")
+                    Toast.makeText(this, "LoggedIn... ${email}", Toast.LENGTH_SHORT).show()
                 }
 
                 //start main activity
-                startActivity(Intent(this@LoginActivity,MainActivity::class.java))
-                finish()
+                if(domain == "sookmyung.ac.kr"){
+                    Log.d(TAG, "firebaseAuthWithGoogleAccount: ${domain}")
+                    startActivity(Intent(this@LoginActivity,MainActivity::class.java))
+                    finish()
+                }
+                else {
+                    firebaseUser.delete()
+                    Log.d(TAG, "firebaseAuthWithGoogleAccount: not a sookmyuung email delete account")
+                    Toast.makeText(this, "your not a sookmyung student", Toast.LENGTH_SHORT).show()
+                }
 
             }
             .addOnFailureListener { e ->
