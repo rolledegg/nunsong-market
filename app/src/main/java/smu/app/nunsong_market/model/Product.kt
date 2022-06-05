@@ -15,12 +15,14 @@ import com.google.gson.annotations.SerializedName
 
 /** for real api**/
 data class Product(
-    @SerializedName("itemNo") val id:Int,
+    @SerializedName("id") val id:Int,
     @SerializedName("title") val title:String,
-    @SerializedName("content") val description:String,
-    //@SerializedName("images") val coverSmallUrl:String,
-    @SerializedName("price") val price:String,
+    @SerializedName("price") val price:Int,
     @SerializedName("category") val category:String,
+    @SerializedName("images") val coverSmallUrl:String,
+    @SerializedName("content") val description:String,
+    @SerializedName("sellerName") val sellerName:String,
     @SerializedName("status") val status:String,
-    @SerializedName("first_time") val date:String
+    @SerializedName("trans") val trans:String,
+    @SerializedName("registerDate") val date:String
 )

@@ -18,8 +18,7 @@ class ProductAdapter(val clickListener:(Product) -> Unit): ListAdapter<Product,P
         fun bind(productModel:Product){
             binding.productTitleTv.text =productModel.title
             binding.productDateTv.text=productModel.date
-            binding.productPriceTv.text =productModel.price+"원"
-            binding.productDateTv.text =productModel.date
+            binding.productPriceTv.text =productModel.price.toString()+"원"
             binding.productStatusTv.text =productModel.status
 
 //            Glide

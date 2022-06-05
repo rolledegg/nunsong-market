@@ -42,7 +42,7 @@ class PublishActivity : AppCompatActivity() {
 
         //retrofit configure
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://fakestoreapi.com")
+            .baseUrl("http://www.noonsongmarket.com:8080")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -52,12 +52,15 @@ class PublishActivity : AppCompatActivity() {
         // TODO: 등록완료하면 홈 액티비티로 돌아가기 (네비게이션 바도 홈으로 클릭외어있어야함)
         binding.publishBtn.setOnClickListener{
             val title = binding.titleEt.text.toString()
-            val price = binding.priceEt.text.toString() + "원"
+            val price = binding.priceEt.text.toString().toInt()
             val category = binding.categorySpinner.selectedItem
             val description = binding.discriptionEt.text.toString()
-            Log.d(TAG, "onCreate: ${title} / ${price} / ${category} / ${description}")
+            Log.d(TAG, "onCreate: ${title is String} / ${price} / ${category is String} / ${category.toString() is String} / ${description}")
+            Log.d(TAG, "onCreate: button clicked ")
 
-            productApi.postProduct(Product(id =50,title = title,price = price,description = description,coverSmallUrl = "",category = category.toString()))
+            productApi.postProduct(
+                Product(id =10,title = title,price = price,category = category.toString(),coverSmallUrl = " "
+                        ,description = description,sellerName = "계란말이",status ="SALE", trans="NOCHOICE",date =""))
                 .enqueue(object: Callback<Product>{
                     override fun onResponse(
                         call: Call<Product>,
@@ -90,7 +93,7 @@ class PublishActivity : AppCompatActivity() {
         }
 
         //category spinner
-        val categorItems = arrayOf("의류","전자기기","생활용품","도서","기타")
+        val categorItems = arrayOf("CLOTHES","ELECTRONICS","BOOKS","ETC")
 
         //TODO: Add spinner hint
         val categoryAdapter = ArrayAdapter(this,R.layout.item_category,categorItems)
@@ -116,6 +119,6 @@ class PublishActivity : AppCompatActivity() {
 
         }
 
-        categorySpinner.setSelection(4)
+        categorySpinner.setSelection(3)
     }
 }
