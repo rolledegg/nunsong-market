@@ -90,12 +90,14 @@ class LoginActivity : AppCompatActivity() {
                 val firebaseUser = firebaseAuth.currentUser
                 //get User info
                 val uid = firebaseUser!!.uid
+                val name = firebaseUser!!.displayName
                 val email = firebaseUser!!.email
                 val id_domain = email.toString().split("@")
                 val domain = id_domain[1]
 
 
                 Log.d(TAG, "firebaseAuthWithGoogleAccount: Uid:${uid}")
+                Log.d(TAG, "firebaseAuthWithGoogleAccount: Name:${name}")
                 Log.d(TAG, "firebaseAuthWithGoogleAccount: Email:${email}")
 
                 //check if user is new or existing

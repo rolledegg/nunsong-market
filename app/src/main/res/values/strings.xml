@@ -18,4 +18,6 @@
     <string name="my_promise">내 약속</string>
     <string name="google_logout">로그 아웃</string>
     <string name="google_delete_account">계정 탈퇴</string>
+    <string name="copyright">Copyright © 2022 Chungpacoder All rights reserved.</string>
+
 </resources>

@@ -118,4 +118,14 @@
         android:textColor="@color/black"
         android:textSize="14sp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3sp"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:paddingTop="8sp"
+        android:textColor="@color/lighter_gray"
+        android:textSize="8sp" />
+
 </LinearLayout>
