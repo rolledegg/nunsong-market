@@ -1,9 +1,16 @@
 package smu.app.nunsong_market
 
+import android.app.Dialog
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Message
+import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import smu.app.nunsong_market.databinding.ActivityArticleBinding
 import smu.app.nunsong_market.databinding.ActivityLoginBinding
 
@@ -22,21 +29,37 @@ class ArticleActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         productWebView = binding.productDetailWv
-        progressBar=binding.webviewProgressBar
+        progressBar = binding.webviewProgressBar
 
-        productWebView.loadUrl("https://naver.com")
+        productWebView.apply {
+            webViewClient = WebViewClient()
+            webChromeClient = webChromeClient()
+            loadUrl("https://naver.com")
 
-//        productWebView.apply {
-//            // 클릭시 새창 안뜨게
-//            webViewClient = webViewClientClass()
-//
-//            // 팝업이나 파일 업로드 등 설정해주기 위해 webView.webChromeClient를 설정
-//            // 웹뷰에서 크롬이 실행 가능 && 새창띄우기는 안됨
-//            // webChromeClient = webChromeClient()
-//
-//            // 웹뷰에서 팝업창 호출하기 위해
-//            webChromeClient
-//        }
+        }
+
 
     }
+    inner class webChromeClient: android.webkit.WebChromeClient(){
+        override fun onProgressChanged(view: WebView?, newProgress: Int) {
+            super.onProgressChanged(view, newProgress)
+            // 0~100의 정수로 로딩 정도를 알려준다.
+            progressBar.progress = newProgress
+        }
+    }
+
+    inner class WebViewClient: android.webkit.WebViewClient(){
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            super.onPageStarted(view, url, favicon)
+            progressBar.isVisible = true
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+
+            progressBar.isVisible = false
+        }
+    }
+
+
 }
