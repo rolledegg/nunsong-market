@@ -30,10 +30,6 @@ class ProductAdapter(val clickListener:(Product) -> Unit): ListAdapter<Product,P
             binding.root.setOnClickListener {
                 clickListener(productModel)
             }
-
-            binding.root.setOnClickListener{
-                clickListener(productModel)
-            }
         }
     }
 

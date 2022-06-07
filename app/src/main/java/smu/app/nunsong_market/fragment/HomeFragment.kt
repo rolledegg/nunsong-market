@@ -1,6 +1,7 @@
 package smu.app.nunsong_market.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,6 +14,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import smu.app.nunsong_market.ArticleActivity
+import smu.app.nunsong_market.PublishActivity
 import smu.app.nunsong_market.adapter.ProductAdapter
 import smu.app.nunsong_market.model.Product
 import smu.app.nunsong_market.R
@@ -88,7 +91,9 @@ class HomeFragment : Fragment() {
 
     fun initBookRecyclerView(){
         adapter = ProductAdapter(clickListener= {
-            Log.d(TAG,"recyclerview clicked")
+            Log.d(TAG, "initBookRecyclerView: recyclerview clicked")
+            val intent = Intent(requireContext(), ArticleActivity::class.java)
+            startActivity(intent)
         })
 
         adapter.submitList(this.productList)

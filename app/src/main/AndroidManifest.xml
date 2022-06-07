@@ -3,23 +3,26 @@
     package="smu.app.nunsong_market">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:requestLegacyExternalStorage="true"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nunsongmarket">
+        <activity
+            android:name=".ArticleActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".PublishActivity"
             android:exported="false"
-            android:theme="@style/Theme.PublishActivity"/>
+            android:theme="@style/Theme.PublishActivity" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
