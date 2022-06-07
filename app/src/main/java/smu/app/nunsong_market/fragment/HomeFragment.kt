@@ -36,41 +36,39 @@ class HomeFragment : Fragment() {
         Log.d(TAG,"HomeFragment - onCreate() called")
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://fakestoreapi.com")
+            .baseUrl("http://www.noonsongmarket.com:8080")
+//            .baseUrl("https://fakestoreapi.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val productApi = retrofit.create(ProductApi::class.java)
 
-        val article1 = Product(id = 30,title = "에어팟 프로 판매합니다",price = "200,000",description = "",coverSmallUrl = "",category = "electronic")
-        this.productList.add(article1)
-
-        productApi.getProducts()
-            .enqueue(object: Callback<List<Product>>{
-                override fun onResponse(
-                    call: Call<List<Product>>,
-                    response: Response<List<Product>>
-                ) {
-                    if(response.isSuccessful.not()){
-                        //예외처리
-                        Log.d(TAG,"NOT SUCCESS")
-                        return
-                    }
-
-                    response.body()?.let{
-                        it.forEach{product->
-                            Log.d(TAG, product.toString())
-                            productList.add(product)
-                        }
-                        adapter.submitList(productList)
-                    }
-                }
-
-                override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-                    Log.e(TAG,t.toString())
-                }
-
-            })
+//        productApi.getProducts()
+//            .enqueue(object: Callback<List<Product>>{
+//                override fun onResponse(
+//                    call: Call<List<Product>>,
+//                    response: Response<List<Product>>
+//                ) {
+//                    if(response.isSuccessful.not()){
+//                        //예외처리
+//                        Log.d(TAG,"NOT SUCCESS")
+//                        return
+//                    }
+//
+//                    response.body()?.let{
+//                        it.forEach{product->
+//                            Log.d(TAG, product.toString())
+//                            productList.add(product)
+//                        }
+//                        adapter.submitList(productList)
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+//                    Log.e(TAG,t.toString())
+//                }
+//
+//            })
     }
 
     override fun onAttach(context: Context) {
