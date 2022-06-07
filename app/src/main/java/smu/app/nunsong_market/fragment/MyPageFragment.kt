@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -61,8 +62,9 @@ class MyPageFragment : Fragment() {
         if(firebaseUser == null){
             // user not logged in
             Log.d(TAG, "checkUser: ${firebaseUser?.email}")
-            //TODO: 액티비티 하나만 뜨도록
             startActivity(Intent(requireContext(),LoginActivity::class.java))
+            //finish main activity
+            ActivityCompat.finishAffinity(requireActivity())
 
         }
         else{
