@@ -45,6 +45,7 @@ class MyPageFragment : Fragment() {
         binding.myArticleTv.setOnClickListener(){
             Log.d(TAG, "onCreateView: recyclerview clicked")
             val intent = Intent(requireContext(), ArticleListActivity::class.java)
+            intent.putExtra("title","내가 쓴 글")
             startActivity(intent)
         }
         return binding.root

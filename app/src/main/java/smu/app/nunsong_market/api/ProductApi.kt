@@ -20,6 +20,9 @@ interface ProductApi {
     @GET("/items/{userName}")
     fun getMyProducts(@Path("userName") userName:String): Call<List<Product>>
 
+    @GET("/items/search/category/{category}")
+    fun getProductsByCategory(@Path("category") category:String): Call<List<Product>>
+
     @POST("/items")
     fun postProduct(@Body Product:Product):Call<Product>
 

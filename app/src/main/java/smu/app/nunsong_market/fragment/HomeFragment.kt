@@ -2,23 +2,22 @@ package smu.app.nunsong_market.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.internal.ContextUtils.getActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import smu.app.nunsong_market.ArticleActivity
-import smu.app.nunsong_market.PublishActivity
+import smu.app.nunsong_market.*
 import smu.app.nunsong_market.adapter.ProductAdapter
 import smu.app.nunsong_market.model.Product
 import smu.app.nunsong_market.api.ProductApi
@@ -41,74 +40,6 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         viewModel.load()
 
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("http://www.noonsongmarket.com:8080")
-////            .baseUrl("https://fakestoreapi.com")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-
-//        val productApi = retrofit.create(ProductApi::class.java)
-//        if(productList.isEmpty()) {
-//            Log.d(TAG, "onCreate: first loading")
-//            productApi.getProducts()
-//                .enqueue(object : Callback<List<Product>> {
-//                    override fun onResponse(
-//                        call: Call<List<Product>>,
-//                        response: Response<List<Product>>
-//                    ) {
-//                        if (response.isSuccessful.not()) {
-//                            //예외처리
-//                            Log.d(TAG, "NOT SUCCESS")
-//                            return
-//                        }
-//
-//                        response.body()?.let {
-//                            it.forEach { product ->
-//                                Log.d(TAG, product.toString())
-//                                productList.add(product)
-//                            }
-//                            adapter.submitList(productList)
-//                            Log.d(TAG, "onResponse:list size ${productList.size}")
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-//                        Log.e(TAG, t.toString())
-//                    }
-//
-//                })
-//        }
-//        else{
-//            Log.d(TAG, "onCreate: Reloading")
-//            productList.clear()
-//            productApi.getProducts()
-//                .enqueue(object : Callback<List<Product>> {
-//                    override fun onResponse(
-//                        call: Call<List<Product>>,
-//                        response: Response<List<Product>>
-//                    ) {
-//                        if (response.isSuccessful.not()) {
-//                            //예외처리
-//                            Log.d(TAG, "NOT SUCCESS")
-//                            return
-//                        }
-//
-//                        response.body()?.let {
-//                            it.forEach { product ->
-//                                Log.d(TAG, product.toString())
-//                                productList.add(product)
-//                            }
-//                            adapter.submitList(productList)
-//                            Log.d(TAG, "onResponse:list size ${productList.size}")
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-//                        Log.e(TAG, t.toString())
-//                    }
-//
-//                })
-//        }
     }
 
     override fun onAttach(context: Context) {
@@ -123,6 +54,8 @@ class HomeFragment : Fragment() {
         Log.d(TAG,"HomeFragment - onCreateView() called")
         binding = FragmentHomeBinding.inflate(inflater,container,false)
         initRecyclerView()
+        initCategory()
+
         if(productList.isEmpty()){
             //binding.swipeRefresh.isRefreshing = true
         }
@@ -133,7 +66,39 @@ class HomeFragment : Fragment() {
         }
         return binding.root // return layout
     }
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+    private fun initCategory() {
+        binding.clothLayout.setOnClickListener() {
+            Log.d(TAG, "initCategory: category clicked")
+            val intent = Intent(requireContext(), CategoryArtclesActivity::class.java)
+            intent.putExtra("title","의류")
+            intent.putExtra("category","CLOTHES")
+            startActivity(intent)
+        }
+        binding.electronicsLayout.setOnClickListener() {
+            Log.d(TAG, "initCategory: category clicked")
+            val intent = Intent(requireContext(), CategoryArtclesActivity::class.java)
+            intent.putExtra("title","전자기기")
+            intent.putExtra("category","ELECTRONICS")
+            startActivity(intent)
+        }
+        binding.bookLayout.setOnClickListener() {
+            Log.d(TAG, "initCategory: category clicked")
+            val intent = Intent(requireContext(), CategoryArtclesActivity::class.java)
+            intent.putExtra("title","중고도서")
+            intent.putExtra("category","BOOKS")
+            startActivity(intent)
+        }
+        binding.etcLayout.setOnClickListener() {
+            Log.d(TAG, "initCategory: category clicked")
+            val intent = Intent(requireContext(), CategoryArtclesActivity::class.java)
+            intent.putExtra("title","기타")
+            intent.putExtra("category","ETC")
+            startActivity(intent)
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.articleList.observe(viewLifecycleOwner){

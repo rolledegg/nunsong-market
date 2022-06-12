@@ -48,7 +48,8 @@ class ArticleListActivity : AppCompatActivity() {
 //
 //        val productApi = retrofit.create(ProductApi::class.java)
 
-        binding.mainTitleTv.text ="내가 쓴 글"
+        intent.getStringExtra("title")
+        binding.mainTitleTv.text =intent.getStringExtra("title")
 
         //TODO: 유저네임 구글에서 가져와서 동적으로 넣어줘야함
 //        productApi.getMyProducts("계란말이")
@@ -99,9 +100,6 @@ class ArticleListActivity : AppCompatActivity() {
             startActivity(intent)
         })
 
-        val product = Product(id =10,title = "title",price = 20000,category = "ETC",coverSmallUrl = ""
-            ,description = ",,,",sellerName = "계란말이",status ="판매중", trans="NOCHOICE",date ="2022년 06월 02일 19시 21분 47초")
-        myProductList.add(product)
         adapter.submitList(this.myProductList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.articleRecyclerView.adapter = adapter

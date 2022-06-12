@@ -167,6 +167,7 @@ class PublishActivity : AppCompatActivity() {
                     }
 
                 })
+
             this.finish()
         }
 
