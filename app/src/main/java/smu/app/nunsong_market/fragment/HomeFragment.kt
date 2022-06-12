@@ -129,6 +129,7 @@ class HomeFragment : Fragment() {
 
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.load()
+            binding.swipeRefresh.isRefreshing=false
         }
         return binding.root // return layout
     }
@@ -137,7 +138,6 @@ class HomeFragment : Fragment() {
 
         viewModel.articleList.observe(viewLifecycleOwner){
             adapter.submitList(it)
-            binding.swipeRefresh.isRefreshing=false
         }
     }
 
