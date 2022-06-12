@@ -7,18 +7,6 @@
 
     tools:context=".PublishActivity">
 
-    <ImageButton
-        android:id="@+id/exit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingTop="2sp"
-        android:paddingEnd="14sp"
-        android:paddingBottom="2sp"
-        android:src="@drawable/ic_close_24"
-        app:layout_constraintBottom_toTopOf="@id/line1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/main_tv"
@@ -34,6 +22,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/exit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="2sp"
+        android:paddingEnd="14sp"
+        android:paddingBottom="2sp"
+        android:src="@drawable/ic_close_24"
+        app:layout_constraintBottom_toTopOf="@id/line1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/line1"

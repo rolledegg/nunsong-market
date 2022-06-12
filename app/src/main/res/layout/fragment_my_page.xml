@@ -19,7 +19,7 @@
         android:paddingBottom="10sp"
         android:text="@string/my_page_fragment_title"
         android:textColor="@color/dark_gray"
-        android:textSize="13sp" />
+        android:textSize="14sp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

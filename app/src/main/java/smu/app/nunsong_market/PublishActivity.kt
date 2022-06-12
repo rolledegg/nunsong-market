@@ -87,8 +87,8 @@ class PublishActivity : AppCompatActivity() {
 
 
             productApi.postProduct(
-                Product(id =10,title = title,price = price,category = category.toString(),coverSmallUrl = " "
-                        ,description = description,sellerName = "계란말이",status ="SALE", trans="NOCHOICE",date =""))
+                Product(id =10,title = title,price = price,category = category.toString(),coverSmallUrl = path
+                        ,description = description,sellerName = "계란말이",status ="판매중", trans="NOCHOICE",date =""))
                 .enqueue(object: Callback<Product>{
                     override fun onResponse(
                         call: Call<Product>,

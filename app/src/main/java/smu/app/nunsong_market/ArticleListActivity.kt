@@ -1,50 +1,50 @@
-package smu.app.nunsong_market.fragment
+package smu.app.nunsong_market
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import smu.app.nunsong_market.ArticleActivity
-import smu.app.nunsong_market.PublishActivity
 import smu.app.nunsong_market.adapter.ProductAdapter
-import smu.app.nunsong_market.model.Product
-import smu.app.nunsong_market.R
 import smu.app.nunsong_market.api.ProductApi
-import smu.app.nunsong_market.databinding.FragmentHomeBinding
+import smu.app.nunsong_market.databinding.ActivityArticleListBinding
+import smu.app.nunsong_market.model.Product
 
-
-class HomeFragment : Fragment() {
-
-    private lateinit var binding:FragmentHomeBinding
+class ArticleListActivity : AppCompatActivity() {
+    private lateinit var binding:ActivityArticleListBinding
     private lateinit var adapter: ProductAdapter
 
     //데이터 배열
     var productList = ArrayList<Product>()
 
+    companion object{
+        private const val TAG ="ARTICLE_LIST_ACTIVITY"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG,"HomeFragment - onCreate() called")
+        binding = ActivityArticleListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        Log.d(TAG, "onCreate: onCreate()")
+
+        // TODO: inten세어 타티틀 받아와서 동적으로 매칭
+        initRecyclerView()
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://www.noonsongmarket.com:8080")
-//            .baseUrl("https://fakestoreapi.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val productApi = retrofit.create(ProductApi::class.java)
+        val productApi =retrofit.create(ProductApi::class.java)
 
-        productApi.getProducts()
-            .enqueue(object: Callback<List<Product>>{
+        //TODO: 유저네임 구글에서 가져와서 동적으로 넣어줘야함
+        productApi.getMyProducts("계란말이")
+            .enqueue(object: Callback<List<Product>> {
                 override fun onResponse(
                     call: Call<List<Product>>,
                     response: Response<List<Product>>
@@ -69,41 +69,21 @@ class HomeFragment : Fragment() {
                 }
 
             })
+        binding.mainTitleTv.setOnClickListener(){
+            this.recreate()
+        }
+
+
     }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.d(TAG,"HomeFragment - onAttach() called")
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.d(TAG,"HomeFragment - onCreateView() called")
-        binding = FragmentHomeBinding.inflate(inflater,container,false)
-        initRecyclerView()
-
-        return binding.root // return layout
-    }
-
     fun initRecyclerView(){
-        adapter = ProductAdapter(requireActivity(),clickListener= {
-            Log.d(TAG, "initBookRecyclerView: recyclerview clicked")
-            val intent = Intent(requireContext(), ArticleActivity::class.java)
+        adapter = ProductAdapter(this,clickListener= {
+            Log.d(TAG, "initRecyclerView: recyclerview clicked")
+            val intent = Intent(this, ArticleActivity::class.java)
             startActivity(intent)
         })
 
         adapter.submitList(this.productList)
-        binding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.articleRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.articleRecyclerView.adapter = adapter
-    }
-
-    companion object {
-        const val TAG: String = "HomeFragment"
-
-        fun newInstance() : HomeFragment {
-            return HomeFragment()
-        }
     }
 }

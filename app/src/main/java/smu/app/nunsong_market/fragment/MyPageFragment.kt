@@ -15,6 +15,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import smu.app.nunsong_market.ArticleActivity
+import smu.app.nunsong_market.ArticleListActivity
 import smu.app.nunsong_market.LoginActivity
 import smu.app.nunsong_market.R
 import smu.app.nunsong_market.databinding.ActivityLoginBinding
@@ -40,6 +42,11 @@ class MyPageFragment : Fragment() {
         binding = FragmentMyPageBinding.inflate(inflater,container,false)
         init()
         // Inflate the layout for this fragment
+        binding.myArticleTv.setOnClickListener(){
+            Log.d(TAG, "onCreateView: recyclerview clicked")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java)
+            startActivity(intent)
+        }
         return binding.root
     }
 
