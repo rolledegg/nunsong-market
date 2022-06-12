@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingTop="2sp"
         android:paddingStart="14sp"
+        android:paddingTop="2sp"
         android:paddingBottom="2sp"
         android:src="@drawable/ic_arrow_back_24"
         app:layout_constraintBottom_toTopOf="@id/line1"
@@ -25,9 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:hint="메인 제목"
         android:paddingTop="10sp"
         android:paddingBottom="10sp"
-        android:hint="메인 제목"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,15 +43,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_title_tv" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/articleRecyclerView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingLeft="16sp"
-        android:paddingRight="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line1"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/line1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/articleRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingLeft="16sp"
+            android:paddingRight="16sp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

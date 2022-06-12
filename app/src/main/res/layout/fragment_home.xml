@@ -67,6 +67,7 @@
         app:layout_constraintTop_toBottomOf="@id/recent_article_list_tv" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

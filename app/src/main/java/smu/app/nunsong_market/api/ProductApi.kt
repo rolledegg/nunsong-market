@@ -1,10 +1,9 @@
 package smu.app.nunsong_market.api
 
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import smu.app.nunsong_market.model.Product
 
 interface ProductApi {
@@ -23,4 +22,18 @@ interface ProductApi {
 
     @POST("/items")
     fun postProduct(@Body Product:Product):Call<Product>
+
+    @Multipart
+    @POST("/items/imagesitems")
+    fun postImage(
+        @Part("images") images:MultipartBody.Part?,
+        @Part("title") title:RequestBody,
+        @Part("price") price:RequestBody,
+        @Part("category") category:RequestBody,
+        @Part("content") description:RequestBody,
+        @Part("sellerName") sellerName:RequestBody,
+        @Part("status") status:RequestBody,
+        @Part("trans") trans:RequestBody,
+    ):Call<Product>
+
 }

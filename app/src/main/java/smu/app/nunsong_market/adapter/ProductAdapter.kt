@@ -33,9 +33,18 @@ class ProductAdapter(context: Context, val clickListener: (Product) -> Unit) :
             } else {
                 customHour = " 오전 " + customHour
             }
+
+            // 가격 텍스트 커스텀
+            var customPrice =productModel.price.toString()
+            val length = customPrice.length
+            if(length > 3){
+                var front = customPrice.slice(0..(length-4))
+                var tail = customPrice.slice((length-3)..(length-1))
+                customPrice = front+","+tail
+            }
             binding.productTitleTv.text = productModel.title
             binding.productDateTv.text = customDate + customHour + customMin
-            binding.productPriceTv.text = productModel.price.toString() + "원"
+            binding.productPriceTv.text = customPrice + "원"
             binding.productStatusTv.text = productModel.status
 
             when(productModel.status){
