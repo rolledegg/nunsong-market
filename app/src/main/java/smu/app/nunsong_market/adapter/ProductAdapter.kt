@@ -37,11 +37,13 @@ class ProductAdapter(context: Context, val clickListener: (Product) -> Unit) :
             // 가격 텍스트 커스텀
             var customPrice =productModel.price.toString()
             val length = customPrice.length
+            // 3~6자리
             if(length > 3 && length <7){
                 var front = customPrice.slice(0..(length-4))
                 var tail = customPrice.slice((length-3)..(length-1))
                 customPrice = front+","+tail
             }
+            // 7자리 이상
             else if(length >=7){
                 var front = customPrice.slice(0..(length-7))
                 var middle = customPrice.slice((length-6)..(length-4))
