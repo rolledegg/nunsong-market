@@ -65,7 +65,7 @@ class PublishActivity : AppCompatActivity() {
 
         //retrofit configure
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://www.noonsongmarket.com")
+            .baseUrl(getString(R.string.baseUrl))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

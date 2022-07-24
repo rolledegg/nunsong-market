@@ -9,6 +9,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import smu.app.nunsong_market.R
 import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.fragment.HomeFragment
 
@@ -20,7 +21,7 @@ class CategoryArtclesViewModel(application: Application) : AndroidViewModel(appl
     val isLoading = MutableLiveData(false)
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("http://www.noonsongmarket.com")
+        .baseUrl(application.getString(R.string.baseUrl))
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
