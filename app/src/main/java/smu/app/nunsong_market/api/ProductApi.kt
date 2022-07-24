@@ -18,25 +18,25 @@ interface ProductApi {
     fun getProducts(): Call<List<Product>>
 
     @GET("/items/{userName}")
-    fun getMyProducts(@Path("userName") userName:String): Call<List<Product>>
+    fun getMyProducts(@Path("userName") userName: String): Call<List<Product>>
 
-    @GET("/items/search/category/{category}")
-    fun getProductsByCategory(@Path("category") category:String): Call<List<Product>>
+    @GET("/items/search/category")
+    fun getProductsByCategory(@Query("keyword") keyword: String ): Call<List<Product>>
 
     @POST("/items")
-    fun postProduct(@Body Product:Product):Call<Product>
+    fun postProduct(@Body Product: Product): Call<Product>
 
     @Multipart
     @POST("/items/imagesitems")
-    fun postImage(
-        @Part("images") images:MultipartBody.Part?,
-        @Part("title") title:RequestBody,
+    fun postProductImage(
+        @Part images:MultipartBody.Part,
+        @Part("title") title: RequestBody,
         @Part("price") price:RequestBody,
         @Part("category") category:RequestBody,
         @Part("content") description:RequestBody,
         @Part("sellerName") sellerName:RequestBody,
         @Part("status") status:RequestBody,
         @Part("trans") trans:RequestBody,
-    ):Call<Product>
+    ): Call<Product>
 
 }

@@ -20,8 +20,7 @@ class CategoryArtclesViewModel(application: Application) : AndroidViewModel(appl
     val isLoading = MutableLiveData(false)
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("http://www.noonsongmarket.com:8080")
-//            .baseUrl("https://fakestoreapi.com")
+        .baseUrl("http://www.noonsongmarket.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

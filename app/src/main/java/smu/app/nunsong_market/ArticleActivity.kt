@@ -34,7 +34,7 @@ class ArticleActivity : AppCompatActivity() {
         productWebView.apply {
             webViewClient = WebViewClient()
             webChromeClient = webChromeClient()
-            loadUrl("https://ns-market.vercel.app/products/11")
+            loadUrl("https://ns-market.vercel.app/products/51")
 
         }
 

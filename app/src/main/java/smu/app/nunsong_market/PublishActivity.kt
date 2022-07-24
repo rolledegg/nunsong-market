@@ -5,18 +5,16 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.icu.util.ULocale
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -27,18 +25,20 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.databinding.ActivityPublishBinding
-import smu.app.nunsong_market.fragment.HomeFragment
-import smu.app.nunsong_market.fragment.MyPageFragment
 import smu.app.nunsong_market.model.Product
 import smu.app.nunsong_market.util.RealPathUtil
+import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.jar.Manifest
+import java.io.IOException
+import java.io.InputStream
+import java.security.AccessController.getContext
 
 class PublishActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPublishBinding
     private lateinit var path: String
     private lateinit var imageFile: File
+    private lateinit var firebaseAuth: FirebaseAuth
 //    private lateinit var  title: EditText
 //    private lateinit var  price: EditText
 //    private lateinit var  description: EditText
@@ -61,9 +61,11 @@ class PublishActivity : AppCompatActivity() {
         setContentView(binding.root)
         Log.d(TAG, "onCreate: onCreate")
 
+        firebaseAuth = FirebaseAuth.getInstance()
+
         //retrofit configure
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://www.noonsongmarket.com:8080")
+            .baseUrl("http://www.noonsongmarket.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -98,58 +100,43 @@ class PublishActivity : AppCompatActivity() {
             val description = binding.discriptionEt.text.toString()
             Log.d(
                 TAG,
-                "onCreate: ${title is String} / ${price} / ${category is String} / ${category.toString() is String} / ${description}"
+                "onCreate: ${title} / ${price} / ${category is String} / ${firebaseAuth.currentUser!!.email} / ${firebaseAuth.currentUser!!.displayName} / ${description}"
             )
             Log.d(TAG, "onCreate: button clicked ")
 
 
-
-            Product(
-                id = 10,
-                title = title,
-                price = price,
-                category = category.toString(),
-                coverSmallUrl = path,
-                description = description,
-                sellerName = "계란말이",
-                status = "판매중",
-                trans = "NOCHOICE",
-                date = ""
+            val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
+            val multipleImage =
+                MultipartBody.Part.createFormData("images", imageFile.name, rImage)
+            val rTitle = RequestBody.create(MediaType.parse("text/plain"), title)
+            val rPrice = RequestBody.create(MediaType.parse("text/plain"), price.toString())
+            val rCategory = RequestBody.create(MediaType.parse("text/plain"), category.toString())
+            val rDescripton = RequestBody.create(MediaType.parse("text/plain"), description)
+            val rSellerName = RequestBody.create(
+                MediaType.parse("text/plain"),
+                firebaseAuth.currentUser!!.email.toString()
             )
-            val requestImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
-            val mutipleImage =
-                MultipartBody.Part.createFormData("images", imageFile.name, requestImage)
-            val requestTitle = RequestBody.create(MediaType.parse("text/plain"), title)
-            val requestPrice = RequestBody.create(MediaType.parse("text/plain"), price.toString())
-            val requestCategory =
-                RequestBody.create(MediaType.parse("text/plain"), category.toString())
-            val requestDescripton = RequestBody.create(MediaType.parse("text/plain"), description)
-            val requestSellerName = RequestBody.create(MediaType.parse("text/plain"), "계란말이")
-            val requestStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
-            val requestTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
-            /**
-            productApi.postImage(mutipleImage,requestTitle,requestPrice,requestCategory,
-            requestDescripton,requestSellerName,requestStatus,requestTrans)
-             **/
-            productApi.postProduct(
-                Product(
-                    id = 1,
-                    title = title,
-                    price = price,
-                    category = category.toString(),
-                    coverSmallUrl = path,
-                    description = description,
-                    sellerName = "계란말이",
-                    status = "판매중",
-                    trans = "NOCHOICE",
-                    date = ""
-                )
+            val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
+            val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
+
+
+
+            productApi.postProductImage(
+                multipleImage,
+                rTitle,
+                rPrice,
+                rCategory,
+                rDescripton,
+                rSellerName,
+                rStatus,
+                rTrans
             )
                 .enqueue(object : Callback<Product> {
                     override fun onResponse(
                         call: Call<Product>,
                         response: Response<Product>
                     ) {
+                        Log.d(TAG, "onResponse: ..")
                         if (response.isSuccessful.not()) {
                             //예외처리
                             Log.d(TAG, "onResponse: Not success")

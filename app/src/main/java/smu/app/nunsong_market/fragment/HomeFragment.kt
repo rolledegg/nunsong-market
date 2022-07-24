@@ -110,7 +110,7 @@ class HomeFragment : Fragment() {
         adapter = ProductAdapter(requireActivity(),clickListener= {
             Log.d(TAG, "initBookRecyclerView: recyclerview clicked")
             val intent = Intent(requireContext(), ArticleActivity::class.java)
-            intent.putExtra("id",10)
+            intent.putExtra("id",51)
             startActivity(intent)
         })
 

@@ -20,7 +20,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val isLoading = MutableLiveData(false)
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("http://www.noonsongmarket.com:8080")
+        .baseUrl("http://www.noonsongmarket.com")
 //            .baseUrl("https://fakestoreapi.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()

@@ -30,6 +30,7 @@
                 android:id="@+id/product_iv"
                 android:layout_width="85sp"
                 android:layout_height="85sp"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
