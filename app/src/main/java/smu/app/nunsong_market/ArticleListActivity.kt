@@ -41,12 +41,7 @@ class ArticleListActivity : AppCompatActivity() {
         viewModel.load()
         initRecyclerView()
 
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("http://www.noonsongmarket.com:8080")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//
-//        val productApi = retrofit.create(ProductApi::class.java)
+
 
         intent.getStringExtra("title")
         binding.mainTitleTv.text =intent.getStringExtra("title")

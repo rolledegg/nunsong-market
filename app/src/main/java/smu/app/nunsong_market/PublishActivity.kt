@@ -27,6 +27,7 @@ import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.databinding.ActivityPublishBinding
 import smu.app.nunsong_market.model.Product
 import smu.app.nunsong_market.util.RealPathUtil
+import smu.app.nunsong_market.util.ServiceGenerator
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -51,6 +52,9 @@ class PublishActivity : AppCompatActivity() {
         binding.exitBtn
     }
 
+    //retrofit configure
+    private val productApi by lazy { ServiceGenerator.createService(ProductApi::class.java) }
+
     companion object {
         private const val TAG = "PUBLISH_ACTIVITY"
     }
@@ -63,13 +67,6 @@ class PublishActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        //retrofit configure
-        val retrofit = Retrofit.Builder()
-            .baseUrl(getString(R.string.baseUrl))
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val productApi = retrofit.create(ProductApi::class.java)
 
         //image view click
         binding.cameraBtn.setOnClickListener {

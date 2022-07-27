@@ -25,14 +25,19 @@ class ProductAdapter(context: Context, val clickListener: (Product) -> Unit) :
         @SuppressLint("SetTextI18n")
         fun bind(productModel: Product) {
             // 날짜 형식 커스텀
-            var customDate: String = productModel.date.slice(7..12)
-            var customHour: String = productModel.date.slice(14..15)
-            var customMin: String = ":" + productModel.date.slice(18..19)
-            if (customHour.toInt() > 12) {
-                customHour = " 오후 " + (customHour.toInt() % 12).toString()
-            } else {
-                customHour = " 오전 " + customHour
+
+            if (productModel.date != null){
+                var customDate: String = productModel.date.slice(7..12)
+                var customHour: String = productModel.date.slice(14..15)
+                var customMin: String = ":" + productModel.date.slice(18..19)
+                if (customHour.toInt() > 12) {
+                    customHour = " 오후 " + (customHour.toInt() % 12).toString()
+                } else {
+                    customHour = " 오전 " + customHour
+                }
+                binding.productDateTv.text = customDate + customHour + customMin
             }
+
 
             // 가격 텍스트 커스텀
             var customPrice =productModel.price.toString()
@@ -50,9 +55,8 @@ class ProductAdapter(context: Context, val clickListener: (Product) -> Unit) :
                 var tail = customPrice.slice((length-3)..(length-1))
                 customPrice = front+","+middle+","+tail
             }
-
             binding.productTitleTv.text = productModel.title
-            binding.productDateTv.text = customDate + customHour + customMin
+//            binding.productDateTv.text = customDate + customHour + customMin
             binding.productPriceTv.text = customPrice + "원"
             binding.productStatusTv.text = productModel.status
 

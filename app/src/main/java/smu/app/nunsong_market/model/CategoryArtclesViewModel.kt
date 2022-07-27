@@ -9,9 +9,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import smu.app.nunsong_market.CategoryArtclesActivity
 import smu.app.nunsong_market.R
 import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.fragment.HomeFragment
+import smu.app.nunsong_market.util.ServiceGenerator
 
 class CategoryArtclesViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
@@ -20,12 +22,7 @@ class CategoryArtclesViewModel(application: Application) : AndroidViewModel(appl
     val articleList: MutableLiveData<List<Product>> = MutableLiveData()
     val isLoading = MutableLiveData(false)
 
-    val retrofit = Retrofit.Builder()
-        .baseUrl(application.getString(R.string.baseUrl))
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    val productApi = retrofit.create(ProductApi::class.java)
+    private val productApi by lazy { ServiceGenerator.createService(ProductApi::class.java) }
 
     fun load(category: String) {
         if (isLoading.value == true) return
@@ -39,14 +36,14 @@ class CategoryArtclesViewModel(application: Application) : AndroidViewModel(appl
                 ) {
                     if (response.isSuccessful.not()) {
                         //예외처리
-                        Log.d(HomeFragment.TAG, "NOT SUCCESS")
+                        Log.d(CategoryArtclesActivity.TAG, "NOT SUCCESS")
                         return
                     }
 
                     response.body()?.let {
-                        Log.d(HomeFragment.TAG, it.toString())
+                        Log.d(CategoryArtclesActivity.TAG, it.toString())
                         it.forEach { product -> //위에도 it이 있으니 헷갈리니까 변수 명명
-                            Log.d(HomeFragment.TAG, product.toString())
+                            Log.d(CategoryArtclesActivity.TAG, product.toString())
                         }
                         val array = arrayListOf<Product>()
                         // 초기화를 위해 빈 리스트 넣기
@@ -57,7 +54,7 @@ class CategoryArtclesViewModel(application: Application) : AndroidViewModel(appl
                 }
 
                 override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-                    Log.e(HomeFragment.TAG, t.toString())
+                    Log.e(CategoryArtclesActivity.TAG, t.toString())
                 }
 
             })

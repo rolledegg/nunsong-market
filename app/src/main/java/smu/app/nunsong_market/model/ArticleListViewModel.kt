@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import smu.app.nunsong_market.R
 import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.fragment.HomeFragment
+import smu.app.nunsong_market.util.ServiceGenerator
 
 class ArticleListViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
@@ -20,12 +21,7 @@ class ArticleListViewModel(application: Application) : AndroidViewModel(applicat
     val articleList: MutableLiveData<List<Product>> = MutableLiveData()
     val isLoading = MutableLiveData(false)
 
-    val retrofit = Retrofit.Builder()
-        .baseUrl(application.getString(R.string.baseUrl))
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    val productApi = retrofit.create(ProductApi::class.java)
+    private val productApi by lazy { ServiceGenerator.createService(ProductApi::class.java) }
 
     fun load() {
         if (isLoading.value == true) return

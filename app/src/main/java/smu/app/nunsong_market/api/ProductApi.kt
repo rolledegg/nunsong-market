@@ -21,7 +21,7 @@ interface ProductApi {
     fun getMyProducts(@Path("userName") userName: String): Call<List<Product>>
 
     @GET("/items/search/category")
-    fun getProductsByCategory(@Query("keyword") keyword: String ): Call<List<Product>>
+    fun getProductsByCategory(@Query("keyword") catagory: String ): Call<List<Product>>
 
     @POST("/items")
     fun postProduct(@Body Product: Product): Call<Product>

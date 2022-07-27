@@ -21,7 +21,7 @@ class CategoryArtclesActivity : AppCompatActivity() {
     var myProductList = ArrayList<Product>()
 
     companion object {
-        private const val TAG = "CATEGORY_ARTICLES_ACTIVITY"
+        const val TAG = "CATEGORY_ARTICLES_ACTIVITY"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +31,7 @@ class CategoryArtclesActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: onCreate()")
 
         val category = intent.getStringExtra("category").toString()
+        Log.d(TAG, "onCreate: $category")
 
         viewModel = ViewModelProvider(this).get(CategoryArtclesViewModel::class.java)
         viewModel.load(category)
@@ -38,6 +39,7 @@ class CategoryArtclesActivity : AppCompatActivity() {
 
         intent.getStringExtra("title")
         binding.mainTitleTv.text = intent.getStringExtra("title")
+        Log.d(TAG, "onCreate: $title")
 
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.load(category)
@@ -58,5 +60,6 @@ class CategoryArtclesActivity : AppCompatActivity() {
         adapter.submitList(this.myProductList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.articleRecyclerView.adapter = adapter
+        Log.d(TAG, "initRecyclerView: init")
     }
 }
