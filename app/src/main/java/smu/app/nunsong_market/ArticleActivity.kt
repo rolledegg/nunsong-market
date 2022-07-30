@@ -11,6 +11,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import smu.app.nunsong_market.databinding.ActivityArticleBinding
 import smu.app.nunsong_market.databinding.ActivityLoginBinding
 
@@ -18,6 +20,7 @@ class ArticleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityArticleBinding
     private lateinit var productWebView: WebView
     private lateinit var progressBar: ProgressBar
+
 
     private companion object {
         private const val TAG = "ARTICLE_ACTIVITY"
@@ -34,7 +37,7 @@ class ArticleActivity : AppCompatActivity() {
         productWebView.apply {
             webViewClient = WebViewClient()
             webChromeClient = webChromeClient()
-            loadUrl("https://ns-market.vercel.app/products/51")
+            loadUrl("https://ns-market-nsgw4gncj-nami-koko.vercel.app/products/73")
 
         }
 

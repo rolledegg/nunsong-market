@@ -7,13 +7,6 @@ import retrofit2.http.*
 import smu.app.nunsong_market.model.Product
 
 interface ProductApi {
-    /** for fake api **/
-//    @GET("/products")
-//    fun getProducts(): Call<List<Product>>
-//
-//    @POST("/products")
-//    fun postProduct(@Body Product:Product):Call<Product>
-
     @GET("/items")
     fun getProducts(): Call<List<Product>>
 
