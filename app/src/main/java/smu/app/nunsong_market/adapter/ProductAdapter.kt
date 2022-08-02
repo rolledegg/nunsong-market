@@ -2,20 +2,26 @@ package smu.app.nunsong_market.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import smu.app.nunsong_market.ArticleActivity
 import smu.app.nunsong_market.R
 import smu.app.nunsong_market.model.Product
 import smu.app.nunsong_market.databinding.ItemArticleBinding
 import java.security.AccessController.getContext
 
 
-class ProductAdapter(context: Context, val clickListener: (Product) -> Unit) :
+//class ProductAdapter(context: Context, val clickListener: (Product) -> Unit) :
+class ProductAdapter(context: Context) :
     ListAdapter<Product, ProductAdapter.ArtitleItemViewHolder>(diffUtil) {
 
     val context:Context = context
@@ -72,7 +78,10 @@ class ProductAdapter(context: Context, val clickListener: (Product) -> Unit) :
                 .into(binding.productIv)
 
             binding.root.setOnClickListener {
-                clickListener(productModel)
+                val intent = Intent(context, ArticleActivity::class.java)
+                intent.putExtra("id",productModel.id)
+                Log.d("ARTICLE_ACTIVITY", "bind: item id = ${productModel.id} / ${productModel.id is Int}")
+                startActivity(context,intent,null)
             }
         }
     }

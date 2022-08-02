@@ -51,11 +51,13 @@ class CategoryArtclesActivity : AppCompatActivity() {
     }
 
     fun initRecyclerView() {
-        adapter = ProductAdapter(this, clickListener = {
+        adapter = ProductAdapter(this
+         /*   , clickListener = {
             Log.d(TAG, "initRecyclerView: recyclerview clicked")
             val intent = Intent(this, ArticleActivity::class.java)
             startActivity(intent)
-        })
+        }*/
+        )
 
         adapter.submitList(this.myProductList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(this)

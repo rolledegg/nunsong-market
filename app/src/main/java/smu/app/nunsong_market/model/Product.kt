@@ -22,6 +22,7 @@ data class Product(
     @SerializedName("images") val coverSmallUrl:String,
     @SerializedName("content") val description:String,
     @SerializedName("sellerName") val sellerName:String,
+    @SerializedName("sellerUID") val sellerUid:String,
     @SerializedName("status") val status:String,
     @SerializedName("trans") val trans:String,
     @SerializedName("registerDate") val date:String

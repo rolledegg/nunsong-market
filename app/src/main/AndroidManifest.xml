@@ -16,9 +16,12 @@
         android:theme="@style/Theme.Nunsongmarket"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".CategoryArtclesActivity"
-            android:theme="@style/Theme.WhiteStatusBar"
+            android:name=".ChattingActivity"
             android:exported="false" />
+        <activity
+            android:name=".CategoryArtclesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WhiteStatusBar" />
         <activity
             android:name=".ArticleListActivity"
             android:exported="false"
