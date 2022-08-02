@@ -113,6 +113,10 @@ class PublishActivity : AppCompatActivity() {
                 MediaType.parse("text/plain"),
                 firebaseAuth.currentUser!!.email.toString()
             )
+            val rSellerUid = RequestBody.create(
+                MediaType.parse("text/plain"),
+                firebaseAuth.currentUser!!.uid.toString()
+            )
             val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
             val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
 
@@ -125,6 +129,7 @@ class PublishActivity : AppCompatActivity() {
                 rCategory,
                 rDescripton,
                 rSellerName,
+                rSellerUid,
                 rStatus,
                 rTrans
             )

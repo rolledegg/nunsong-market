@@ -35,6 +35,7 @@ interface ProductApi {
         @Part("category") category:RequestBody,
         @Part("content") description:RequestBody,
         @Part("sellerName") sellerName:RequestBody,
+        @Part("sellerUID") sellerUid:RequestBody,
         @Part("status") status:RequestBody,
         @Part("trans") trans:RequestBody,
     ): Call<Product>
