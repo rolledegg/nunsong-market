@@ -8,5 +8,5 @@ import smu.app.nunsong_market.model.User
 
 interface UserApi {
     @POST("/users")
-    fun postUser(@Body user: User): Call<User>
+    fun postUser(@Body User: User): Call<User>
 }

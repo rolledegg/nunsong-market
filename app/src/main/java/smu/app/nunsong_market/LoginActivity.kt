@@ -59,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
             Log.d(TAG, "onCreate: begin Google SignIn clicked")
             val Intent = googleSignInClient?.signInIntent
             startActivityForResult(Intent, RC_SIGN_IN)
+
         }
     }
 
@@ -155,16 +156,13 @@ class LoginActivity : AppCompatActivity() {
         } else {
             Log.d(TAG, "signUp: ")
             val userName = email.split("@")[0]
-            Log.d(TAG, "signUp: $userName!")
             addUserToDatabase(userName,uid,email)
 
-           /*  post new user to server
+           //  post new user to server
             userApi.postUser(User(userName, uid, email))
-                .enqueue(object Callback<User> {
-                    override fun onResponse(
-                        call: Call<smu.app.nunsong_market.model.User>,
-                        response: Response<smu.app.nunsong_market.model.User>
-                    ) {
+                .enqueue(object: Callback<User>{
+                    override fun onResponse(call: Call<User>, response: Response<User>) {
+                        Log.d(TAG, "onResponse: ..")
                         if (response.isSuccessful.not()) {
                             //예외처리
                             Log.d(TAG, "onResponse: Not success")
@@ -178,10 +176,10 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<User>, t: Throwable) {
-                        Log.e("PublishActivity.TAG", t.toString())
+                        Log.e(TAG, t.toString())
                     }
-                })*/
 
+                })
         }
     }
 
