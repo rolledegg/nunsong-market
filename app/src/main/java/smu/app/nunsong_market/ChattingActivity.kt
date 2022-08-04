@@ -9,6 +9,7 @@ import com.google.firebase.database.*
 import smu.app.nunsong_market.adapter.MessageAdapter
 import smu.app.nunsong_market.model.Message
 import smu.app.nunsong_market.databinding.ActivityChattingBinding
+import smu.app.nunsong_market.model.Contact
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -75,15 +76,14 @@ class ChattingActivity : AppCompatActivity() {
 
             })
 
-        // 이 senderRoom이 contacts에 안들어가 있다면 등록
-        // 
-
         //adding the msg to database
         binding.sendBtn.setOnClickListener{
             val msg = binding.msgEdt.text.toString()
             val time = getTime()
             val msgObject = Message(msg, senderUid,time)
-
+            // 이 user contacts에  등록
+            mDbRef.child("users").child(senderUid).child("contacts").push().setValue(Contact(itemId,recieverName,receiverUid))
+            // msg 등록
             mDbRef.child("chats").child(senderRoom!!).child("messages").push()
                 .setValue(msgObject).addOnSuccessListener {
                     mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
