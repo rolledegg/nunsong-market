@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
 import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
@@ -17,12 +16,14 @@ import androidx.core.view.isVisible
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import smu.app.nunsong_market.databinding.ActivityArticleBinding
-import smu.app.nunsong_market.databinding.ActivityLoginBinding
+import smu.app.nunsong_market.util.BuildConfig
 
 class ArticleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityArticleBinding
     private lateinit var productWebView: WebView
     private lateinit var progressBar: ProgressBar
+    private lateinit var sellerUid: String
+    private lateinit var sellerName: String
 
 
     private companion object {
@@ -36,12 +37,17 @@ class ArticleActivity : AppCompatActivity() {
 
         productWebView = binding.productDetailWv
         progressBar = binding.webviewProgressBar
-        val id= intent.getIntExtra("id",-1)
-        if(id == -1){
+
+        var itemId= intent.getIntExtra("id",-1)
+        sellerName= intent.getStringExtra("sellerName").toString()
+        sellerUid= intent.getStringExtra("sellerUid").toString()
+        Log.d(TAG, "onCreate: id: $itemId name: $sellerName uid: $sellerUid ")
+
+        if(itemId == -1){
             Toast.makeText(this,"Can't get item id",Toast.LENGTH_SHORT)
         }
         else{
-            val loadUrl= "https://ns-market-nsgw4gncj-nami-koko.vercel.app/products/" + id.toString()
+            val loadUrl= BuildConfig.PRODUCT_URL + itemId.toString()
             Log.d(TAG, "onCreate: $loadUrl")
 
             productWebView.apply {
@@ -52,8 +58,11 @@ class ArticleActivity : AppCompatActivity() {
             }
 
             binding.chattingBtn.setOnClickListener {
-                val intent = Intent(this, ChattingActivity::class.java)
-                intent.putExtra("id",id)
+                val intent = Intent(this, ChattingActivity::class.java).apply{
+                    putExtra("id",itemId)
+                    putExtra("sellerName",sellerName)
+                    putExtra("sellerUid",sellerUid)
+                }
                 startActivity(intent)
             }
         }

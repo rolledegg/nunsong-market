@@ -40,10 +40,6 @@ class PublishActivity : AppCompatActivity() {
     private lateinit var path: String
     private lateinit var imageFile: File
     private lateinit var firebaseAuth: FirebaseAuth
-//    private lateinit var  title: EditText
-//    private lateinit var  price: EditText
-//    private lateinit var  description: EditText
-//    private lateinit var  category: Spinner
 
     private val categorySpinner: Spinner by lazy {
         binding.categorySpinner
@@ -111,7 +107,11 @@ class PublishActivity : AppCompatActivity() {
             val rDescripton = RequestBody.create(MediaType.parse("text/plain"), description)
             val rSellerName = RequestBody.create(
                 MediaType.parse("text/plain"),
-                firebaseAuth.currentUser!!.email.toString()
+                firebaseAuth.currentUser!!.email.toString().split("@")[0]
+            )
+            val rSellerUid = RequestBody.create(
+                MediaType.parse("text/plain"),
+                firebaseAuth.currentUser!!.uid.toString()
             )
             val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
             val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
@@ -125,6 +125,7 @@ class PublishActivity : AppCompatActivity() {
                 rCategory,
                 rDescripton,
                 rSellerName,
+                rSellerUid,
                 rStatus,
                 rTrans
             )

@@ -5,5 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChattingActivity">
+    <TextView
+        android:id="@+id/seller_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:hint="name"
+        android:gravity="center"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_rcv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/linearLayout"
+        android:layout_alignParentTop="true"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <EditText
+            android:id="@+id/msg_edt"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="92"
+            android:background="@drawable/msg_box_background"
+            android:hint="Write a massage"
+            android:paddingLeft="10dp" />
+
+        <ImageView
+            android:id="@+id/send_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_send_msg" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
