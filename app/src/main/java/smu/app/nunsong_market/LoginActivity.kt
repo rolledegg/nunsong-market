@@ -126,19 +126,20 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "LoggedIn... ${email}", Toast.LENGTH_SHORT).show()
                 }
 
+                // TODO: during implement chatting
                 //start main activity
-                if (domain == "sookmyung.ac.kr") {
+//                if (domain == "sookmyung.ac.kr") {
                     Log.d(TAG, "firebaseAuthWithGoogleAccount: ${domain}")
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()
-                } else {
+               /* } else {
                     firebaseUser.delete()
                     Log.d(
                         TAG,
                         "firebaseAuthWithGoogleAccount: not a sookmyuung email delete account"
                     )
                     Toast.makeText(this, "your not a sookmyung student", Toast.LENGTH_SHORT).show()
-                }
+                }*/
 
             }
             .addOnFailureListener { e ->
@@ -158,8 +159,9 @@ class LoginActivity : AppCompatActivity() {
             val userName = email.split("@")[0]
             addUserToDatabase(userName,uid,email)
 
+            // TODO: during implement chatting
            //  post new user to server
-            userApi.postUser(User(userName, uid, email))
+           /* userApi.postUser(User(userName, uid, email))
                 .enqueue(object: Callback<User>{
                     override fun onResponse(call: Call<User>, response: Response<User>) {
                         Log.d(TAG, "onResponse: ..")
@@ -179,7 +181,7 @@ class LoginActivity : AppCompatActivity() {
                         Log.e(TAG, t.toString())
                     }
 
-                })
+                })*/
         }
     }
 
