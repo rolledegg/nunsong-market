@@ -13,6 +13,7 @@ import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import smu.app.nunsong_market.databinding.ActivityArticleBinding
@@ -22,6 +23,8 @@ class ArticleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityArticleBinding
     private lateinit var productWebView: WebView
     private lateinit var progressBar: ProgressBar
+
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var sellerUid: String
     private lateinit var sellerName: String
 
@@ -35,6 +38,7 @@ class ArticleActivity : AppCompatActivity() {
         binding = ActivityArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mAuth = FirebaseAuth.getInstance()
         productWebView = binding.productDetailWv
         progressBar = binding.webviewProgressBar
 
@@ -42,6 +46,11 @@ class ArticleActivity : AppCompatActivity() {
         sellerName= intent.getStringExtra("sellerName").toString()
         sellerUid= intent.getStringExtra("sellerUid").toString()
         Log.d(TAG, "onCreate: id: $itemId name: $sellerName uid: $sellerUid ")
+
+        //본인의 게시글에서는 채팅 버튼이 다르게
+        if(sellerUid == mAuth.currentUser?.uid){
+            binding.chattingBtn.text = "본인 게시글임"
+       }
 
         if(itemId == -1){
             Toast.makeText(this,"Can't get item id",Toast.LENGTH_SHORT)

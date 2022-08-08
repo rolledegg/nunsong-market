@@ -20,7 +20,6 @@ class ChattingActivity : AppCompatActivity() {
     private lateinit var msgAdapter: MessageAdapter
     private lateinit var msgList: ArrayList<Message>
     private lateinit var mDbRef: DatabaseReference
-    private lateinit var mAuth: FirebaseAuth
 
     private var itemId: Int = -1
     private lateinit var receiverUid: String
@@ -90,8 +89,18 @@ class ChattingActivity : AppCompatActivity() {
             val time = getTime()
             val msgObject = Message(msg, senderUid, time)
             // 이 user contacts에  등록
-            mDbRef.child("users").child(senderUid).child("contacts").get()
+            mDbRef.child("users").child(senderUid).child("contacts").child(senderRoom!!)
+                .setValue(Contact(itemId, recieverName, receiverUid,msg,time))
                 .addOnSuccessListener {
+                    postContactToReciver(msg, time)
+                }
+                .addOnFailureListener {
+                    Log.d("ARTICLE_ACTIVITY", "fail to post contact to firebase")
+                }
+
+/*            mDbRef.child("users").child(senderUid).child("contacts").get()
+                .addOnSuccessListener {
+                    // sender의 contacts에 새로운 contact 추가
                     // isOnly를 통해 중복체크
                     var isOnly = true
 
@@ -111,7 +120,7 @@ class ChattingActivity : AppCompatActivity() {
                 }
                 .addOnFailureListener {
                     Log.d("ARTICLE_ACTIVITY", "fail to get contact list from firebase")
-                }
+                }*/
 
 
             // msg 등록
@@ -125,8 +134,8 @@ class ChattingActivity : AppCompatActivity() {
         }
     }
 
-    private fun postContactToReciver() {
-        mDbRef.child("users").child(receiverUid).child("contacts").get()
+    private fun postContactToReciver(msg: String, time: String) {
+        /*       mDbRef.child("users").child(receiverUid).child("contacts").get()
             .addOnSuccessListener {
                 // isOnly를 통해 중복체크
                 var isOnly = true
@@ -144,6 +153,10 @@ class ChattingActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.d("ARTICLE_ACTIVITY", "fail to put post on receiver")
+            }*/
+        mDbRef.child("users").child(receiverUid).child("contacts").child(receiverRoom!!)
+            .setValue(Contact(itemId, senderName, senderUid, msg, time))
+            .addOnSuccessListener {
             }
     }
 

@@ -1,6 +1,7 @@
 package smu.app.nunsong_market.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +34,7 @@ class MessageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMessageBinding.inflate(inflater,container,false)
+        binding = FragmentMessageBinding.inflate(inflater, container, false)
 
         mAuth = FirebaseAuth.getInstance()
         mDbRef = FirebaseDatabase.getInstance().getReference()
@@ -49,25 +50,28 @@ class MessageFragment : Fragment() {
         binding.msgListRcv.layoutManager = LinearLayoutManager(requireContext())
         binding.msgListRcv.adapter = adapter
 
-        mDbRef.child("users").child(mAuth.currentUser!!.uid).child("contacts")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    //바뀔 때마다 불려지기 때문에 비우고 다시채우지 않으면 중복으로 쌓인다.
-                    contactList.clear()
+        val myContactListQuery = mDbRef.child("users").child(mAuth.currentUser!!.uid)
+            .child("contacts").orderByChild("lastTime")
+        Log.d(TAG, "initRecyclerView: $myContactListQuery")
 
-                    for (postSnapshot in snapshot.children) {
-                        val curretContact = postSnapshot.getValue(Contact::class.java)
-                        contactList.add(curretContact!!)
+        myContactListQuery.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //바뀔 때마다 불려지기 때문에 비우고 다시채우지 않으면 중복으로 쌓인다.
+                contactList.clear()
 
-                    }
-                    adapter.notifyDataSetChanged()
+                for (postSnapshot in snapshot.children.reversed()) {
+                    val curretContact = postSnapshot.getValue(Contact::class.java)
+                    contactList.add(curretContact!!)
+
                 }
+                adapter.notifyDataSetChanged()
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(),"fail to get",Toast.LENGTH_SHORT).show()
-                }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "fail to get", Toast.LENGTH_SHORT).show()
+            }
 
-            })
+        })
 
     }
 
