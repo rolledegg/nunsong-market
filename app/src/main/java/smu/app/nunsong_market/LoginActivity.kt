@@ -10,10 +10,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,15 +50,18 @@ class LoginActivity : AppCompatActivity() {
         //configure the Google signin
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail() //
+            .requestEmail() 
             .build()
+
+
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
         //init firebase
-        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth = Firebase.auth
         checkUser()
 
-        //Google SignIn bun, Click to begin google sign
+        //Google SignIn btn, Click to begin google sign
         binding.googleBtn.setOnClickListener {
+            Log.d(TAG, "onCreate: currentUser: ${firebaseAuth.currentUser}")
             Log.d(TAG, "onCreate: begin Google SignIn clicked")
             val Intent = googleSignInClient?.signInIntent
             startActivityForResult(Intent, RC_SIGN_IN)

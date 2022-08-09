@@ -15,6 +15,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import smu.app.nunsong_market.ArticleActivity
 import smu.app.nunsong_market.ArticleListActivity
 import smu.app.nunsong_market.LoginActivity
@@ -29,6 +31,7 @@ class MyPageFragment : Fragment() {
     private lateinit var emailTv: TextView
     private lateinit var binding: FragmentMyPageBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,13 +55,19 @@ class MyPageFragment : Fragment() {
     }
 
     private fun init() {
-        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth = Firebase.auth
         checkUser()
 
         btn = binding.logoutTv
         binding.logoutTv.setOnClickListener {
             Log.d(TAG, "onCreate: logout button clicked")
             firebaseAuth.signOut()
+            val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+            googleSignInClient = GoogleSignIn.getClient(requireContext(), googleSignInOptions)
+            googleSignInClient.signOut()
             checkUser()
 
         }

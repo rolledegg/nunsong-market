@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import smu.app.nunsong_market.adapter.MessageAdapter
 import smu.app.nunsong_market.model.Message
 import smu.app.nunsong_market.databinding.ActivityChattingBinding
@@ -43,8 +45,8 @@ class ChattingActivity : AppCompatActivity() {
         itemId = intent.getIntExtra("id", -1)
         recieverName = intent.getStringExtra("sellerName").toString()
         receiverUid = intent.getStringExtra("sellerUid").toString()
-        senderUid = FirebaseAuth.getInstance().currentUser?.uid.toString()
-        senderName = FirebaseAuth.getInstance().currentUser?.email.toString().split("@")[0]
+        senderUid = Firebase.auth.currentUser?.uid.toString()
+        senderName = Firebase.auth.currentUser?.email.toString().split("@")[0]
         Log.d(
             "ARTICLE_ACTIVITY",
             "chatting: id: $itemId receiver name: $recieverName r_uid: $receiverUid s_uid: $senderUid"

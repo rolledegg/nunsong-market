@@ -1,5 +1,6 @@
 package smu.app.nunsong_market.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import smu.app.nunsong_market.R
 import smu.app.nunsong_market.adapter.ContactAdapter
 import smu.app.nunsong_market.adapter.ProductAdapter
@@ -31,15 +34,15 @@ class MessageFragment : Fragment() {
     ): View? {
         binding = FragmentMessageBinding.inflate(inflater, container, false)
 
-        mAuth = FirebaseAuth.getInstance()
+        mAuth = Firebase.auth
         mDbRef = FirebaseDatabase.getInstance().getReference()
 
-        configRecyclerView()
+        configRecyclerView(container)
 
         return binding.root
     }
 
-    private fun configRecyclerView() {
+    private fun configRecyclerView(container: ViewGroup?) {
         adapter = ContactAdapter(requireContext(), contactList)
         binding.msgListRcv.layoutManager = LinearLayoutManager(requireContext())
         binding.msgListRcv.adapter = adapter
@@ -62,7 +65,7 @@ class MessageFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "fail to get", Toast.LENGTH_SHORT).show()
+                Toast.makeText(container!!.context, "fail to get", Toast.LENGTH_SHORT).show()
             }
 
         })
