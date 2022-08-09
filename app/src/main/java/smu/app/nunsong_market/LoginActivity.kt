@@ -12,7 +12,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import smu.app.nunsong_market.api.ProductApi
+import smu.app.nunsong_market.api.UserApi
 import smu.app.nunsong_market.databinding.ActivityLoginBinding
+import smu.app.nunsong_market.model.Product
+import smu.app.nunsong_market.model.User
+import smu.app.nunsong_market.util.ServiceGenerator
 import java.lang.Exception
 
 class LoginActivity : AppCompatActivity() {
@@ -20,6 +30,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private var googleSignInClient: GoogleSignInClient? = null
+    private lateinit var mDbRef: DatabaseReference
+
+    private val userApi by lazy { ServiceGenerator.createService(UserApi::class.java) }
 
     private companion object {
         private const val RC_SIGN_IN = 100
@@ -32,31 +45,32 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //configure the Google signin
-        val googleSignInOptions=GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail() //
             .build()
-        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions)
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
         //init firebase
         firebaseAuth = FirebaseAuth.getInstance()
         checkUser()
 
         //Google SignIn bun, Click to begin google sign
-        binding.googleBtn.setOnClickListener{
-            Log.d(TAG,"onCreate: begin Google SignIn clicked")
+        binding.googleBtn.setOnClickListener {
+            Log.d(TAG, "onCreate: begin Google SignIn clicked")
             val Intent = googleSignInClient?.signInIntent
             startActivityForResult(Intent, RC_SIGN_IN)
+
         }
     }
 
     private fun checkUser() {
         val firebaseUser = firebaseAuth.currentUser
-        if (firebaseUser !=null){
+        if (firebaseUser != null) {
             //user is logged in
             //start main activity
             Log.d(TAG, "checkUser: already Logged in")
             Log.d(TAG, "checkUser: ${firebaseUser?.email}")
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 
@@ -105,23 +119,27 @@ class LoginActivity : AppCompatActivity() {
                     // user is new = Account created
                     Log.d(TAG, "firebaseAuthWithGoogleAccount: [Account created] ${email}")
                     Toast.makeText(this, "Account created... ${email}", Toast.LENGTH_SHORT).show()
+                    signUp(email, uid)
                 } else {
                     //existing user - LoggedIn
                     Log.d(TAG, "firebaseAuthWithGoogleAccount: [Existing user] ${email}")
                     Toast.makeText(this, "LoggedIn... ${email}", Toast.LENGTH_SHORT).show()
                 }
 
+                // TODO: during implement chatting
                 //start main activity
-                if(domain == "sookmyung.ac.kr"){
+//                if (domain == "sookmyung.ac.kr") {
                     Log.d(TAG, "firebaseAuthWithGoogleAccount: ${domain}")
-                    startActivity(Intent(this@LoginActivity,MainActivity::class.java))
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()
-                }
-                else {
+               /* } else {
                     firebaseUser.delete()
-                    Log.d(TAG, "firebaseAuthWithGoogleAccount: not a sookmyuung email delete account")
+                    Log.d(
+                        TAG,
+                        "firebaseAuthWithGoogleAccount: not a sookmyuung email delete account"
+                    )
                     Toast.makeText(this, "your not a sookmyung student", Toast.LENGTH_SHORT).show()
-                }
+                }*/
 
             }
             .addOnFailureListener { e ->
@@ -131,5 +149,45 @@ class LoginActivity : AppCompatActivity() {
 
 
             }
+    }
+
+    private fun signUp(email: String?, uid: String) {
+        if (email == null) {
+            Log.d(TAG, "signUp: email is null")
+        } else {
+            Log.d(TAG, "signUp: ")
+            val userName = email.split("@")[0]
+            addUserToDatabase(userName,uid,email)
+
+            // TODO: during implement chatting
+           //  post new user to server
+           /* userApi.postUser(User(userName, uid, email))
+                .enqueue(object: Callback<User>{
+                    override fun onResponse(call: Call<User>, response: Response<User>) {
+                        Log.d(TAG, "onResponse: ..")
+                        if (response.isSuccessful.not()) {
+                            //예외처리
+                            Log.d(TAG, "onResponse: Not success")
+                            return
+                        }
+
+                        response.body()?.let {
+                            Log.d(TAG, "onResponse: ${it}")
+                            Log.d(TAG, "onResponse:" + it.toString())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<User>, t: Throwable) {
+                        Log.e(TAG, t.toString())
+                    }
+
+                })*/
+        }
+    }
+
+    private fun addUserToDatabase(userName: String, uid: String, email: String) {
+        Log.d(TAG, "addUserToDatabase: ")
+        mDbRef = FirebaseDatabase.getInstance().getReference()
+        mDbRef.child("users").child(uid).setValue(User(userName, uid, email))
     }
 }

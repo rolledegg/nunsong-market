@@ -1,7 +1,9 @@
 package smu.app.nunsong_market.model
 
+import com.google.gson.annotations.SerializedName
+
 data class User (
-    val name: String,
-    val uid: String,
-    val email: String
-        )
+    @SerializedName("userName") val userName: String,
+    @SerializedName("userId") val uid: String,
+    @SerializedName("email") val email: String
+    )

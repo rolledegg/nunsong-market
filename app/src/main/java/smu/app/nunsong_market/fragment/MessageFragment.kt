@@ -1,62 +1,78 @@
 package smu.app.nunsong_market.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import smu.app.nunsong_market.R
+import smu.app.nunsong_market.adapter.ContactAdapter
+import smu.app.nunsong_market.adapter.ProductAdapter
+import smu.app.nunsong_market.databinding.FragmentMessageBinding
+import smu.app.nunsong_market.model.Contact
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MessageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MessageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentMessageBinding
+    private lateinit var adapter: ContactAdapter
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var mDbRef: DatabaseReference
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    var contactList = ArrayList<Contact>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false)
+        binding = FragmentMessageBinding.inflate(inflater, container, false)
+
+        mAuth = FirebaseAuth.getInstance()
+        mDbRef = FirebaseDatabase.getInstance().getReference()
+
+        configRecyclerView()
+
+        return binding.root
+    }
+
+    private fun configRecyclerView() {
+        adapter = ContactAdapter(requireContext(), contactList)
+        binding.msgListRcv.layoutManager = LinearLayoutManager(requireContext())
+        binding.msgListRcv.adapter = adapter
+
+        //contacts의 객체들을 lastTime을 기준으로 사전순 오름차순으로 정렬되어 불러온다.
+        val myContactListQuery = mDbRef.child("users").child(mAuth.currentUser!!.uid).child("contacts").orderByChild("lastTime")
+        myContactListQuery.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //바뀔 때마다 불려지기 때문에 비우고 다시채우지 않으면 중복으로 쌓인다.
+                contactList.clear()
+
+                // 시간순 오름차순으로 정렬되어있기 때문에 가장 최근 메세지가 최상단으로 오기위해서 reverse
+                var sortedSnapshot = snapshot.children.reversed()
+                for (postSnapshot in sortedSnapshot) {
+                    val curretContact = postSnapshot.getValue(Contact::class.java)
+                    contactList.add(curretContact!!)
+
+                }
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "fail to get", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MessageFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MessageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-        fun newInstance() : MessageFragment {
+        const val TAG: String = "MessageFragment"
+
+        fun newInstance(): MessageFragment {
             return MessageFragment()
         }
     }

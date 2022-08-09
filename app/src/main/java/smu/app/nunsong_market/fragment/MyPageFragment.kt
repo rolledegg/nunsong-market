@@ -62,6 +62,9 @@ class MyPageFragment : Fragment() {
             checkUser()
 
         }
+        binding.deleteAccountTv.setOnClickListener {
+            // 계정 삭제
+        }
     }
 
     private fun checkUser() {

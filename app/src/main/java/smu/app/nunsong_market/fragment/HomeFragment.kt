@@ -107,12 +107,7 @@ class HomeFragment : Fragment() {
     }
 
     fun initRecyclerView(){
-        adapter = ProductAdapter(requireActivity(),clickListener= {
-            Log.d(TAG, "initBookRecyclerView: recyclerview clicked")
-            val intent = Intent(requireContext(), ArticleActivity::class.java)
-            intent.putExtra("id",51)
-            startActivity(intent)
-        })
+        adapter = ProductAdapter(requireActivity())
 
         adapter.submitList(this.productList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
