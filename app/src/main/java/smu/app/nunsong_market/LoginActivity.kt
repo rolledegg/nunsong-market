@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var googleSignInOptions:GoogleSignInOptions
     private var googleSignInClient: GoogleSignInClient? = null
     private lateinit var mDbRef: DatabaseReference
 
@@ -46,27 +47,16 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         //configure the Google signin
-        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail() 
             .build()
-
-
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
-        //init firebase
         firebaseAuth = Firebase.auth
+
         checkUser()
-
-        //Google SignIn btn, Click to begin google sign
-        binding.googleBtn.setOnClickListener {
-            Log.d(TAG, "onCreate: currentUser: ${firebaseAuth.currentUser}")
-            Log.d(TAG, "onCreate: begin Google SignIn clicked")
-            val Intent = googleSignInClient?.signInIntent
-            startActivityForResult(Intent, RC_SIGN_IN)
-
-        }
+        configSignInBtnClickListener()
     }
 
     private fun checkUser() {
@@ -79,8 +69,17 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
-
     }
+
+    private fun configSignInBtnClickListener() {
+        binding.googleBtn.setOnClickListener {
+            Log.d(TAG, "onCreate: currentUser: ${firebaseAuth.currentUser}")
+            Log.d(TAG, "onCreate: begin Google SignIn clicked")
+            val Intent = googleSignInClient?.signInIntent
+            startActivityForResult(Intent, RC_SIGN_IN)
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -112,19 +111,14 @@ class LoginActivity : AppCompatActivity() {
                 val uid = firebaseUser!!.uid
                 val name = firebaseUser!!.displayName
                 val email = firebaseUser!!.email
-                val id_domain = email.toString().split("@")
-                val domain = id_domain[1]
-
-
-                Log.d(TAG, "firebaseAuthWithGoogleAccount: Uid:${uid}")
-                Log.d(TAG, "firebaseAuthWithGoogleAccount: Name:${name}")
-                Log.d(TAG, "firebaseAuthWithGoogleAccount: Email:${email}")
+                val domain = email.toString().split("@")[1]
 
                 //check if user is new or existing
                 if (authResult.additionalUserInfo!!.isNewUser) {
                     // user is new = Account created
                     Log.d(TAG, "firebaseAuthWithGoogleAccount: [Account created] ${email}")
                     Toast.makeText(this, "Account created... ${email}", Toast.LENGTH_SHORT).show()
+
                     signUp(email, uid)
                 } else {
                     //existing user - LoggedIn
@@ -132,28 +126,28 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "LoggedIn... ${email}", Toast.LENGTH_SHORT).show()
                 }
 
-                // TODO: during implement chatting
                 //start main activity
-//                if (domain == "sookmyung.ac.kr") {
+                if (domain == "sookmyung.ac.kr") {
                     Log.d(TAG, "firebaseAuthWithGoogleAccount: ${domain}")
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()
-               /* } else {
+                } else {
+                    firebaseAuth.signOut()
                     firebaseUser.delete()
+                    googleSignInClient!!.signOut()
+
                     Log.d(
                         TAG,
                         "firebaseAuthWithGoogleAccount: not a sookmyuung email delete account"
                     )
                     Toast.makeText(this, "your not a sookmyung student", Toast.LENGTH_SHORT).show()
-                }*/
+                }
 
             }
             .addOnFailureListener { e ->
                 //login failed
                 Log.d(TAG, "firebaseAuthWithGoogleAccount: Loggin Failed due to ${e.message}")
                 Toast.makeText(this, "Loggin Failed due to ${e.message}", Toast.LENGTH_SHORT).show()
-
-
             }
     }
 
@@ -165,9 +159,8 @@ class LoginActivity : AppCompatActivity() {
             val userName = email.split("@")[0]
             addUserToDatabase(userName,uid,email)
 
-            // TODO: during implement chatting
            //  post new user to server
-           /* userApi.postUser(User(userName, uid, email))
+            userApi.postUser(User(userName, uid, email))
                 .enqueue(object: Callback<User>{
                     override fun onResponse(call: Call<User>, response: Response<User>) {
                         Log.d(TAG, "onResponse: ..")
@@ -187,7 +180,7 @@ class LoginActivity : AppCompatActivity() {
                         Log.e(TAG, t.toString())
                     }
 
-                })*/
+                })
         }
     }
 
