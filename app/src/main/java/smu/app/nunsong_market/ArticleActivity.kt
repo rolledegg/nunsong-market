@@ -42,42 +42,42 @@ class ArticleActivity : AppCompatActivity() {
         productWebView = binding.productDetailWv
         progressBar = binding.webviewProgressBar
 
-        var itemId= intent.getIntExtra("id",-1)
-        sellerName= intent.getStringExtra("sellerName").toString()
-        sellerUid= intent.getStringExtra("sellerUid").toString()
+        var itemId = intent.getIntExtra("id", -1)
+        sellerName = intent.getStringExtra("sellerName").toString()
+        sellerUid = intent.getStringExtra("sellerUid").toString()
         Log.d(TAG, "onCreate: id: $itemId name: $sellerName uid: $sellerUid ")
 
+        //TODO: 본인 게시글은 어떻게 처리 할 것인지
         //본인의 게시글에서는 채팅 버튼이 다르게
-        if(sellerUid == mAuth.currentUser?.uid){
+        if (sellerUid == mAuth.currentUser?.uid) {
             binding.chattingBtn.text = "본인 게시글임"
-       }
-
-        if(itemId == -1){
-            Toast.makeText(this,"Can't get item id",Toast.LENGTH_SHORT)
         }
-        else{
-            val loadUrl= BuildConfig.PRODUCT_URL + itemId.toString()
+
+        if (itemId == -1) {
+            Toast.makeText(this, "Can't get item id", Toast.LENGTH_SHORT)
+        } else {
+            val loadUrl = BuildConfig.PRODUCT_URL + itemId.toString()
             Log.d(TAG, "onCreate: $loadUrl")
 
             productWebView.apply {
                 webViewClient = WebViewClient()
                 webChromeClient = webChromeClient()
                 loadUrl(loadUrl)
-
-            }
-
-            binding.chattingBtn.setOnClickListener {
-                val intent = Intent(this, ChattingActivity::class.java).apply{
-                    putExtra("id",itemId)
-                    putExtra("sellerName",sellerName)
-                    putExtra("sellerUid",sellerUid)
-                }
-                startActivity(intent)
             }
         }
 
+        configChattingBtnClickListener(itemId)
+    }
 
-
+    private fun configChattingBtnClickListener(itemId: Int) {
+        binding.chattingBtn.setOnClickListener {
+            val intent = Intent(this, ChattingActivity::class.java).apply {
+                putExtra("id", itemId)
+                putExtra("sellerName", sellerName)
+                putExtra("sellerUid", sellerUid)
+            }
+            startActivity(intent)
+        }
     }
 
     inner class webChromeClient : android.webkit.WebChromeClient() {

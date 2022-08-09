@@ -20,7 +20,6 @@ import smu.app.nunsong_market.databinding.ItemArticleBinding
 import java.security.AccessController.getContext
 
 
-//class ProductAdapter(context: Context, val clickListener: (Product) -> Unit) :
 class ProductAdapter(context: Context) :
     ListAdapter<Product, ProductAdapter.ArtitleItemViewHolder>(diffUtil) {
 
@@ -32,7 +31,6 @@ class ProductAdapter(context: Context) :
         @SuppressLint("SetTextI18n")
         fun bind(productModel: Product) {
             // 날짜 형식 커스텀
-
             if (productModel.date != null) {
                 var customDate: String = productModel.date.slice(7..12)
                 var customHour: String = productModel.date.slice(14..15)
@@ -50,7 +48,7 @@ class ProductAdapter(context: Context) :
             var customPrice = productModel.price.toString()
             val length = customPrice.length
             // 3~6자리
-            if (length > 3 && length < 7) {
+            if (length in 4..7) {
                 var front = customPrice.slice(0..(length - 4))
                 var tail = customPrice.slice((length - 3)..(length - 1))
                 customPrice = front + "," + tail
@@ -62,11 +60,18 @@ class ProductAdapter(context: Context) :
                 var tail = customPrice.slice((length - 3)..(length - 1))
                 customPrice = front + "," + middle + "," + tail
             }
+
             binding.productTitleTv.text = productModel.title
-//            binding.productDateTv.text = customDate + customHour + customMin
             binding.productPriceTv.text = customPrice + "원"
             binding.productStatusTv.text = productModel.status
+            Glide
+                .with(binding.productIv.context)
+                .load(productModel.coverSmallUrl)
+                .into(binding.productIv)
 
+            configItemClickLister(productModel)
+
+            //status에 따라 ui 변경
             when (productModel.status) {
                 "판매중" -> binding.productStatusTv.background =
                     context.getDrawable(R.drawable.square_sold)
@@ -74,12 +79,9 @@ class ProductAdapter(context: Context) :
                     context.getDrawable(R.drawable.square_sold_out)
                 else -> binding.productStatusTv.background = null
             }
+        }
 
-            Glide
-                .with(binding.productIv.context)
-                .load(productModel.coverSmallUrl)
-                .into(binding.productIv)
-
+        private fun configItemClickLister(productModel: Product) {
             binding.root.setOnClickListener {
                 val intent = Intent(context, ArticleActivity::class.java).apply {
                     putExtra("id", productModel.id)

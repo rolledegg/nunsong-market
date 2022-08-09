@@ -19,6 +19,7 @@ class ChattingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChattingBinding
     private lateinit var msgAdapter: MessageAdapter
     private lateinit var msgList: ArrayList<Message>
+
     private lateinit var mDbRef: DatabaseReference
 
     private var itemId: Int = -1
@@ -48,7 +49,7 @@ class ChattingActivity : AppCompatActivity() {
             "ARTICLE_ACTIVITY",
             "chatting: id: $itemId receiver name: $recieverName r_uid: $receiverUid s_uid: $senderUid"
         )
-
+        //TODO: UI 마무리시 삭제되어야 할 부분
         //name test
         binding.sellerNameTv.text = recieverName
 
@@ -57,6 +58,12 @@ class ChattingActivity : AppCompatActivity() {
         senderRoom = receiverUid + senderUid + itemId.toString()
         receiverRoom = senderUid + receiverUid + itemId.toString()
 
+        configRecyclerView()
+        configSendBtnClickListener()
+    }
+
+    private fun configRecyclerView() {
+        //init recyclerview
         msgList = ArrayList<Message>()
         msgAdapter = MessageAdapter(this, msgList)
 
@@ -64,101 +71,57 @@ class ChattingActivity : AppCompatActivity() {
         binding.chatRcv.adapter = msgAdapter
 
         //logic for adding data to recyclerView
-        mDbRef.child("chats").child(senderRoom!!).child("messages")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
+        var senderRoomMsgsQuery = mDbRef.child("chats").child(senderRoom!!).child("messages")
+        senderRoomMsgsQuery.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
 
-                    msgList.clear()
+                msgList.clear()
 
-                    for (postSnapShot in snapshot.children) {
+                for (postSnapShot in snapshot.children) {
 
-                        val msg = postSnapShot.getValue(Message::class.java)
-                        msgList.add(msg!!)
-                    }
-                    msgAdapter.notifyDataSetChanged()
+                    val msg = postSnapShot.getValue(Message::class.java)
+                    msgList.add(msg!!)
                 }
+                msgAdapter.notifyDataSetChanged()
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
+            override fun onCancelled(error: DatabaseError) {
+            }
 
-            })
+        })
+    }
 
-        //adding the msg to database
+    private fun configSendBtnClickListener() {
         binding.sendBtn.setOnClickListener {
             val msg = binding.msgEdt.text.toString()
             val time = getTime()
             val msgObject = Message(msg, senderUid, time)
-            // 이 user contacts에  등록
-            mDbRef.child("users").child(senderUid).child("contacts").child(senderRoom!!)
-                .setValue(Contact(itemId, recieverName, receiverUid,msg,time))
+
+            var senderRoomMsgsQuery = mDbRef.child("chats").child(senderRoom!!).child("messages")
+            var senderContactsQuery = mDbRef.child("users").child(senderUid).child("contacts")
+            var receiverRoomMsgsQuery = mDbRef.child("chats").child(receiverRoom!!).child("messages")
+            var receiverContactsQuery = mDbRef.child("users").child(receiverUid).child("contacts")
+
+            // sender contacts에  contact등록
+            senderContactsQuery.child(senderRoom!!)
+                .setValue(Contact(itemId, recieverName, receiverUid, msg, time))
                 .addOnSuccessListener {
-                    postContactToReciver(msg, time)
+                    receiverContactsQuery.child(receiverRoom!!).setValue(Contact(itemId, senderName, senderUid, msg, time))
                 }
                 .addOnFailureListener {
                     Log.d("ARTICLE_ACTIVITY", "fail to post contact to firebase")
                 }
 
-/*            mDbRef.child("users").child(senderUid).child("contacts").get()
-                .addOnSuccessListener {
-                    // sender의 contacts에 새로운 contact 추가
-                    // isOnly를 통해 중복체크
-                    var isOnly = true
-
-                    for (contact in it.children) {
-                        if (contact.getValue(Contact::class.java) == Contact(itemId,recieverName,receiverUid)) {
-                            isOnly = false
-                            break
-                        }
-                    }
-                    if(isOnly){
-                        mDbRef.child("users").child(senderUid).child("contacts").push()
-                            .setValue(Contact(itemId, recieverName, receiverUid))
-                            .addOnSuccessListener {
-                                postContactToReciver()
-                            }
-                    }
-                }
-                .addOnFailureListener {
-                    Log.d("ARTICLE_ACTIVITY", "fail to get contact list from firebase")
-                }*/
-
-
             // msg 등록
-            mDbRef.child("chats").child(senderRoom!!).child("messages").push()
-                .setValue(msgObject).addOnSuccessListener {
-                    mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
-                        .setValue(msgObject)
+            senderRoomMsgsQuery.push().setValue(msgObject)
+                .addOnSuccessListener {
+                    receiverRoomMsgsQuery.push().setValue(msgObject)
                 }
 
             binding.msgEdt.setText("")
         }
     }
 
-    private fun postContactToReciver(msg: String, time: String) {
-        /*       mDbRef.child("users").child(receiverUid).child("contacts").get()
-            .addOnSuccessListener {
-                // isOnly를 통해 중복체크
-                var isOnly = true
-
-                for (contact in it.children) {
-                    if (contact.getValue(Contact::class.java) == Contact(itemId,senderName,senderUid)){
-                        isOnly = false
-                        break
-                    }
-                }
-                if(isOnly){
-                    mDbRef.child("users").child(receiverUid).child("contacts").push()
-                        .setValue(Contact(itemId,senderName,senderUid))
-                }
-            }
-            .addOnFailureListener {
-                Log.d("ARTICLE_ACTIVITY", "fail to put post on receiver")
-            }*/
-        mDbRef.child("users").child(receiverUid).child("contacts").child(receiverRoom!!)
-            .setValue(Contact(itemId, senderName, senderUid, msg, time))
-            .addOnSuccessListener {
-            }
-    }
 
     private fun getTime(): String {
         var mNow = System.currentTimeMillis()

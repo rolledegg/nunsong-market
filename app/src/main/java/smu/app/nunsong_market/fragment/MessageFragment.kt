@@ -25,11 +25,6 @@ class MessageFragment : Fragment() {
 
     var contactList = ArrayList<Contact>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,27 +34,26 @@ class MessageFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
         mDbRef = FirebaseDatabase.getInstance().getReference()
 
-        initRecyclerView()
+        configRecyclerView()
 
         return binding.root
     }
 
-    private fun initRecyclerView() {
+    private fun configRecyclerView() {
         adapter = ContactAdapter(requireContext(), contactList)
-
         binding.msgListRcv.layoutManager = LinearLayoutManager(requireContext())
         binding.msgListRcv.adapter = adapter
 
-        val myContactListQuery = mDbRef.child("users").child(mAuth.currentUser!!.uid)
-            .child("contacts").orderByChild("lastTime")
-        Log.d(TAG, "initRecyclerView: $myContactListQuery")
-
+        //contacts의 객체들을 lastTime을 기준으로 사전순 오름차순으로 정렬되어 불러온다.
+        val myContactListQuery = mDbRef.child("users").child(mAuth.currentUser!!.uid).child("contacts").orderByChild("lastTime")
         myContactListQuery.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 //바뀔 때마다 불려지기 때문에 비우고 다시채우지 않으면 중복으로 쌓인다.
                 contactList.clear()
 
-                for (postSnapshot in snapshot.children.reversed()) {
+                // 시간순 오름차순으로 정렬되어있기 때문에 가장 최근 메세지가 최상단으로 오기위해서 reverse
+                var sortedSnapshot = snapshot.children.reversed()
+                for (postSnapshot in sortedSnapshot) {
                     val curretContact = postSnapshot.getValue(Contact::class.java)
                     contactList.add(curretContact!!)
 
