@@ -5,14 +5,130 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChattingActivity">
+
+    <ImageButton
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingStart="14sp"
+        android:paddingTop="2sp"
+        android:paddingBottom="2sp"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintBottom_toTopOf="@id/first_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:id="@+id/seller_name_tv"
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:hint="name"
-        android:gravity="center"/>
+        tools:text="wkadlf2310" />
+
+    <View
+        android:id="@+id/first_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lighter_gray"
+        android:fontFamily="@font/one_mobile_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_bar" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/product_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/first_line">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/product_iv_cv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3sp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="6sp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/product_iv"
+                android:layout_width="60sp"
+                android:layout_height="60sp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/product_title_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="3dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingRight="10dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/product_iv_cv"
+            app:layout_constraintTop_toTopOf="@id/product_iv_cv"
+            tools:text="에어팟 프로팝니다" />
+
+
+        <TextView
+            android:id="@+id/product_price_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/product_iv_cv"
+            app:layout_constraintTop_toBottomOf="@id/product_title_tv"
+            tools:text="220,000원" />
+
+        <TextView
+            android:id="@+id/product_status_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="판매완료"
+            android:textColor="@color/white"
+            android:textSize="7sp"
+            app:layout_constraintStart_toEndOf="@id/product_iv_cv"
+            app:layout_constraintTop_toBottomOf="@id/product_price_tv" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/second_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightest_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/product_layout" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -22,35 +138,39 @@
         android:layout_above="@id/linearLayout"
         android:layout_alignParentTop="true"
         app:layout_constraintBottom_toTopOf="@id/linearLayout"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/second_line"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/sent_msg" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:background="@color/lightest_gray"
         android:orientation="horizontal"
-        android:weightSum="100">
+        android:weightSum="100"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText
             android:id="@+id/msg_edt"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:layout_weight="92"
+            android:layout_weight="95"
             android:background="@drawable/msg_box_background"
-            android:hint="Write a massage"
-            android:paddingLeft="10dp" />
+            android:hint="메세지를 보내보세요"
+            android:paddingLeft="14dp"
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/send_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="7dp"
             android:padding="5dp"
             android:src="@drawable/ic_send_msg" />
 

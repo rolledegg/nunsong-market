@@ -64,10 +64,15 @@ class ProductAdapter(context: Context) :
             binding.productTitleTv.text = productModel.title
             binding.productPriceTv.text = customPrice + "원"
             binding.productStatusTv.text = productModel.status
-            Glide
-                .with(binding.productIv.context)
-                .load(productModel.coverSmallUrl)
-                .into(binding.productIv)
+
+            if (productModel.coverSmallUrl == null){
+                binding.productIv.setImageDrawable(context.getDrawable(R.drawable.no_image))
+            }else {
+                Glide
+                    .with(binding.productIv.context)
+                    .load(productModel.coverSmallUrl)
+                    .into(binding.productIv)
+            }
 
             configItemClickLister(productModel)
 

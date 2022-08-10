@@ -1,5 +1,6 @@
 package smu.app.nunsong_market.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import smu.app.nunsong_market.ChattingActivity
 import smu.app.nunsong_market.R
 import smu.app.nunsong_market.model.Contact
+import smu.app.nunsong_market.util.TimeUtil
 
 class ContactAdapter(val context: Context, val contactList:ArrayList<Contact>)
     :RecyclerView.Adapter<ContactAdapter.UserVH>() {
@@ -21,11 +23,22 @@ class ContactAdapter(val context: Context, val contactList:ArrayList<Contact>)
         return UserVH(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: UserVH, position: Int) {
         val currentContact = contactList[position]
 
         holder.textName.text = currentContact.name
-        holder.itemId.text = currentContact.itemId.toString()
+        holder.lastMsg.text = currentContact.lastMessage
+        // yyyy-MM-dd aa hh:mm:ss
+        val today = TimeUtil.getTime().slice(0..9)
+        val DateOfMsg = currentContact.lastTime!!.slice(0..9)
+        val TimeOfMsg = currentContact.lastTime!!.slice(11..18)
+        if(DateOfMsg == today){
+            holder.lastTime.text = TimeOfMsg
+        } else{
+            holder.lastTime.text= DateOfMsg.slice(5..6) + "월 " + DateOfMsg.slice(8..9) +"일"
+        }
+
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context,ChattingActivity::class.java).apply{
@@ -44,7 +57,8 @@ class ContactAdapter(val context: Context, val contactList:ArrayList<Contact>)
 
     class UserVH(itemView: View): RecyclerView.ViewHolder(itemView){
         val textName = itemView.findViewById<TextView>(R.id.name_tv)
-        val itemId = itemView.findViewById<TextView>(R.id.item_tv)
+        val lastMsg = itemView.findViewById<TextView>(R.id.last_msg_tv)
+        val lastTime = itemView.findViewById<TextView>(R.id.last_time_tv)
     }
 
 }

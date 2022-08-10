@@ -15,6 +15,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -61,7 +63,7 @@ class PublishActivity : AppCompatActivity() {
         setContentView(binding.root)
         Log.d(TAG, "onCreate: onCreate")
 
-        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth = Firebase.auth
 
 
         //image view click
@@ -91,11 +93,8 @@ class PublishActivity : AppCompatActivity() {
             val price = binding.priceEt.text.toString().toInt()
             val category = binding.categorySpinner.selectedItem
             val description = binding.discriptionEt.text.toString()
-            Log.d(
-                TAG,
-                "onCreate: ${title} / ${price} / ${category is String} / ${firebaseAuth.currentUser!!.email} / ${firebaseAuth.currentUser!!.displayName} / ${description}"
-            )
-            Log.d(TAG, "onCreate: button clicked ")
+            val sellerName = firebaseAuth.currentUser!!.email.toString().split("@")[0]
+            val sellerUid = firebaseAuth.currentUser!!.uid
 
 
             val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
@@ -105,14 +104,8 @@ class PublishActivity : AppCompatActivity() {
             val rPrice = RequestBody.create(MediaType.parse("text/plain"), price.toString())
             val rCategory = RequestBody.create(MediaType.parse("text/plain"), category.toString())
             val rDescripton = RequestBody.create(MediaType.parse("text/plain"), description)
-            val rSellerName = RequestBody.create(
-                MediaType.parse("text/plain"),
-                firebaseAuth.currentUser!!.email.toString().split("@")[0]
-            )
-            val rSellerUid = RequestBody.create(
-                MediaType.parse("text/plain"),
-                firebaseAuth.currentUser!!.uid.toString()
-            )
+            val rSellerName = RequestBody.create(MediaType.parse("text/plain"), sellerName)
+            val rSellerUid = RequestBody.create(MediaType.parse("text/plain"), sellerUid)
             val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
             val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
 

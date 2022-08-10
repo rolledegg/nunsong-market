@@ -43,25 +43,34 @@ class MyPageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMyPageBinding.inflate(inflater,container,false)
-        init()
-        // Inflate the layout for this fragment
-        binding.myArticleTv.setOnClickListener(){
-            Log.d(TAG, "onCreateView: recyclerview clicked")
-            val intent = Intent(requireContext(), ArticleListActivity::class.java)
-            intent.putExtra("title","내가 쓴 글")
-            startActivity(intent)
-        }
-        return binding.root
-    }
-
-    private fun init() {
         firebaseAuth = Firebase.auth
         checkUser()
 
-        btn = binding.logoutTv
+        configMyArticleBtn()
+        configLogoutBtn()
+        configSignoutBtn()
+
+        return binding.root
+    }
+
+    private fun configMyArticleBtn() {
+        binding.myArticleTv.setOnClickListener() {
+            Log.d(TAG, "onCreateView: recyclerview clicked")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java).apply{
+                putExtra("type",0)
+                putExtra("title", "내가 쓴 글")
+            }
+            startActivity(intent)
+        }
+    }
+
+    private fun configLogoutBtn() {
         binding.logoutTv.setOnClickListener {
             Log.d(TAG, "onCreate: logout button clicked")
+            // firebase에서 로그아웃
             firebaseAuth.signOut()
+            // 구글 계정에서 로그아웃
+            // 구글에서 로그아웃 안해주면 다음에 로그인할 때앱에 저장되어있는 이전에 로그인했던 계정으로 자동 선택되어 로그인함
             val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -71,10 +80,14 @@ class MyPageFragment : Fragment() {
             checkUser()
 
         }
+    }
+
+    private fun configSignoutBtn() {
         binding.deleteAccountTv.setOnClickListener {
             // 계정 삭제
         }
     }
+
 
     private fun checkUser() {
         // get current User
@@ -98,11 +111,6 @@ class MyPageFragment : Fragment() {
     companion object {
         private  const val RC_SIGN_IN = 110
         private  const val TAG = "GOOGLE_SIGN_IN"
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) {
-
-            }
 
         fun newInstance(): MyPageFragment {
             return MyPageFragment()

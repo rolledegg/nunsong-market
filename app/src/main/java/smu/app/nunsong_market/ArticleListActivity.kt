@@ -28,6 +28,10 @@ class ArticleListActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "ARTICLE_LIST_ACTIVITY"
+        private const val MY_ARTICLE = 0
+        private const val CATEGORY = 1
+        private const val SEARCH = 2
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,52 +40,29 @@ class ArticleListActivity : AppCompatActivity() {
         setContentView(binding.root)
         Log.d(TAG, "onCreate: onCreate()")
 
-        // TODO: inten세어 타티틀 받아와서 동적으로 매칭
+        val type = intent.getIntExtra("type",-1)
+        val title = intent.getStringExtra("title")
+        val value = intent.getStringExtra("value")
+
+        binding.mainTitleTv.text =title
+
         viewModel = ViewModelProvider(this).get(ArticleListViewModel::class.java)
-        viewModel.load()
+
+        load(type, value)
+
         initRecyclerView()
-
-
-
-        intent.getStringExtra("title")
-        binding.mainTitleTv.text =intent.getStringExtra("title")
-
-        //TODO: 유저네임 구글에서 가져와서 동적으로 넣어줘야함
-//        productApi.getMyProducts("계란말이")
-//            .enqueue(object : Callback<List<Product>> {
-//                override fun onResponse(
-//                    call: Call<List<Product>>,
-//                    response: Response<List<Product>>
-//                ) {
-//                    if (response.isSuccessful.not()) {
-//                        //예외처리
-//                        Log.d(TAG, "NOT SUCCESS")
-//                        return
-//                    }
-//
-//                    response.body()?.let {
-//                        it.forEach { product ->
-//                            Log.d(TAG, product.toString())
-//                            myProductList.add(product)
-//                        }
-//                        adapter.submitList(myProductList)
-//                        Log.d(TAG, "onResponse: ${myProductList.isEmpty()}")
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<List<Product>>, t: Throwable) {
-//                    Log.e(TAG, t.toString())
-//                }
-//
-//            })
-
 
         Log.d(TAG, "onCreate: ${myProductList.isEmpty()}")
 
+        binding.backBtn.setOnClickListener {
+            this.finish()
+        }
+
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.load()
+            load(type, value)
             binding.swipeRefresh.isRefreshing=false
         }
+
         viewModel.articleList.observe(this){
             adapter.submitList(it)
         }
@@ -90,9 +71,16 @@ class ArticleListActivity : AppCompatActivity() {
 
     fun initRecyclerView() {
         adapter = ProductAdapter(this)
-
         adapter.submitList(this.myProductList)
         binding.articleRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.articleRecyclerView.adapter = adapter
+    }
+
+    fun load(type:Int, value:String?){
+        when(type){
+            MY_ARTICLE -> viewModel.loadMyArticle()
+            CATEGORY -> viewModel.laodCategoryArticle(value!!)
+            SEARCH -> viewModel.loadSearchArticle(value!!)
+        }
     }
 }

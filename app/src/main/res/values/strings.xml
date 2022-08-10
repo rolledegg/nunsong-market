@@ -16,6 +16,9 @@
     <string name="publish_activity_price_hint">판매 가격을 입력해 주세요.</string>
     <string name="publish_activity_discription_hint">상품 설명을 입력해 주세요.\n상품 정보를 상세하게 입력하실수록\n수월하게 거래할 수 있습니다.\n\n\n</string>
 
+    // MessageFragment
+    <string name="message_fragment_title">채팅</string>
+
     //MyPageFragment
     <string name="my_page_fragment_title">내 정보</string>
     <string name="my_article">내가 쓴 글</string>

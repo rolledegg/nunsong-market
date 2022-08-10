@@ -7,22 +7,32 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_marginTop="2dp"
+            android:id="@+id/profile_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/img_my_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/received_msg_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/recieved_msg_background"
+            android:maxWidth="300dp"
             android:padding="10dp"
-            android:text="this is receive message"
+            android:text="아하 여기서 테스트 해보면 되는구나 "
+            android:layout_marginStart="5dp"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="13sp"
+            app:layout_constraintStart_toEndOf="@id/profile_iv"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -32,7 +42,7 @@
             android:layout_marginStart="4dp"
             android:text="오후 2:14"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/received_msg_tv"
             app:layout_constraintStart_toEndOf="@id/received_msg_tv" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,9 +26,9 @@ import smu.app.nunsong_market.model.HomeViewModel
 
 
 class HomeFragment : Fragment() {
-    private lateinit var viewModel:HomeViewModel
+    private lateinit var viewModel: HomeViewModel
 
-    private lateinit var binding:FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: ProductAdapter
 
     //데이터 배열
@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG,"HomeFragment - onCreate() called")
+        Log.d(TAG, "HomeFragment - onCreate() called")
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         viewModel.load()
 
@@ -44,25 +44,25 @@ class HomeFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(TAG,"HomeFragment - onAttach() called")
+        Log.d(TAG, "HomeFragment - onAttach() called")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG,"HomeFragment - onCreateView() called")
-        binding = FragmentHomeBinding.inflate(inflater,container,false)
+        Log.d(TAG, "HomeFragment - onCreateView() called")
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         initRecyclerView()
         initCategory()
 
-        if(productList.isEmpty()){
+        if (productList.isEmpty()) {
             //binding.swipeRefresh.isRefreshing = true
         }
 
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.load()
-            binding.swipeRefresh.isRefreshing=false
+            binding.swipeRefresh.isRefreshing = false
         }
         return binding.root // return layout
     }
@@ -70,30 +70,38 @@ class HomeFragment : Fragment() {
     private fun initCategory() {
         binding.clothLayout.setOnClickListener() {
             Log.d(TAG, "initCategory: category clicked")
-            val intent = Intent(requireContext(), CategoryArtclesActivity::class.java)
-            intent.putExtra("title","의류")
-            intent.putExtra("category","CLOTHES")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
+                putExtra("type", 1)
+                putExtra("title", "의류")
+                putExtra("value", "CLOTHES")
+            }
             startActivity(intent)
         }
         binding.electronicsLayout.setOnClickListener() {
             Log.d(TAG, "initCategory: category clicked")
-            val intent = Intent(requireContext(), CategoryArtclesActivity::class.java)
-            intent.putExtra("title","전자기기")
-            intent.putExtra("category","ELECTRONICS")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
+                putExtra("type", 1)
+                putExtra("title", "전자기기")
+                putExtra("value", "ELECTRONICS")
+            }
             startActivity(intent)
         }
         binding.bookLayout.setOnClickListener() {
             Log.d(TAG, "initCategory: category clicked")
-            val intent = Intent(requireContext(), CategoryArtclesActivity::class.java)
-            intent.putExtra("title","중고도서")
-            intent.putExtra("category","BOOKS")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
+                putExtra("type", 1)
+                putExtra("title", "중고도서")
+                putExtra("value", "BOOKS")
+            }
             startActivity(intent)
         }
         binding.etcLayout.setOnClickListener() {
             Log.d(TAG, "initCategory: category clicked")
-            val intent = Intent(requireContext(), CategoryArtclesActivity::class.java)
-            intent.putExtra("title","기타")
-            intent.putExtra("category","ETC")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
+                putExtra("type", 1)
+                putExtra("title", "기타")
+                putExtra("value", "ETC")
+            }
             startActivity(intent)
         }
     }
@@ -101,12 +109,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.articleList.observe(viewLifecycleOwner){
+        viewModel.articleList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }
 
-    fun initRecyclerView(){
+    fun initRecyclerView() {
         adapter = ProductAdapter(requireActivity())
 
         adapter.submitList(this.productList)
@@ -118,7 +126,7 @@ class HomeFragment : Fragment() {
     companion object {
         const val TAG: String = "HomeFragment"
 
-        fun newInstance() : HomeFragment {
+        fun newInstance(): HomeFragment {
             return HomeFragment()
         }
     }

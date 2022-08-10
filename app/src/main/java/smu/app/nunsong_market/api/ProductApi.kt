@@ -10,6 +10,10 @@ interface ProductApi {
     @GET("/items")
     fun getProducts(): Call<List<Product>>
 
+    @GET("/items/item/{id}")
+    fun getProductById(@Path("id") id: Int): Call<Product>
+
+
     @GET("/items/{userName}")
     fun getMyProducts(@Path("userName") userName: String): Call<List<Product>>
 
