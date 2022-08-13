@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -51,7 +52,15 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG, "HomeFragment - onCreateView() called")
+        // status bar 색변경
+        val mWindow = requireActivity().window
+        mWindow.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        mWindow.statusBarColor = ContextCompat.getColor(requireActivity(),R.color.main_blue)
+        //status bar 글자색 하얗게 만듬
+        mWindow.decorView.systemUiVisibility = 0
+
+
+            Log.d(TAG, "HomeFragment - onCreateView() called")
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         initRecyclerView()
         initCategory()

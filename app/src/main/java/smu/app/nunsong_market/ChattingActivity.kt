@@ -209,7 +209,9 @@ class ChattingActivity : AppCompatActivity() {
                         receiverRoomMsgsQuery.push().setValue(msgObject)
                     }
 
+
                 binding.msgEdt.setText("")
+                //TODO: 메세지를 보낸 후에 가장 하단의 메세지에 포커스가 맞춰지도록 recycerview ui update
             }else{
                 Toast.makeText(this,"메세지를 입력해주세요",Toast.LENGTH_SHORT).show()
             }

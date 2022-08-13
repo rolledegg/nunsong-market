@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -42,6 +44,14 @@ class MyPageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // status bar 색변경
+        val mWindow = requireActivity().window
+        mWindow.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        mWindow.statusBarColor = ContextCompat.getColor(requireActivity(),R.color.white)
+        // status bar 글자 색 까맣게 만듬
+        mWindow.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
+
         binding = FragmentMyPageBinding.inflate(inflater,container,false)
         firebaseAuth = Firebase.auth
         checkUser()
