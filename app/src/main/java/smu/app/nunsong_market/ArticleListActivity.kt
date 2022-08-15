@@ -1,22 +1,14 @@
 package smu.app.nunsong_market
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import smu.app.nunsong_market.adapter.ProductAdapter
-import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.databinding.ActivityArticleListBinding
-import smu.app.nunsong_market.model.ArticleListViewModel
-import smu.app.nunsong_market.model.HomeViewModel
-import smu.app.nunsong_market.model.Product
+import smu.app.nunsong_market.viewmodel.ArticleListViewModel
+import smu.app.nunsong_market.dto.Product
 
 class ArticleListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityArticleListBinding

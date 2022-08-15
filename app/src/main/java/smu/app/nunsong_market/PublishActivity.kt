@@ -3,7 +3,6 @@ package smu.app.nunsong_market
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -23,24 +22,18 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.databinding.ActivityPublishBinding
-import smu.app.nunsong_market.model.Product
+import smu.app.nunsong_market.dto.Product
 import smu.app.nunsong_market.util.RealPathUtil
 import smu.app.nunsong_market.util.ServiceGenerator
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.IOException
-import java.io.InputStream
-import java.security.AccessController.getContext
 
 class PublishActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPublishBinding
     private lateinit var path: String
-    private lateinit var imageFile: File
+    private var imageFile: File? = null
     private lateinit var firebaseAuth: FirebaseAuth
 
     private val categorySpinner: Spinner by lazy {
@@ -59,6 +52,7 @@ class PublishActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //TODO: 사진 선택 안해도 보낼 수 있어야함
         binding = ActivityPublishBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d(TAG, "onCreate: onCreate")
@@ -95,11 +89,10 @@ class PublishActivity : AppCompatActivity() {
             val description = binding.discriptionEt.text.toString()
             val sellerName = firebaseAuth.currentUser!!.email.toString().split("@")[0]
             val sellerUid = firebaseAuth.currentUser!!.uid
-
-
             val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
+
             val multipleImage =
-                MultipartBody.Part.createFormData("images", imageFile.name, rImage)
+                MultipartBody.Part.createFormData("images", imageFile?.name, rImage)
             val rTitle = RequestBody.create(MediaType.parse("text/plain"), title)
             val rPrice = RequestBody.create(MediaType.parse("text/plain"), price.toString())
             val rCategory = RequestBody.create(MediaType.parse("text/plain"), category.toString())

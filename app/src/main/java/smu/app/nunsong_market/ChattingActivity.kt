@@ -5,28 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import smu.app.nunsong_market.adapter.MessageAdapter
 import smu.app.nunsong_market.api.ProductApi
-import smu.app.nunsong_market.model.Message
+import smu.app.nunsong_market.dto.Message
 import smu.app.nunsong_market.databinding.ActivityChattingBinding
-import smu.app.nunsong_market.fragment.HomeFragment
-import smu.app.nunsong_market.model.Contact
-import smu.app.nunsong_market.model.Product
+import smu.app.nunsong_market.dto.Contact
+import smu.app.nunsong_market.dto.Product
 import smu.app.nunsong_market.util.ServiceGenerator
 import smu.app.nunsong_market.util.TimeUtil
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ChattingActivity : AppCompatActivity() {

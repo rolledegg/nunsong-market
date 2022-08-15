@@ -1,4 +1,4 @@
-package smu.app.nunsong_market.model
+package smu.app.nunsong_market.dto
 
 data class Contact(
     var itemId: Int? = null,

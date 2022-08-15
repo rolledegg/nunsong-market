@@ -1,8 +1,6 @@
 package smu.app.nunsong_market.fragment
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +15,8 @@ import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import smu.app.nunsong_market.R
 import smu.app.nunsong_market.adapter.ContactAdapter
-import smu.app.nunsong_market.adapter.ProductAdapter
 import smu.app.nunsong_market.databinding.FragmentMessageBinding
-import smu.app.nunsong_market.model.Contact
+import smu.app.nunsong_market.dto.Contact
 
 
 class MessageFragment : Fragment() {

@@ -3,11 +3,9 @@ package smu.app.nunsong_market.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,9 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import smu.app.nunsong_market.ArticleActivity
 import smu.app.nunsong_market.R
-import smu.app.nunsong_market.model.Product
+import smu.app.nunsong_market.dto.Product
 import smu.app.nunsong_market.databinding.ItemArticleBinding
-import java.security.AccessController.getContext
 
 
 class ProductAdapter(context: Context) :
@@ -65,9 +62,9 @@ class ProductAdapter(context: Context) :
             binding.productPriceTv.text = customPrice + "원"
             binding.productStatusTv.text = productModel.status
 
-            if (productModel.coverSmallUrl == null){
+            if (productModel.coverSmallUrl == null) {
                 binding.productIv.setImageDrawable(context.getDrawable(R.drawable.no_image))
-            }else {
+            } else {
                 Glide
                     .with(binding.productIv.context)
                     .load(productModel.coverSmallUrl)
@@ -78,8 +75,10 @@ class ProductAdapter(context: Context) :
 
             //status에 따라 ui 변경
             when (productModel.status) {
-                "판매중" -> binding.productStatusTv.background =
-                    context.getDrawable(R.drawable.square_sold)
+                "판매중" -> {binding.productStatusTv.background = context.getDrawable(R.drawable.square_sold)
+                    binding.productStatusTv.setTextColor(context.getColor(R.color.main_blue))
+                }
+
                 "거래 완료" -> binding.productStatusTv.background =
                     context.getDrawable(R.drawable.square_sold_out)
                 else -> binding.productStatusTv.background = null

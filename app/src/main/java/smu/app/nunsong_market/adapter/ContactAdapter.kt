@@ -4,15 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import smu.app.nunsong_market.ChattingActivity
 import smu.app.nunsong_market.R
-import smu.app.nunsong_market.model.Contact
+import smu.app.nunsong_market.dto.Contact
 import smu.app.nunsong_market.util.TimeUtil
 
 class ContactAdapter(val context: Context, val contactList:ArrayList<Contact>)

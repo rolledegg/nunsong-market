@@ -1,4 +1,4 @@
-package smu.app.nunsong_market.model
+package smu.app.nunsong_market.viewmodel
 
 import android.app.Application
 import android.util.Log
@@ -7,11 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import smu.app.nunsong_market.R
 import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.fragment.HomeFragment
+import smu.app.nunsong_market.dto.Product
 import smu.app.nunsong_market.util.ServiceGenerator.createService
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {

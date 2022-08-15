@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import smu.app.nunsong_market.R
-import smu.app.nunsong_market.model.Message
+import smu.app.nunsong_market.dto.Message
 
 class MessageAdapter(val context: Context, val msgList: ArrayList<Message>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
