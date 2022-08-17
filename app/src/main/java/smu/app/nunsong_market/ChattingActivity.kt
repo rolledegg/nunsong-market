@@ -191,6 +191,7 @@ class ChattingActivity : AppCompatActivity() {
                 senderContactsQuery.child(senderRoom!!)
                     .setValue(Contact(itemId, recieverName, receiverUid, msg, time))
                     .addOnSuccessListener {
+                        // receiver contacts에  contact등록
                         receiverContactsQuery.child(receiverRoom!!).setValue(Contact(itemId, senderName, senderUid, msg, time))
                     }
                     .addOnFailureListener {

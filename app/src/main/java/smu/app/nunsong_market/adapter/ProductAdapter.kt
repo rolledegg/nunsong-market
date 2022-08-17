@@ -113,7 +113,7 @@ class ProductAdapter(context: Context) :
     }
 
     override fun onBindViewHolder(holder: ArtitleItemViewHolder, position: Int) {
-        // 실제로 뷰홀더에 데이ㅓ를 바인드해주는 함수
+        // 실제로 뷰홀더에 데이터를 바인드해주는 함수
         holder.bind(currentList[position])
     }
 
