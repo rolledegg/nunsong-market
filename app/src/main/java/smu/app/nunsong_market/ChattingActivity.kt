@@ -64,15 +64,29 @@ class ChattingActivity : AppCompatActivity() {
         configProductlayout()
         configRecyclerView()
         configSendBtnClickListener()
+        configMsgEdtLLayoutChangeListener()
 
         binding.backBtn.setOnClickListener {
             this.finish()
         }
     }
 
+    private fun configMsgEdtLLayoutChangeListener() {
+        // editText에 포커스돼서 키보드가 올라와 recyclerview의 레이아웃이 작아졌을 때 가장 마지막 item으로 이동
+        binding.chatRcv.addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if (bottom < oldBottom) {
+                binding.chatRcv.apply {
+                    smoothScrollToPosition(this.adapter?.itemCount!! - 1)
+                    adapter?.notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
+
     private fun configProductlayout() {
         productApi.getProductById(itemId)
-            .enqueue(object :Callback<Product>{
+            .enqueue(object : Callback<Product> {
                 override fun onResponse(call: Call<Product>, response: Response<Product>) {
                     if (response.isSuccessful.not()) {
                         //예외처리
@@ -91,9 +105,9 @@ class ChattingActivity : AppCompatActivity() {
     }
 
     private fun bindProduct(product: Product) {
-        if (product.coverSmallUrl == null){
+        if (product.coverSmallUrl == null) {
             binding.productIv.setImageDrawable(getDrawable(R.drawable.no_image))
-        }else {
+        } else {
             Glide
                 .with(binding.productIv.context)
                 .load(product.coverSmallUrl)
@@ -119,7 +133,7 @@ class ChattingActivity : AppCompatActivity() {
 
         binding.titleBar.text = product.sellerName
         // 내가 올린 글이라면 내 제품을 사려는 사람의 아이디를 타이틀로
-        if(product.sellerName == senderName) {
+        if (product.sellerName == senderName) {
             binding.titleBar.text = recieverName
         }
 
@@ -154,6 +168,7 @@ class ChattingActivity : AppCompatActivity() {
         binding.chatRcv.layoutManager = LinearLayoutManager(this)
         binding.chatRcv.adapter = msgAdapter
 
+
         //logic for adding data to recyclerView
         var senderRoomMsgsQuery = mDbRef.child("chats").child(senderRoom!!).child("messages")
         senderRoomMsgsQuery.addValueEventListener(object : ValueEventListener {
@@ -162,10 +177,19 @@ class ChattingActivity : AppCompatActivity() {
                 msgList.clear()
 
                 for (postSnapShot in snapshot.children) {
-
                     val msg = postSnapShot.getValue(Message::class.java)
+                    Log.d(TAG, "onDataChange: $msg")
+
+                    // list가 비어있거나 가장 마지막 메세지의 날짜가 지금 넣을 려는 것과 다를떄 날짜 표시를 위한 Message 추가
+                    if (msgList.isEmpty() || msgList.get(msgList.size - 1).isDiffrentDate(msg!!)) {
+                        msgList.add(Message(null, "DATE", msg!!.time))
+                    }
                     msgList.add(msg!!)
                 }
+
+                // 처음 activity display했을 때랑 sendBtn 클릭후 focus 업데이트를 위해서
+                binding.chatRcv.smoothScrollToPosition(msgAdapter.itemCount!! - 1)
+
                 msgAdapter.notifyDataSetChanged()
             }
 
@@ -173,6 +197,7 @@ class ChattingActivity : AppCompatActivity() {
             }
 
         })
+
     }
 
     private fun configSendBtnClickListener() {
@@ -183,16 +208,18 @@ class ChattingActivity : AppCompatActivity() {
 
             var senderRoomMsgsQuery = mDbRef.child("chats").child(senderRoom!!).child("messages")
             var senderContactsQuery = mDbRef.child("users").child(senderUid).child("contacts")
-            var receiverRoomMsgsQuery = mDbRef.child("chats").child(receiverRoom!!).child("messages")
+            var receiverRoomMsgsQuery =
+                mDbRef.child("chats").child(receiverRoom!!).child("messages")
             var receiverContactsQuery = mDbRef.child("users").child(receiverUid).child("contacts")
 
-            if (msg !=""){
+            if (msg != "") {
                 // sender contacts에  contact등록
                 senderContactsQuery.child(senderRoom!!)
                     .setValue(Contact(itemId, recieverName, receiverUid, msg, time))
                     .addOnSuccessListener {
                         // receiver contacts에  contact등록
-                        receiverContactsQuery.child(receiverRoom!!).setValue(Contact(itemId, senderName, senderUid, msg, time))
+                        receiverContactsQuery.child(receiverRoom!!)
+                            .setValue(Contact(itemId, senderName, senderUid, msg, time))
                     }
                     .addOnFailureListener {
                         Log.d("ARTICLE_ACTIVITY", "fail to post contact to firebase")
@@ -203,14 +230,13 @@ class ChattingActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         receiverRoomMsgsQuery.push().setValue(msgObject)
                     }
-
-
                 binding.msgEdt.setText("")
-                //TODO: 메세지를 보낸 후에 가장 하단의 메세지에 포커스가 맞춰지도록 recycerview ui update
-            }else{
-                Toast.makeText(this,"메세지를 입력해주세요",Toast.LENGTH_SHORT).show()
+
+            } else {
+                Toast.makeText(this, "메세지를 입력해주세요", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
 }

@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         initRecyclerView()
         initCategory()
-        configSearchBtn()
+        configSearchLayout()
 
         if (productList.isEmpty()) {
             //binding.swipeRefresh.isRefreshing = true
@@ -67,7 +67,14 @@ class HomeFragment : Fragment() {
         return binding.root // return layout
     }
 
-    private fun configSearchBtn() {
+    private fun configSearchLayout() {
+        binding.searchEtv.setOnClickListener {
+            val intent = Intent(requireContext(), SearchActivity::class.java).apply {
+                // putExtra()
+            }
+            startActivity(intent)
+        }
+
         binding.searchIbtn.setOnClickListener {
             val intent = Intent(requireContext(), SearchActivity::class.java).apply {
                 // putExtra()
