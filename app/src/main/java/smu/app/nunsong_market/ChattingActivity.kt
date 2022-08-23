@@ -31,9 +31,10 @@ class ChattingActivity : AppCompatActivity() {
     private lateinit var mDbRef: DatabaseReference
 
     private var itemId: Int = -1
+    private var product: Product? = null
     private lateinit var receiverUid: String
     private lateinit var senderUid: String
-    private lateinit var recieverName: String
+    private lateinit var receiverName: String
     private lateinit var senderName: String
 
     private val productApi by lazy { ServiceGenerator.createService(ProductApi::class.java) }
@@ -51,7 +52,7 @@ class ChattingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         itemId = intent.getIntExtra("id", -1)
-        recieverName = intent.getStringExtra("sellerName").toString()
+        receiverName = intent.getStringExtra("sellerName").toString()
         receiverUid = intent.getStringExtra("sellerUid").toString()
         senderUid = Firebase.auth.currentUser?.uid.toString()
         senderName = Firebase.auth.currentUser?.email.toString().split("@")[0]
@@ -64,21 +65,41 @@ class ChattingActivity : AppCompatActivity() {
         configProductlayout()
         configRecyclerView()
         configSendBtnClickListener()
+        promiseTest()
 
         binding.backBtn.setOnClickListener {
             this.finish()
         }
     }
 
+    private fun promiseTest() {
+        binding.promiseBtn.setOnClickListener {
+            val intent = Intent(this, PromiseActivity::class.java).apply {
+                putExtra("itemId", itemId)
+                putExtra("sellerName", receiverName)
+                putExtra("sellerUid", receiverUid)
+                putExtra("myName", senderName)
+                putExtra("myUid", senderUid)
+                if (product != null) {
+                    putExtra("trans", product!!.trans)
+                    putExtra("images", product!!.coverSmallUrl)
+                    putExtra("price", product!!.price)
+                }
+            }
+            startActivity(intent)
+        }
+    }
+
     private fun configProductlayout() {
         productApi.getProductById(itemId)
-            .enqueue(object :Callback<Product>{
+            .enqueue(object : Callback<Product> {
                 override fun onResponse(call: Call<Product>, response: Response<Product>) {
                     if (response.isSuccessful.not()) {
                         //예외처리
                         Log.d(TAG, "NOT SUCCESS")
                         return
                     }
+                    product = response.body()!!
                     bindProduct(response.body()!!)
                 }
 
@@ -91,9 +112,9 @@ class ChattingActivity : AppCompatActivity() {
     }
 
     private fun bindProduct(product: Product) {
-        if (product.coverSmallUrl == null){
+        if (product.coverSmallUrl == null) {
             binding.productIv.setImageDrawable(getDrawable(R.drawable.no_image))
-        }else {
+        } else {
             Glide
                 .with(binding.productIv.context)
                 .load(product.coverSmallUrl)
@@ -119,8 +140,8 @@ class ChattingActivity : AppCompatActivity() {
 
         binding.titleBar.text = product.sellerName
         // 내가 올린 글이라면 내 제품을 사려는 사람의 아이디를 타이틀로
-        if(product.sellerName == senderName) {
-            binding.titleBar.text = recieverName
+        if (product.sellerName == senderName) {
+            binding.titleBar.text = receiverName
         }
 
         binding.productTitleTv.text = product.title
@@ -183,15 +204,17 @@ class ChattingActivity : AppCompatActivity() {
 
             var senderRoomMsgsQuery = mDbRef.child("chats").child(senderRoom!!).child("messages")
             var senderContactsQuery = mDbRef.child("users").child(senderUid).child("contacts")
-            var receiverRoomMsgsQuery = mDbRef.child("chats").child(receiverRoom!!).child("messages")
+            var receiverRoomMsgsQuery =
+                mDbRef.child("chats").child(receiverRoom!!).child("messages")
             var receiverContactsQuery = mDbRef.child("users").child(receiverUid).child("contacts")
 
-            if (msg !=""){
+            if (msg != "") {
                 // sender contacts에  contact등록
                 senderContactsQuery.child(senderRoom!!)
-                    .setValue(Contact(itemId, recieverName, receiverUid, msg, time))
+                    .setValue(Contact(itemId, receiverName, receiverUid, msg, time))
                     .addOnSuccessListener {
-                        receiverContactsQuery.child(receiverRoom!!).setValue(Contact(itemId, senderName, senderUid, msg, time))
+                        receiverContactsQuery.child(receiverRoom!!)
+                            .setValue(Contact(itemId, senderName, senderUid, msg, time))
                     }
                     .addOnFailureListener {
                         Log.d("ARTICLE_ACTIVITY", "fail to post contact to firebase")
@@ -206,8 +229,8 @@ class ChattingActivity : AppCompatActivity() {
 
                 binding.msgEdt.setText("")
                 //TODO: 메세지를 보낸 후에 가장 하단의 메세지에 포커스가 맞춰지도록 recycerview ui update
-            }else{
-                Toast.makeText(this,"메세지를 입력해주세요",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "메세지를 입력해주세요", Toast.LENGTH_SHORT).show()
             }
         }
     }

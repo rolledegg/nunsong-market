@@ -102,8 +102,6 @@ class PublishActivity : AppCompatActivity() {
             val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
             val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
 
-
-
             productApi.postProductImage(
                 multipleImage,
                 rTitle,
