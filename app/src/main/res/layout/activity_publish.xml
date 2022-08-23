@@ -7,204 +7,213 @@
 
     tools:context=".PublishActivity">
 
-
-    <TextView
-        android:id="@+id/main_tv"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="10sp"
-        android:paddingBottom="10sp"
-        android:text="@string/publish_activity_title"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/exit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingTop="2sp"
-        android:paddingEnd="14sp"
-        android:paddingBottom="2sp"
-        android:src="@drawable/ic_close_24"
-        app:layout_constraintBottom_toTopOf="@id/line1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="1sp"
-        android:background="@color/lighter_gray"
-        android:fontFamily="@font/one_mobile_regular"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_tv" />
-
-    <!--    <ScrollView-->
-    <!--        android:id="@+id/scrollView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@id/line1">-->
-
-    <ImageButton
-        android:id="@+id/camera_btn"
-        android:layout_width="80sp"
-        android:layout_height="80sp"
-        android:layout_marginStart="16sp"
-        android:layout_marginTop="16sp"
-        android:layout_marginBottom="8sp"
-        android:background="@drawable/square_publish_camera"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line1"
-        app:srcCompat="@drawable/ic_photo_camera_24" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/preview_cv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16sp"
-        app:cardCornerRadius="8sp"
-        app:cardElevation="0dp"
-        app:layout_constraintStart_toEndOf="@id/camera_btn"
-        app:layout_constraintTop_toTopOf="@id/camera_btn">
-
-        <ImageView
-            android:id="@+id/product_preview_iv"
-            android:layout_width="80sp"
-            android:layout_height="80sp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/sample_img"
-            android:visibility="invisible"
-            app:cardElevation="0dp"
-            app:layout_constraintStart_toEndOf="@id/camera_btn"
-            app:layout_constraintTop_toTopOf="@id/camera_btn" />
-    </androidx.cardview.widget.CardView>
-
-    <!--    </ScrollView>-->
-
-    <LinearLayout
-        android:id="@+id/liner_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="16sp"
-        android:paddingTop="8sp"
-        android:paddingRight="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/camera_btn">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingStart="2sp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16sp"
-                android:text="상품의 사진은 "
-                android:textColor="@color/light_gray"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10sp"
-                android:text="총 N장"
-                android:textColor="@color/main_blue"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10sp"
-                android:text="까지 등록할 수 있습니다."
-                android:textColor="@color/light_gray"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/title_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10sp"
-            android:background="@drawable/square_publish_title"
-            android:hint="@string/publish_activity_title_hint"
-            android:lines="1"
-            android:paddingStart="13sp"
-            android:textColorHint="@color/light_gray"
-            android:textSize="12.5sp" />
-
-        <Spinner
-            android:id="@+id/category_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20sp"
-            android:background="@drawable/square_publish_title"
-            android:hint="카테고리를 선택해주세요" />
-
-
-        <EditText
-            android:id="@+id/price_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8sp"
-            android:background="@drawable/square_publish_title"
-            android:ems="10"
-            android:hint="@string/publish_activity_price_hint"
-            android:inputType="numberDecimal"
-            android:lines="1"
-            android:paddingStart="13sp"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/light_gray"
-            android:textSize="12.5sp" />
-        <!-- android:text="₩"-->
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20sp"
-            android:paddingStart="2sp"
-            android:text="입력하신 가격으로 상품이 등록됩니다."
-            android:textColor="@color/main_blue"
-            android:textSize="11sp" />
-
-        <EditText
-            android:id="@+id/discription_et"
+            android:id="@+id/main_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20sp"
-            android:background="@drawable/square_publish_title"
-            android:hint="@string/publish_activity_discription_hint"
-            android:lines="8"
-            android:paddingStart="12sp"
-            android:textColorHint="@color/light_gray"
-            android:textSize="12.5sp" />
+            android:gravity="center"
+            android:paddingTop="10sp"
+            android:paddingBottom="10sp"
+            android:text="@string/publish_activity_title"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/publish_btn"
-        android:layout_width="0sp"
-        android:layout_height="50sp"
-        android:layout_marginStart="16sp"
-        android:layout_marginEnd="16sp"
-        android:text="등록완료"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/liner_layout"
-        app:layout_constraintVertical_bias="0.202" />
+        <ImageButton
+            android:id="@+id/exit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="2sp"
+            android:paddingEnd="14sp"
+            android:paddingBottom="2sp"
+            android:src="@drawable/ic_close_24"
+            app:layout_constraintBottom_toTopOf="@id/line1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:background="@color/lighter_gray"
+            android:fontFamily="@font/one_mobile_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_tv" />
+
+
+        <!--    <ScrollView-->
+        <!--        android:id="@+id/scrollView"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        app:layout_constraintEnd_toEndOf="parent"-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintTop_toBottomOf="@id/line1">-->
+
+        <ImageButton
+            android:id="@+id/camera_btn"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="16sp"
+            android:layout_marginBottom="8sp"
+            android:background="@drawable/square_publish_camera"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1"
+            app:srcCompat="@drawable/ic_photo_camera_24" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/preview_cv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16sp"
+            app:cardCornerRadius="8sp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toEndOf="@id/camera_btn"
+            app:layout_constraintTop_toTopOf="@id/camera_btn">
+
+            <ImageView
+                android:id="@+id/product_preview_iv"
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sample_img"
+                android:visibility="invisible"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toEndOf="@id/camera_btn"
+                app:layout_constraintTop_toTopOf="@id/camera_btn" />
+        </androidx.cardview.widget.CardView>
+
+        <!--    </ScrollView>-->
+
+        <LinearLayout
+            android:id="@+id/liner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16sp"
+            android:paddingTop="8sp"
+            android:paddingRight="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/camera_btn">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="2sp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16sp"
+                    android:text="상품의 사진은 "
+                    android:textColor="@color/light_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10sp"
+                    android:text="총 N장"
+                    android:textColor="@color/main_blue"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10sp"
+                    android:text="까지 등록할 수 있습니다."
+                    android:textColor="@color/light_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/title_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:background="@drawable/square_publish_title"
+                android:hint="@string/publish_activity_title_hint"
+                android:lines="1"
+                android:paddingStart="13sp"
+                android:textColorHint="@color/light_gray"
+                android:textSize="12.5sp" />
+
+            <Spinner
+                android:id="@+id/category_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/square_publish_title"
+                android:hint="카테고리를 선택해주세요" />
+
+
+            <EditText
+                android:id="@+id/price_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8sp"
+                android:background="@drawable/square_publish_title"
+                android:ems="10"
+                android:hint="@string/publish_activity_price_hint"
+                android:inputType="numberDecimal"
+                android:lines="1"
+                android:paddingStart="13sp"
+                android:textColor="@color/gray"
+                android:textColorHint="@color/light_gray"
+                android:textSize="12.5sp" />
+            <!-- android:text="₩"-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20sp"
+                android:paddingStart="2sp"
+                android:text="입력하신 가격으로 상품이 등록됩니다."
+                android:textColor="@color/main_blue"
+                android:textSize="11sp" />
+
+            <EditText
+                android:id="@+id/discription_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20sp"
+                android:background="@drawable/square_publish_title"
+                android:hint="@string/publish_activity_discription_hint"
+                android:lines="8"
+                android:paddingStart="12sp"
+                android:textColorHint="@color/light_gray"
+                android:textSize="12.5sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/publish_btn"
+            android:layout_width="0sp"
+            android:layout_height="50sp"
+            android:layout_marginStart="16sp"
+            android:layout_marginEnd="16sp"
+            android:text="등록완료"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/liner_layout"
+            app:layout_constraintVertical_bias="0.202" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
