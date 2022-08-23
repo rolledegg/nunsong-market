@@ -31,9 +31,10 @@ class ChattingActivity : AppCompatActivity() {
     private lateinit var mDbRef: DatabaseReference
 
     private var itemId: Int = -1
+    private var product: Product? = null
     private lateinit var receiverUid: String
     private lateinit var senderUid: String
-    private lateinit var recieverName: String
+    private lateinit var receiverName: String
     private lateinit var senderName: String
 
     private val productApi by lazy { ServiceGenerator.createService(ProductApi::class.java) }
@@ -51,7 +52,7 @@ class ChattingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         itemId = intent.getIntExtra("id", -1)
-        recieverName = intent.getStringExtra("sellerName").toString()
+        receiverName = intent.getStringExtra("sellerName").toString()
         receiverUid = intent.getStringExtra("sellerUid").toString()
         senderUid = Firebase.auth.currentUser?.uid.toString()
         senderName = Firebase.auth.currentUser?.email.toString().split("@")[0]
@@ -65,11 +66,14 @@ class ChattingActivity : AppCompatActivity() {
         configRecyclerView()
         configSendBtnClickListener()
         configMsgEdtLLayoutChangeListener()
+        promiseTest()
+
 
         binding.backBtn.setOnClickListener {
             this.finish()
         }
     }
+
 
     private fun configMsgEdtLLayoutChangeListener() {
         // editText에 포커스돼서 키보드가 올라와 recyclerview의 레이아웃이 작아졌을 때 가장 마지막 item으로 이동
@@ -84,6 +88,26 @@ class ChattingActivity : AppCompatActivity() {
     }
 
 
+
+    private fun promiseTest() {
+        binding.promiseBtn.setOnClickListener {
+            val intent = Intent(this, PromiseActivity::class.java).apply {
+                putExtra("itemId", itemId)
+                putExtra("sellerName", receiverName)
+                putExtra("sellerUid", receiverUid)
+                putExtra("myName", senderName)
+                putExtra("myUid", senderUid)
+                if (product != null) {
+                    putExtra("trans", product!!.trans)
+                    putExtra("images", product!!.coverSmallUrl)
+                    putExtra("price", product!!.price)
+                }
+            }
+            startActivity(intent)
+        }
+    }
+
+
     private fun configProductlayout() {
         productApi.getProductById(itemId)
             .enqueue(object : Callback<Product> {
@@ -93,6 +117,7 @@ class ChattingActivity : AppCompatActivity() {
                         Log.d(TAG, "NOT SUCCESS")
                         return
                     }
+                    product = response.body()!!
                     bindProduct(response.body()!!)
                 }
 
@@ -134,7 +159,8 @@ class ChattingActivity : AppCompatActivity() {
         binding.titleBar.text = product.sellerName
         // 내가 올린 글이라면 내 제품을 사려는 사람의 아이디를 타이틀로
         if (product.sellerName == senderName) {
-            binding.titleBar.text = recieverName
+
+            binding.titleBar.text = receiverName
         }
 
         binding.productTitleTv.text = product.title
@@ -215,7 +241,7 @@ class ChattingActivity : AppCompatActivity() {
             if (msg != "") {
                 // sender contacts에  contact등록
                 senderContactsQuery.child(senderRoom!!)
-                    .setValue(Contact(itemId, recieverName, receiverUid, msg, time))
+                    .setValue(Contact(itemId, receiverName, receiverUid, msg, time))
                     .addOnSuccessListener {
                         // receiver contacts에  contact등록
                         receiverContactsQuery.child(receiverRoom!!)

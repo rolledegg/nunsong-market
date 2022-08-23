@@ -33,4 +33,7 @@
     <string name="search_activity_recent_search_tv">최근 검색어</string>
     <string name="search_activity_delete_all_tv">모두 지우기</string>
 
+    // ChattingActivity
+    <string name="chatting_activity_msg_edt_hint">메세지를 보내보세요</string>
+
 </resources>

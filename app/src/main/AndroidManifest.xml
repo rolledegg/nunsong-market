@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Nunsongmarket"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".PromiseActivity"
+            android:exported="false" />
+        <activity
             android:name=".SearchActivity"
             android:exported="false"
             android:theme="@style/Theme.WhiteStatusBar" />

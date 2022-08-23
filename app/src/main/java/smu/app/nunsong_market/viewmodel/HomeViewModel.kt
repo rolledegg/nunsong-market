@@ -46,7 +46,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                         // 초기화를 위해 빈 리스트 넣기
                         // 무한으로 덧붙여지는 걸 방지하기 위해
                         articleList.postValue(array)
-                        articleList.postValue(it)
+                        articleList.postValue(it.reversed())
                     }
                 }
 
