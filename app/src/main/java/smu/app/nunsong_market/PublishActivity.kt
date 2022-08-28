@@ -55,97 +55,21 @@ class PublishActivity : AppCompatActivity() {
         //TODO: 사진 선택 안해도 보낼 수 있어야함
         binding = ActivityPublishBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d(TAG, "onCreate: onCreate")
 
         firebaseAuth = Firebase.auth
 
-
-        //image view click
-        binding.cameraBtn.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    applicationContext,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                val intent = Intent()
-                intent.setType("image/*")
-                intent.setAction(Intent.ACTION_GET_CONTENT)
-                startActivityForResult(intent, 10)
-            } else {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    1
-                )
-            }
-        }
-
-
-        // TODO: 등록완료하면 홈 액티비티로 돌아가기 (네비게이션 바도 홈으로 클릭외어있어야함)
-        binding.publishBtn.setOnClickListener {
-            val title = binding.titleEt.text.toString()
-            val price = binding.priceEt.text.toString().toInt()
-            val category = binding.categorySpinner.selectedItem
-            val description = binding.discriptionEt.text.toString()
-            val sellerName = firebaseAuth.currentUser!!.email.toString().split("@")[0]
-            val sellerUid = firebaseAuth.currentUser!!.uid
-            val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
-
-            val multipleImage =
-                MultipartBody.Part.createFormData("images", imageFile?.name, rImage)
-            val rTitle = RequestBody.create(MediaType.parse("text/plain"), title)
-            val rPrice = RequestBody.create(MediaType.parse("text/plain"), price.toString())
-            val rCategory = RequestBody.create(MediaType.parse("text/plain"), category.toString())
-            val rDescripton = RequestBody.create(MediaType.parse("text/plain"), description)
-            val rSellerName = RequestBody.create(MediaType.parse("text/plain"), sellerName)
-            val rSellerUid = RequestBody.create(MediaType.parse("text/plain"), sellerUid)
-            val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
-            val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
-
-            productApi.postProductImage(
-                multipleImage,
-                rTitle,
-                rPrice,
-                rCategory,
-                rDescripton,
-                rSellerName,
-                rSellerUid,
-                rStatus,
-                rTrans
-            )
-                .enqueue(object : Callback<Product> {
-                    override fun onResponse(
-                        call: Call<Product>,
-                        response: Response<Product>
-                    ) {
-                        Log.d(TAG, "onResponse: ..")
-                        if (response.isSuccessful.not()) {
-                            //예외처리
-                            Log.d(TAG, "onResponse: Not success")
-                            return
-                        }
-
-                        response.body()?.let {
-                            Log.d(TAG, "onResponse: ${it}")
-                            Log.d(TAG, "onResponse:" + it.toString())
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Product>, t: Throwable) {
-                        Log.e(TAG, t.toString())
-                    }
-
-                })
-
-            this.finish()
-        }
-
+        configDiscriptionEdtFocusChangeListener()
+        configCameraBtnClickLisener()
+        configPublishBtnClickLisener()
+        configSpinner()
 
         // exit btn
         exitBtn.setOnClickListener {
             this.finish()
         }
+    }
 
+    private fun configSpinner() {
         //category spinner
         val categorItems = arrayOf("CLOTHES", "ELECTRONICS", "BOOKS", "ETC")
 
@@ -174,6 +98,107 @@ class PublishActivity : AppCompatActivity() {
         }
 
         categorySpinner.setSelection(3)
+    }
+
+    private fun configDiscriptionEdtFocusChangeListener() {
+        binding.discriptionEt.setOnFocusChangeListener { view, b ->
+            // addOnLayoutChangeListener 적용안하면 키보드떄문에 가려진 작은 레이아웃안에서 가장 마지막으로 가는게 아니라
+            // resize된 레이아웃의 마지막으로 가서 맨 밑까지 안내려감
+            binding.scrollView.addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+                if (bottom < oldBottom) {
+                    binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                }
+            }
+        }
+    }
+
+    private fun configPublishBtnClickLisener() {
+        // TODO: 등록완료하면 홈 액티비티로 돌아가기 (네비게이션 바도 홈으로 클릭외어있어야함)
+        binding.publishBtn.setOnClickListener {
+            val title = binding.titleEt.text.toString()
+            val price = binding.priceEt.text.toString()
+            val category = binding.categorySpinner.selectedItem
+            val description = binding.discriptionEt.text.toString()
+            val sellerName = firebaseAuth.currentUser!!.email.toString().split("@")[0]
+            val sellerUid = firebaseAuth.currentUser!!.uid
+            val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
+            Log.d(TAG, "configPublishBtnClickLisener: $title/$price/$description")
+
+            if (price.equals("") || description.equals("") || title.equals("")) {
+                Toast.makeText(this, " 작성하지 않은 부분이 있습니다.", Toast.LENGTH_SHORT).show()
+            }else{
+                val multipleImage =
+                    MultipartBody.Part.createFormData("images", imageFile?.name, rImage)
+                val rTitle = RequestBody.create(MediaType.parse("text/plain"), title)
+                val rPrice = RequestBody.create(MediaType.parse("text/plain"), price)
+                val rCategory = RequestBody.create(MediaType.parse("text/plain"), category.toString())
+                val rDescripton = RequestBody.create(MediaType.parse("text/plain"), description)
+                val rSellerName = RequestBody.create(MediaType.parse("text/plain"), sellerName)
+                val rSellerUid = RequestBody.create(MediaType.parse("text/plain"), sellerUid)
+                val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
+                val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
+
+                productApi.postProductImage(
+                    multipleImage,
+                    rTitle,
+                    rPrice,
+                    rCategory,
+                    rDescripton,
+                    rSellerName,
+                    rSellerUid,
+                    rStatus,
+                    rTrans
+                )
+                    .enqueue(object : Callback<Product> {
+                        override fun onResponse(
+                            call: Call<Product>,
+                            response: Response<Product>
+                        ) {
+                            Log.d(TAG, "onResponse: ..")
+                            if (response.isSuccessful.not()) {
+                                //예외처리
+                                Log.d(TAG, "onResponse: Not success")
+                                return
+                            }
+
+                            response.body()?.let {
+                                Log.d(TAG, "onResponse: ${it}")
+                                Log.d(TAG, "onResponse:" + it.toString())
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Product>, t: Throwable) {
+                            Log.e(TAG, t.toString())
+                        }
+
+                    })
+
+                this.finish()
+            }
+
+        }
+    }
+
+    private fun configCameraBtnClickLisener() {
+        //image view click
+        binding.cameraBtn.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                val intent = Intent()
+                intent.setType("image/*")
+                intent.setAction(Intent.ACTION_GET_CONTENT)
+                startActivityForResult(intent, 10)
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    1
+                )
+            }
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

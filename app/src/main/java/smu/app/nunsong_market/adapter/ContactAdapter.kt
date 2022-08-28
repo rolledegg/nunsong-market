@@ -30,9 +30,9 @@ class ContactAdapter(val context: Context, val contactList:ArrayList<Contact>)
         // yyyy-MM-dd aa hh:mm:ss
         val today = TimeUtil.getTime().slice(0..9)
         val DateOfMsg = currentContact.lastTime!!.slice(0..9)
-        val TimeOfMsg = currentContact.lastTime!!.slice(11..18)
+        val TimeOfMsg = currentContact.lastTime!!.slice(11..15)
         if(DateOfMsg == today){
-            holder.lastTime.text = TimeOfMsg
+            holder.lastTime.text = TimeUtil.formateTime(TimeOfMsg)
         } else{
             holder.lastTime.text= DateOfMsg.slice(5..6) + "월 " + DateOfMsg.slice(8..9) +"일"
         }

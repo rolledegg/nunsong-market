@@ -80,13 +80,16 @@ class ChattingActivity : AppCompatActivity() {
         binding.chatRcv.addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
             if (bottom < oldBottom) {
                 binding.chatRcv.apply {
-                    smoothScrollToPosition(this.adapter?.itemCount!! - 1)
-                    adapter?.notifyDataSetChanged()
+                    if (adapter?.itemCount != 0){
+                        smoothScrollToPosition(adapter?.itemCount!!- 1)
+                        adapter?.notifyDataSetChanged()
+                    }
+
+
                 }
             }
         }
     }
-
 
 
     private fun promiseTest() {
@@ -101,6 +104,7 @@ class ChattingActivity : AppCompatActivity() {
                     putExtra("trans", product!!.trans)
                     putExtra("images", product!!.coverSmallUrl)
                     putExtra("price", product!!.price)
+                    putExtra("title", product!!.title)
                 }
             }
             startActivity(intent)
@@ -214,7 +218,10 @@ class ChattingActivity : AppCompatActivity() {
                 }
 
                 // 처음 activity display했을 때랑 sendBtn 클릭후 focus 업데이트를 위해서
-                binding.chatRcv.smoothScrollToPosition(msgAdapter.itemCount!! - 1)
+                //TODO; 처음들어간 채탕벙안 경유 애러가 난다.
+                if (msgAdapter.itemCount != 0) {
+                    binding.chatRcv.smoothScrollToPosition(msgAdapter.itemCount - 1)
+                }
 
                 msgAdapter.notifyDataSetChanged()
             }

@@ -8,17 +8,24 @@ import smu.app.nunsong_market.dto.Product
 import smu.app.nunsong_market.dto.Promise
 
 interface PromiseApi {
-
-
-    @GET("/items/{userName}")
-    fun getMyProducts(@Path("userName") userName: String): Call<List<Promise>>
-
-
+    // 참고용
     @GET("/items/search")
     fun getProductsSearch(@Query("keyword") keyword: String ): Call<List<Promise>>
+
+
+    @GET("/promise/user/{userUID}")
+    fun getPromise(@Path("userUID") userUID: String): Call<List<Promise>>
 
     @POST("/promise")
     fun postPromise(@Body Promise: Promise): Call<Promise>
 
+    @PUT("/promise/{id}")
+    fun changePromise(@Path("id") id: Long, @Body Promise: Promise): Call<Promise>
+
+    @PUT("/promise/acceptance/deal/{id}")
+    fun changePromiseStatus(@Path("id") id: Long, @Body Promise: Promise, @Query("status") status: Int): Call<Promise>
+
+    @DELETE("/promise/{id}")
+    fun deletePromise(@Path("id") id: Long): Call<Int>
 
 }

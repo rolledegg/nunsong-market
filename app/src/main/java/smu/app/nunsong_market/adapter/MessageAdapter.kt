@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import smu.app.nunsong_market.R
 import smu.app.nunsong_market.dto.Message
+import smu.app.nunsong_market.util.TimeUtil
 
 class MessageAdapter(val context: Context, val msgList: ArrayList<Message>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -35,6 +36,7 @@ class MessageAdapter(val context: Context, val msgList: ArrayList<Message>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentMsg = msgList[position]
+        val time = currentMsg.time?.slice(11..15)
 
 
         if (holder.javaClass == SentVH::class.java) {
@@ -42,14 +44,14 @@ class MessageAdapter(val context: Context, val msgList: ArrayList<Message>) :
 
             val viewHolder = holder as SentVH
             holder.sentMsg.text = currentMsg.message
-            holder.sentTime.text = currentMsg.time?.slice(11..18)
+            holder.sentTime.text = TimeUtil.formateTime(time!!)
 
         } else if (holder.javaClass == ReceiveVH::class.java) {
             // do the stuff for receive view holder
 
             val viewHolder = holder as ReceiveVH
             holder.receiveMsg.text = currentMsg.message
-            holder.receiveTime.text = currentMsg.time?.slice(11..18)
+            holder.receiveTime.text = TimeUtil.formateTime(time!!)
         } else {
             // do the stuff for receive view holder
 

@@ -41,7 +41,7 @@ interface ProductApi {
     ): Call<Product>
 
     @POST("/items/imagesitems")
-    fun postProductImage(
+    fun postProductNoImage(
         @Part("title") title: RequestBody,
         @Part("price") price:RequestBody,
         @Part("category") category:RequestBody,
