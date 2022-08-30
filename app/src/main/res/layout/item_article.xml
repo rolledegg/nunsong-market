@@ -86,6 +86,7 @@
             android:background="@drawable/square_sold_out"
             android:gravity="center"
             android:text="판매완료"
+            android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="8sp"
             app:layout_constraintStart_toEndOf="@id/product_iv_cv"

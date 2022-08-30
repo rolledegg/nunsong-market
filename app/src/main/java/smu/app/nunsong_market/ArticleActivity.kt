@@ -58,7 +58,7 @@ class ArticleActivity : AppCompatActivity() {
         if (itemId == -1) {
             Toast.makeText(this, "Can't get item id", Toast.LENGTH_SHORT)
         } else {
-            val loadUrl = BuildConfig.PRODUCT_URL + itemId.toString()
+            val loadUrl = BuildConfig.PRODUCT_URL + itemId.toString() + "?uid=" +mAuth.currentUser?.uid
             Log.d(TAG, "onCreate: $loadUrl")
 
             productWebView.apply {
