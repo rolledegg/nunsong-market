@@ -13,6 +13,7 @@ import smu.app.nunsong_market.databinding.ActivityMainBinding
 import smu.app.nunsong_market.fragment.HomeFragment
 import smu.app.nunsong_market.fragment.MessageFragment
 import smu.app.nunsong_market.fragment.MyPageFragment
+import smu.app.nunsong_market.fragment.TestFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -73,7 +74,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.page_mypage -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, myPageFragment).commit()
+                            //test
+                        .replace(R.id.container, TestFragment.newInstance()).commit()
+//                        .replace(R.id.container, myPageFragment).commit()
                     true
                 }
                 else -> false
