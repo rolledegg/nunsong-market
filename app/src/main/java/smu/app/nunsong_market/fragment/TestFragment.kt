@@ -2,6 +2,7 @@ package smu.app.nunsong_market.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -16,7 +17,6 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import smu.app.nunsong_market.*
 import smu.app.nunsong_market.adapter.ProductAdapter
 import smu.app.nunsong_market.dto.Product
-import smu.app.nunsong_market.databinding.FragmentHomeBinding
 import smu.app.nunsong_market.databinding.FragmentTestBinding
 import smu.app.nunsong_market.viewmodel.HomeViewModel
 
