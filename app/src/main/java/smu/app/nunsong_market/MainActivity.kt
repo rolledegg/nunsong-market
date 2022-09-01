@@ -74,9 +74,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.page_mypage -> {
                     supportFragmentManager.beginTransaction()
-                            //test
-                        .replace(R.id.container, TestFragment.newInstance()).commit()
-//                        .replace(R.id.container, myPageFragment).commit()
+                        .replace(R.id.container, myPageFragment).commit()
                     true
                 }
                 else -> false

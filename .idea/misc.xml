@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_add_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable-v24/ic_close_24.xml" value="0.168" />
         <entry key="app/src/main/res/drawable-v24/ic_mypage_24.xml" value="0.152" />
+        <entry key="app/src/main/res/drawable-v24/ic_notifications_24.xml" value="0.221" />
         <entry key="app/src/main/res/drawable-v24/ic_photo_camera_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable-v24/ic_search_24.xml" value="0.2335" />
         <entry key="app/src/main/res/drawable-v24/item_bottom_nav_color.xml" value="0.1205" />
@@ -14,10 +15,12 @@
         <entry key="app/src/main/res/drawable-v24/seraching_box_background.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable-v24/square_publish_title.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable-v24/square_sold.xml" value="0.2335" />
+        <entry key="app/src/main/res/drawable/custom_tab.xml" value="0.221" />
         <entry key="app/src/main/res/drawable/ic_cloth_48.xml" value="0.2055" />
         <entry key="app/src/main/res/drawable/ic_electronics_48.xml" value="0.1125" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.18" />
         <entry key="app/src/main/res/drawable/ic_phone_48.xml" value="0.2335" />
+        <entry key="app/src/main/res/drawable/ic_promise_24.xml" value="0.221" />
         <entry key="app/src/main/res/drawable/ic_send_msg.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/msg_box_background.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/recieve_msg_background.xml" value="0.1645" />

@@ -34,7 +34,7 @@
         android:paddingEnd="40dp"
         android:paddingBottom="6dp"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@id/notification_ibtn"
+        app:layout_constraintEnd_toStartOf="@id/promise_ibtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,12 +50,12 @@
         app:tint="@color/white" />
 
     <ImageButton
-        android:id="@+id/notification_ibtn"
+        android:id="@+id/promise_ibtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:background="@color/main_blue"
-        android:src="@drawable/ic_notifications_24"
+        android:src="@drawable/ic_promise_24"
         app:layout_constraintBottom_toBottomOf="@id/search_etv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/search_etv" />
