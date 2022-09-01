@@ -13,6 +13,7 @@ import smu.app.nunsong_market.databinding.ActivityMainBinding
 import smu.app.nunsong_market.fragment.HomeFragment
 import smu.app.nunsong_market.fragment.MessageFragment
 import smu.app.nunsong_market.fragment.MyPageFragment
+import smu.app.nunsong_market.fragment.TestFragment
 
 
 class MainActivity : AppCompatActivity() {
