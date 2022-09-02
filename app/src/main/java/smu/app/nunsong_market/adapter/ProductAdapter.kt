@@ -75,8 +75,10 @@ class ProductAdapter(context: Context) :
 
             //status에 따라 ui 변경
             when (productModel.status) {
-                "판매중" -> {binding.productStatusTv.background = context.getDrawable(R.drawable.square_sold)
-                    binding.productStatusTv.setTextColor(context.getColor(R.color.main_blue))
+                "판매중" -> {
+//                    binding.productStatusTv.background = context.getDrawable(R.drawable.square_sold)
+//                    binding.productStatusTv.setTextColor(context.getColor(R.color.gray))
+                    binding.productStatusTv.background = null
                 }
 
                 "거래 완료" -> binding.productStatusTv.background =

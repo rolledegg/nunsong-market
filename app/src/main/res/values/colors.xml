@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="half_black">#44000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_70">#ccFFFFFF</color>
     <color name="half_white">#88FFFFFF</color>
 
     <color name="main_blue">#1152FD</color>
@@ -17,4 +18,5 @@
     <color name="light_gray">#9C9C9C</color>
     <color name="lighter_gray">#EAE9E9</color>
     <color name="lightest_gray">#F3F3F3</color>
+    <color name="most_light_gray">#F9F9F9</color>
 </resources>

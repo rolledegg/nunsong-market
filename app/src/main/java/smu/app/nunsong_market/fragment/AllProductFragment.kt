@@ -9,19 +9,18 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import smu.app.nunsong_market.*
 import smu.app.nunsong_market.adapter.ProductAdapter
+import smu.app.nunsong_market.databinding.FragmentAllProductBinding
 import smu.app.nunsong_market.dto.Product
-import smu.app.nunsong_market.databinding.FragmentHomeBinding
+
 import smu.app.nunsong_market.viewmodel.HomeViewModel
 
 
-class HomeFragment : Fragment() {
+class AllProductFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentAllProductBinding
     private lateinit var adapter: ProductAdapter
 
     //데이터 배열
@@ -29,7 +28,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(AllProductFragment.TAG, "HomeFragment - onCreate() called")
+        Log.d(TAG, "HomeFragment - onCreate() called")
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         viewModel.load()
 
@@ -37,9 +36,8 @@ class HomeFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(AllProductFragment.TAG, "HomeFragment - onAttach() called")
+        Log.d(TAG, "HomeFragment - onAttach() called")
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,9 +52,9 @@ class HomeFragment : Fragment() {
 
 
             Log.d(TAG, "HomeFragment - onCreateView() called")
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentAllProductBinding.inflate(inflater, container, false)
         initRecyclerView()
-        initCategory()
+//        initCategory()
         configSearchLayout()
 
         if (productList.isEmpty()) {
@@ -86,44 +84,44 @@ class HomeFragment : Fragment() {
         }
     }
 
-     private fun initCategory() {
-         binding.clothLayout.setOnClickListener() {
-             Log.d(TAG, "initCategory: category clicked")
-             val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
-                 putExtra("type", 1)
-                 putExtra("title", "의류")
-                 putExtra("value", "CLOTHES")
-             }
-             startActivity(intent)
-         }
-         binding.electronicsLayout.setOnClickListener() {
-             Log.d(TAG, "initCategory: category clicked")
-             val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
-                 putExtra("type", 1)
-                 putExtra("title", "전자기기")
-                 putExtra("value", "ELECTRONICS")
-             }
-             startActivity(intent)
-         }
-         binding.bookLayout.setOnClickListener() {
-             Log.d(TAG, "initCategory: category clicked")
-             val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
-                 putExtra("type", 1)
-                 putExtra("title", "중고도서")
-                 putExtra("value", "BOOKS")
-             }
-             startActivity(intent)
-         }
-         binding.etcLayout.setOnClickListener() {
-             Log.d(TAG, "initCategory: category clicked")
-             val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
-                 putExtra("type", 1)
-                 putExtra("title", "기타")
-                 putExtra("value", "ETC")
-             }
-             startActivity(intent)
-         }
-     }
+   /* private fun initCategory() {
+        binding.clothLayout.setOnClickListener() {
+            Log.d(TAG, "initCategory: category clicked")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
+                putExtra("type", 1)
+                putExtra("title", "의류")
+                putExtra("value", "CLOTHES")
+            }
+            startActivity(intent)
+        }
+        binding.electronicsLayout.setOnClickListener() {
+            Log.d(TAG, "initCategory: category clicked")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
+                putExtra("type", 1)
+                putExtra("title", "전자기기")
+                putExtra("value", "ELECTRONICS")
+            }
+            startActivity(intent)
+        }
+        binding.bookLayout.setOnClickListener() {
+            Log.d(TAG, "initCategory: category clicked")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
+                putExtra("type", 1)
+                putExtra("title", "중고도서")
+                putExtra("value", "BOOKS")
+            }
+            startActivity(intent)
+        }
+        binding.etcLayout.setOnClickListener() {
+            Log.d(TAG, "initCategory: category clicked")
+            val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
+                putExtra("type", 1)
+                putExtra("title", "기타")
+                putExtra("value", "ETC")
+            }
+            startActivity(intent)
+        }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -145,8 +143,8 @@ class HomeFragment : Fragment() {
     companion object {
         const val TAG: String = "HomeFragment"
 
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
+        fun newInstance(): AllProductFragment {
+            return AllProductFragment()
         }
     }
 }

@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/drawable-v24/seraching_box_background.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable-v24/square_publish_title.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable-v24/square_sold.xml" value="0.2335" />
+        <entry key="app/src/main/res/drawable-v24/square_sold_out.xml" value="0.221" />
         <entry key="app/src/main/res/drawable/custom_tab.xml" value="0.221" />
         <entry key="app/src/main/res/drawable/ic_cloth_48.xml" value="0.2055" />
         <entry key="app/src/main/res/drawable/ic_electronics_48.xml" value="0.1125" />
@@ -39,6 +40,7 @@
         <entry key="app/src/main/res/layout/activity_publish.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.375" />
         <entry key="app/src/main/res/layout/date_msg.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_all_product.xml" value="0.2375" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_message.xml" value="0.23385416666666667" />
         <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.335" />
