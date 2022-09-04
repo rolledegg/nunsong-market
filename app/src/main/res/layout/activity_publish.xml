@@ -134,7 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10sp"
-                        android:text="총 N장"
+                        android:text="한 장"
                         android:textColor="@color/main_blue"
                         android:textSize="12sp" />
 
@@ -142,7 +142,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10sp"
-                        android:text="까지 등록할 수 있습니다."
+                        android:text=" 등록할 수 있습니다."
                         android:textColor="@color/light_gray"
                         android:textSize="12sp" />
                 </LinearLayout>

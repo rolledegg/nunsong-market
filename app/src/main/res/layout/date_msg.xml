@@ -3,15 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+<ImageView
+    android:layout_width="10sp"
+    android:layout_height="10sp"
+    android:src="@drawable/ic_calendar_24"
+    app:layout_constraintTop_toTopOf="@id/date_tv"
+    app:layout_constraintBottom_toBottomOf="@id/date_tv"
+    android:layout_marginEnd="3dp"
+    app:layout_constraintEnd_toStartOf="@id/date_tv"/>
 
     <TextView
         android:id="@+id/date_tv"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="2022년 8월 22일"
-        android:textSize="12sp"
+        android:textSize="10sp"
+        android:textColor="@color/gray"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

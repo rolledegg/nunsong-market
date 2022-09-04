@@ -121,22 +121,26 @@ class PublishActivity : AppCompatActivity() {
             val description = binding.discriptionEt.text.toString()
             val sellerName = firebaseAuth.currentUser!!.email.toString().split("@")[0]
             val sellerUid = firebaseAuth.currentUser!!.uid
+            // TODO: RequestBody 만들 때 파일이 null이면 에러뜸
             val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
-            Log.d(TAG, "configPublishBtnClickLisener: $title/$price/$description")
+            Log.d(TAG, "configPublishBtnClickLisener: $title/$price/$description/$rImage")
 
             if (price.equals("") || description.equals("") || title.equals("")) {
                 Toast.makeText(this, " 작성하지 않은 부분이 있습니다.", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 val multipleImage =
                     MultipartBody.Part.createFormData("images", imageFile?.name, rImage)
                 val rTitle = RequestBody.create(MediaType.parse("text/plain"), title)
                 val rPrice = RequestBody.create(MediaType.parse("text/plain"), price)
-                val rCategory = RequestBody.create(MediaType.parse("text/plain"), category.toString())
+                val rCategory =
+                    RequestBody.create(MediaType.parse("text/plain"), category.toString())
                 val rDescripton = RequestBody.create(MediaType.parse("text/plain"), description)
                 val rSellerName = RequestBody.create(MediaType.parse("text/plain"), sellerName)
                 val rSellerUid = RequestBody.create(MediaType.parse("text/plain"), sellerUid)
                 val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
                 val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
+                val isImgEmpty = if (imageFile == null) true else false
+                Log.d(TAG, "configPublishBtnClickLisener: $isImgEmpty")
 
                 productApi.postProductImage(
                     multipleImage,

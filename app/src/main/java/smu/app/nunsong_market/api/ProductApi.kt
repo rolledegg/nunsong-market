@@ -18,38 +18,54 @@ interface ProductApi {
     fun getMyProducts(@Path("userName") userName: String): Call<List<Product>>
 
     @GET("/items/search/category")
-    fun getProductsByCategory(@Query("keyword") catagory: String ): Call<List<Product>>
+    fun getProductsByCategory(@Query("keyword") catagory: String): Call<List<Product>>
 
     @GET("/items/search")
-    fun getProductsSearch(@Query("keyword") keyword: String ): Call<List<Product>>
+    fun getProductsSearch(@Query("keyword") keyword: String): Call<List<Product>>
 
-    @POST("/items")
-    fun postProduct(@Body Product: Product): Call<Product>
+
+    fun postProduct(
+        images: MultipartBody.Part,
+        title: RequestBody,
+        price: RequestBody,
+        category: RequestBody,
+        description: RequestBody,
+        sellerName: RequestBody,
+        sellerUid: RequestBody,
+        status: RequestBody,
+        trans: RequestBody,
+        isImgEnpty: Boolean
+    ) : Call<Product>{
+        when (isImgEnpty) {
+            true -> return postProductNoImage(title,price,category,description,sellerName,sellerUid,status,trans)
+            false -> return postProductImage(images,title,price,category,description,sellerName,sellerUid,status,trans)
+        }
+    }
 
     @Multipart
     @POST("/items/imagesitems")
     fun postProductImage(
-        @Part images:MultipartBody.Part,
+        @Part images: MultipartBody.Part?,
         @Part("title") title: RequestBody,
-        @Part("price") price:RequestBody,
-        @Part("category") category:RequestBody,
-        @Part("content") description:RequestBody,
-        @Part("sellerName") sellerName:RequestBody,
-        @Part("sellerUID") sellerUid:RequestBody,
-        @Part("status") status:RequestBody,
-        @Part("trans") trans:RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("category") category: RequestBody,
+        @Part("content") description: RequestBody,
+        @Part("sellerName") sellerName: RequestBody,
+        @Part("sellerUID") sellerUid: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("trans") trans: RequestBody,
     ): Call<Product>
 
     @POST("/items/imagesitems")
     fun postProductNoImage(
         @Part("title") title: RequestBody,
-        @Part("price") price:RequestBody,
-        @Part("category") category:RequestBody,
-        @Part("content") description:RequestBody,
-        @Part("sellerName") sellerName:RequestBody,
-        @Part("sellerUID") sellerUid:RequestBody,
-        @Part("status") status:RequestBody,
-        @Part("trans") trans:RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("category") category: RequestBody,
+        @Part("content") description: RequestBody,
+        @Part("sellerName") sellerName: RequestBody,
+        @Part("sellerUID") sellerUid: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("trans") trans: RequestBody,
     ): Call<Product>
 
 }

@@ -1,5 +1,6 @@
 package smu.app.nunsong_market.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,7 @@ class MessageAdapter(val context: Context, val msgList: ArrayList<Message>) :
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentMsg = msgList[position]
         val time = currentMsg.time?.slice(11..15)
@@ -56,7 +58,10 @@ class MessageAdapter(val context: Context, val msgList: ArrayList<Message>) :
             // do the stuff for receive view holder
 
             val viewHolder = holder as DateVH
-            holder.date.text = currentMsg.time!!.slice(0..9)
+            val date = currentMsg.time!!.slice(0..9).split("-")
+            holder.date.text =date[0]+"년 "+ date[1]+"월 "+ date[2]+"일"
+
+
         }
     }
 
