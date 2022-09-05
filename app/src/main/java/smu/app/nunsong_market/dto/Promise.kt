@@ -13,6 +13,6 @@ data class Promise (
 
     // 0: pendring, 1: rejected. 2:accepted
     @SerializedName("status") val status:Int,
-    @SerializedName("location") val where:String,
-    @SerializedName("memo") val memo:String
+    @SerializedName("location") val location:String,
+    @SerializedName("memo") val memo:String? = null
         )

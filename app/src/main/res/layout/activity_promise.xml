@@ -6,58 +6,159 @@
     android:layout_height="match_parent"
     tools:context=".PromiseActivity">
 
-    <Button
-        android:id="@+id/post_btn"
-        android:layout_width="wrap_content"
+
+    <TextView
+        android:id="@+id/main_tv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="올리기"
+        android:gravity="center"
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp"
+        android:text="@string/promise_activity_title"
+        android:textColor="@color/black"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/put_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="수정하기"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_btn" />
 
-    <Button
-        android:id="@+id/status_btn"
+    <ImageButton
+        android:id="@+id/exit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="상태"
+        android:background="@color/white"
+        android:paddingTop="2sp"
+        android:paddingEnd="14sp"
+        android:paddingBottom="2sp"
+        android:src="@drawable/ic_close_24"
+        app:layout_constraintBottom_toTopOf="@id/line1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.908"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_btn" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/delete_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="삭제하기"
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/lighter_gray"
+        android:fontFamily="@font/one_mobile_regular"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/put_btn" />
+        app:layout_constraintTop_toBottomOf="@id/main_tv" />
 
-    <Button
-        android:id="@+id/get_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="불러오기"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.863"
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/put_btn" />
+        app:layout_constraintTop_toBottomOf="@id/line1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <LinearLayout
+                android:id="@+id/liner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16sp"
+                android:paddingTop="8sp"
+                android:paddingRight="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/product_title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:textColor="@color/main_blue"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:paddingStart="4dp"
+                    android:text="아이폰 12 라벤더 색상 판매합니다."
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:id="@+id/promise_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:paddingStart="4dp"
+                    android:textSize="11.5sp"
+                    android:text="해당 게시글에 올라온 상품 거래 약속을 신청합니다."
+                    tools:ignore="RtlSymmetry" />
+
+
+                <TextView
+                    android:id="@+id/date_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10sp"
+                    android:background="@drawable/square_publish_title"
+                    android:gravity="center_vertical"
+                    android:hint="@string/promise_activity_date_hint"
+                    android:lines="1"
+                    android:paddingStart="13sp"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="12.5sp" />
+
+
+                <EditText
+                    android:id="@+id/location_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8sp"
+                    android:background="@drawable/square_publish_title"
+                    android:ems="10"
+                    android:hint="@string/promise_activity_location_hint"
+                    android:lines="1"
+                    android:paddingStart="13sp"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="12.5sp" />
+                <!-- android:text="₩"-->
+
+
+
+                <EditText
+                    android:id="@+id/memo_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20sp"
+                    android:background="@drawable/square_publish_title"
+                    android:hint="@string/promise_activity_memo_hint"
+                    android:gravity="clip_vertical"
+                    android:lines="5"
+                    android:maxLines="5"
+                    android:paddingStart="12sp"
+                    android:paddingTop="12sp"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="12.5sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/publish_btn"
+                android:layout_width="0sp"
+                android:layout_height="50sp"
+                android:layout_marginStart="16sp"
+                android:layout_marginEnd="16sp"
+                android:text="@string/promise_activity_publish_btn"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/liner_layout" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

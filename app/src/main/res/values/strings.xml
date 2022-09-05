@@ -38,4 +38,12 @@
     <string name="chatting_activity_msg_edt_hint">메세지를 보내보세요</string>
 
 
+    // PromiseActivity
+    <string name="promise_activity_title">약속 보내기</string>
+    <string name="promise_activity_date_hint">약속 날짜와 시간을 입력해 주세요.</string>
+    <string name="promise_activity_location_hint">약속 장소을 입력해 주세요.</string>
+    <string name="promise_activity_memo_hint">약속을 위해 필요한 메모를 입력해 주세요.</string>
+    <string name="promise_activity_publish_btn">보내기</string>
+
+
 </resources>

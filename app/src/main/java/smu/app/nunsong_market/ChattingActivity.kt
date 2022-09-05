@@ -1,9 +1,14 @@
 package smu.app.nunsong_market
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.media.metrics.Event
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -66,12 +71,50 @@ class ChattingActivity : AppCompatActivity() {
         configRecyclerView()
         configSendBtnClickListener()
         configMsgEdtLLayoutChangeListener()
-        promiseTest()
+        configPromiseBtn()
 
 
         binding.backBtn.setOnClickListener {
             this.finish()
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun configPromiseBtn() {
+        binding.promiseBtn.setOnClickListener {
+            val intent = Intent(this, PromiseActivity::class.java).apply {
+                putExtra("itemId", itemId)
+                putExtra("sellerName", receiverName)
+                putExtra("sellerUid", receiverUid)
+                putExtra("myName", senderName)
+                putExtra("myUid", senderUid)
+                if (product != null) {
+                    putExtra("trans", product!!.trans)
+                    putExtra("images", product!!.coverSmallUrl)
+                    putExtra("price", product!!.price)
+                    putExtra("title", product!!.title)
+                    //TODO: 채팅 페이지 뒤로가도 뜨지 않도록 flag
+                }
+            }
+            startActivity(intent)
+        }
+
+        binding.promiseBtn.setOnTouchListener (object : View.OnTouchListener {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        binding.promiseBtn.background = getDrawable(R.drawable.background_promise_btn_touch)
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        binding.promiseBtn.background = getDrawable(R.drawable.background_promise_btn)
+                    }
+                }
+                //리턴값이 false면 seekbar 동작 안됨
+                return false //or false
+            }
+        })
+
     }
 
 
@@ -92,24 +135,7 @@ class ChattingActivity : AppCompatActivity() {
     }
 
 
-    private fun promiseTest() {
-        binding.promiseBtn.setOnClickListener {
-            val intent = Intent(this, PromiseActivity::class.java).apply {
-                putExtra("itemId", itemId)
-                putExtra("sellerName", receiverName)
-                putExtra("sellerUid", receiverUid)
-                putExtra("myName", senderName)
-                putExtra("myUid", senderUid)
-                if (product != null) {
-                    putExtra("trans", product!!.trans)
-                    putExtra("images", product!!.coverSmallUrl)
-                    putExtra("price", product!!.price)
-                    putExtra("title", product!!.title)
-                }
-            }
-            startActivity(intent)
-        }
-    }
+
 
 
     private fun configProductlayout() {
@@ -135,7 +161,7 @@ class ChattingActivity : AppCompatActivity() {
 
     private fun bindProduct(product: Product) {
         if (product.coverSmallUrl == null) {
-            binding.productIv.setImageDrawable(getDrawable(R.drawable.no_image))
+            binding.productIv.setImageDrawable(getDrawable(R.drawable.img_no_image))
         } else {
             Glide
                 .with(binding.productIv.context)

@@ -143,11 +143,13 @@
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/sent_msg" />
 
-    <Button
+    <ImageButton
         android:id="@+id/promise_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="약속"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/background_promise_btn"
+        android:src="@drawable/ic_promise_24"
+        app:tint="@color/navy"
         android:layout_margin="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/msgLayout" />
@@ -169,7 +171,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_weight="95"
-            android:background="@drawable/msg_box_background"
+            android:background="@drawable/background_msg_box"
             android:hint="@string/chatting_activity_msg_edt_hint"
             android:paddingLeft="14dp"
             android:textSize="13sp" />

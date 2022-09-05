@@ -63,7 +63,7 @@ class ProductAdapter(context: Context) :
             binding.productStatusTv.text = productModel.status
 
             if (productModel.coverSmallUrl == null) {
-                binding.productIv.setImageDrawable(context.getDrawable(R.drawable.no_image))
+                binding.productIv.setImageDrawable(context.getDrawable(R.drawable.img_no_image))
             } else {
                 Glide
                     .with(binding.productIv.context)

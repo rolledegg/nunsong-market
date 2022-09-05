@@ -20,7 +20,8 @@
             android:exported="false" />
         <activity
             android:name=".PromiseActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.WhiteStatusBar"/>
         <activity
             android:name=".SearchActivity"
             android:exported="false"
