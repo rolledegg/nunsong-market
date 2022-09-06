@@ -19,10 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import smu.app.nunsong_market.ArticleActivity
-import smu.app.nunsong_market.ArticleListActivity
-import smu.app.nunsong_market.LoginActivity
-import smu.app.nunsong_market.R
+import smu.app.nunsong_market.*
 import smu.app.nunsong_market.databinding.ActivityLoginBinding
 import smu.app.nunsong_market.databinding.FragmentMyPageBinding
 
@@ -54,21 +51,33 @@ class MyPageFragment : Fragment() {
 
         binding = FragmentMyPageBinding.inflate(inflater,container,false)
         firebaseAuth = Firebase.auth
+
         checkUser()
 
         configMyArticleBtn()
+        configMyPromiseBtn()
         configLogoutBtn()
         configSignoutBtn()
 
         return binding.root
     }
 
+    private fun configMyPromiseBtn() {
+        binding.myPromiseTv.setOnClickListener() {
+            Log.d(TAG, "onCreateView: recyclerview clicked")
+            val intent = Intent(requireContext(), PromiseListActivity::class.java).apply{
+//                putExtra("type",0)
+//                putExtra("title", "내가 쓴 글")
+            }
+            startActivity(intent)
+        }
+    }
+
     private fun configMyArticleBtn() {
         binding.myArticleTv.setOnClickListener() {
             Log.d(TAG, "onCreateView: recyclerview clicked")
             val intent = Intent(requireContext(), ArticleListActivity::class.java).apply{
-                putExtra("type",0)
-                putExtra("title", "내가 쓴 글")
+
             }
             startActivity(intent)
         }
@@ -114,6 +123,7 @@ class MyPageFragment : Fragment() {
             //user logged in
             //get user info
             val email = firebaseUser.email
+            binding.nicknameTv.text = email!!.split("@")[0].toString()
             binding.emailTv.text = email
         }
     }

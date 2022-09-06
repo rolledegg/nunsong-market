@@ -17,7 +17,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".PromiseListActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.WhiteStatusBar"/>
         <activity
             android:name=".PromiseActivity"
             android:exported="false"

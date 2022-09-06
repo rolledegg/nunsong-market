@@ -11,7 +11,7 @@ data class Promise (
     @SerializedName("receiverUID") val receiverUid:String,
     @SerializedName("promiseDate") val date:String,
 
-    // 0: pendring, 1: rejected. 2:accepted
+    // 0: pending, 1: rejected. 2:accepted
     @SerializedName("status") val status:Int,
     @SerializedName("location") val location:String,
     @SerializedName("memo") val memo:String? = null

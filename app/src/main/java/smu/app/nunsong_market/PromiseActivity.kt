@@ -1,21 +1,21 @@
 package smu.app.nunsong_market
 
-import TimePickerFragment
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import smu.app.nunsong_market.api.PromiseApi
 import smu.app.nunsong_market.databinding.ActivityPromiseBinding
-import smu.app.nunsong_market.databinding.ItemSearchWordBinding
-import smu.app.nunsong_market.dto.Product
 import smu.app.nunsong_market.dto.Promise
-import smu.app.nunsong_market.fragment.HomeFragment
+import smu.app.nunsong_market.fragment.TimePickerFragment
 import smu.app.nunsong_market.util.ServiceGenerator
+import java.util.*
+
 
 class PromiseActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPromiseBinding
@@ -31,6 +31,9 @@ class PromiseActivity : AppCompatActivity() {
     private lateinit var time: String
     private lateinit var location: String
     private lateinit var memo: String
+
+    private lateinit var picker: TimePickerDialog
+
 
     private companion object {
         private const val TAG = "PROMISE_ACTIVITY"
@@ -51,8 +54,8 @@ class PromiseActivity : AppCompatActivity() {
 
         binding.productTitleTv.text = title
 
+        configTimePicker()
         configPublishBtnClickListener()
-
 
         /*   binding.getBtn.setOnClickListener {
                promiseApi.getPromise(myUid)
@@ -172,6 +175,20 @@ class PromiseActivity : AppCompatActivity() {
                    })
 
            }*/
+    }
+
+    private fun configTimePicker() {
+        binding.dateTv.setOnClickListener {
+            val cldr: Calendar = Calendar.getInstance()
+            val hour: Int = cldr.get(Calendar.HOUR_OF_DAY)
+            val minutes: Int = cldr.get(Calendar.MINUTE)
+            // time picker dialog
+            picker = TimePickerDialog(this,
+                { tp, sHour, sMinute -> binding.dateTv.setText("$sHour:$sMinute") }, hour, minutes, true
+            )
+            picker.show()
+            
+        }
     }
 
     private fun configPublishBtnClickListener() {

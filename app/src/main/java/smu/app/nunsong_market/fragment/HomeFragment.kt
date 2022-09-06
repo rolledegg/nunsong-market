@@ -58,6 +58,7 @@ class HomeFragment : Fragment() {
         initRecyclerView()
         initCategory()
         configSearchLayout()
+        configPromiseBtn()
 
         if (productList.isEmpty()) {
             //binding.swipeRefresh.isRefreshing = true
@@ -68,6 +69,17 @@ class HomeFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = false
         }
         return binding.root // return layout
+    }
+
+    private fun configPromiseBtn() {
+        binding.promiseIbtn.setOnClickListener {
+            Log.d(TAG, "onCreateView: recyclerview clicked")
+            val intent = Intent(requireContext(), PromiseListActivity::class.java).apply{
+//                putExtra("type",0)
+//                putExtra("title", "내가 쓴 글")
+            }
+            startActivity(intent)
+        }
     }
 
     private fun configSearchLayout() {

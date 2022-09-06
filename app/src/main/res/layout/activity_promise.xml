@@ -155,7 +155,8 @@
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/liner_layout" />
+                app:layout_constraintTop_toBottomOf="@id/liner_layout"
+                android:onClick="showTimePickerDialog"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

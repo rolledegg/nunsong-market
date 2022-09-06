@@ -50,13 +50,15 @@
         app:layout_constraintTop_toTopOf="@id/search_etv"
         app:tint="@color/white" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/promise_ibtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
         android:background="@color/main_blue"
-        android:src="@drawable/ic_promise_24"
+        android:src="@drawable/ic_img_promise"
         app:layout_constraintBottom_toBottomOf="@id/search_etv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/search_etv" />

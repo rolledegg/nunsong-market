@@ -8,10 +8,6 @@ import smu.app.nunsong_market.dto.Product
 import smu.app.nunsong_market.dto.Promise
 
 interface PromiseApi {
-    // 참고용
-    @GET("/items/search")
-    fun getProductsSearch(@Query("keyword") keyword: String ): Call<List<Promise>>
-
 
     @GET("/promise/user/{userUID}")
     fun getPromise(@Path("userUID") userUID: String): Call<List<Promise>>
