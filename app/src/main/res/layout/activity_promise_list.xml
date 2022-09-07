@@ -74,6 +74,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/accepted_count"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="50dp"
+                    android:background="@drawable/background_promise_count"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/accepted_promise_tv"
+                    app:layout_constraintEnd_toEndOf="@id/accepted_promise_tv"
+                    app:layout_constraintTop_toTopOf="@id/accepted_promise_tv" />
+
 
                 <ImageView
                     android:id="@+id/accepted_narrow"
@@ -88,11 +104,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/accepted_rcv"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"/>
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:visibility="visible" />
 
             <View
                 android:id="@+id/line2"
@@ -129,6 +145,7 @@
                     android:textColor="@color/white"
                     android:textSize="9sp"
                     android:textStyle="bold"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@id/requested_promise_tv"
                     app:layout_constraintEnd_toEndOf="@id/requested_promise_tv"
                     app:layout_constraintTop_toTopOf="@id/requested_promise_tv" />
@@ -143,13 +160,15 @@
                     app:layout_constraintEnd_toEndOf="@id/requested_promise_tv"
                     app:layout_constraintTop_toTopOf="@id/requested_promise_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/requested_rcv"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"/>
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:visibility="visible" />
+
             <View
                 android:id="@+id/line3"
                 android:layout_width="match_parent"
@@ -209,13 +228,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/request_promise_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/request_rcv"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"/>
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:visibility="visible" />
 
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

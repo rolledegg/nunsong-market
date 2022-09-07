@@ -21,12 +21,15 @@ class PromiseListViewModel(application: Application) : AndroidViewModel(applicat
         const val TAG: String = "PROMISE_LIST"
     }
 
-    val articleList: MutableLiveData<List<Promise>> = MutableLiveData()
+    val acceptedPromList: MutableLiveData<List<Promise>> = MutableLiveData()
+    val requestedPromList: MutableLiveData<List<Promise>> = MutableLiveData()
+    val requestPromList: MutableLiveData<List<Promise>> = MutableLiveData()
+
     val isPromiseLoading = MutableLiveData(false)
 
     val isAcceptedPromOpen = MutableLiveData(true)
     val isRequestedPromOpen = MutableLiveData(false)
-    val isrejectedPromOpen = MutableLiveData(false)
+    val isRequestPromOpen = MutableLiveData(false)
 
     private lateinit var firebaseAuth: FirebaseAuth
     private val promiseApi by lazy { ServiceGenerator.createService(PromiseApi::class.java) }
@@ -51,14 +54,28 @@ class PromiseListViewModel(application: Application) : AndroidViewModel(applicat
 
                     response.body()?.let {
                         Log.d(TAG, it.toString())
-                        it.forEach { product -> //위에도 it이 있으니 헷갈리니까 변수 명명
-                            Log.d(TAG, product.toString())
+                        val acceptedProm= arrayListOf<Promise>()
+                        val requestedProm= arrayListOf<Promise>()
+                        val requestProm= arrayListOf<Promise>()
+                        it.forEach { promise ->
+                            //위에도 it이 있으니 헷갈리니까 변수 명명
+                            if (promise.status == 2) acceptedProm.add(promise)
+                            else if (promise.status == 0 && promise.receiverUid == firebaseAuth.uid!!) requestedProm.add(promise)
+                            else if ((promise.status == 0 && promise.receiverUid == firebaseAuth.uid!!) || (promise.status == 1))
+                                requestProm.add(promise)
                         }
                         val empty = arrayListOf<Promise>()
                         // 초기화를 위해 빈 리스트 넣기
                         // 무한으로 덧붙여지는 걸 방지하기 위해
-                        articleList.postValue(empty)
-                        articleList.postValue(it)
+                        acceptedPromList.postValue(empty)
+                        acceptedPromList.postValue(acceptedProm)
+
+                        requestedPromList.postValue(empty)
+                        requestedPromList.postValue(requestedProm)
+
+                        requestPromList.postValue(empty)
+                        requestPromList.postValue(requestProm)
+
                     }
                 }
 
@@ -75,67 +92,14 @@ class PromiseListViewModel(application: Application) : AndroidViewModel(applicat
         else isAcceptedPromOpen.postValue(true)
     }
 
-    fun deleteProm(promiseId: Long) {
-        promiseApi.deletePromise(promiseId)
-            .enqueue(object : Callback<Int> {
-                override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                    Log.d(PromiseListViewModel.TAG, "onResponse: ..")
-                    if (response.isSuccessful.not()) {
-                        //예외처리
-                        Log.d(PromiseListViewModel.TAG, "onResponse: Not success")
-                        return
-                    }
-
-                    response.body()?.let {
-                        Log.d(PromiseListViewModel.TAG, "onResponse: ${it}")
-                    }
-                }
-
-                override fun onFailure(call: Call<Int>, t: Throwable) {
-                    Log.e(PromiseListViewModel.TAG, t.toString())
-                }
-
-
-            })
-
+    fun clickRequestedProm() {
+        if (isRequestedPromOpen.value == true) isRequestedPromOpen.postValue(false)
+        else isRequestedPromOpen.postValue(true)
     }
 
-    fun changeStatus(promiseId: Long, status: Int) {
-        promiseApi.changePromiseStatus(
-            promiseId,
-            Promise(
-                null,
-                0,
-                "",
-                "",
-                "",
-                "",
-                1,
-                "",
-                ""
-            ),
-            status
-        )
-            .enqueue(object : Callback<Promise> {
-                override fun onResponse(call: Call<Promise>, response: Response<Promise>) {
-                    Log.d(PromiseListViewModel.TAG, "onResponse: ..")
-                    if (response.isSuccessful.not()) {
-                        //예외처리
-                        Log.d(PromiseListViewModel.TAG, "onResponse: Not success")
-                        return
-                    }
-
-                    response.body()?.let {
-                        Log.d(PromiseListViewModel.TAG, "onResponse: ${it}")
-                    }
-                }
-
-                override fun onFailure(call: Call<Promise>, t: Throwable) {
-                    Log.e(PromiseListViewModel.TAG, t.toString())
-                }
-
-            })
-
-
+    fun clickRequestProm() {
+        if (isRequestPromOpen.value == true) isRequestPromOpen.postValue(false)
+        else isRequestPromOpen.postValue(true)
     }
+
 }

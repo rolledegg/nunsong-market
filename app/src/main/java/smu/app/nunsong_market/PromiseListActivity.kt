@@ -24,10 +24,12 @@ class PromiseListActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityPromiseListBinding
     private lateinit var viewModel:PromiseListViewModel
-    private lateinit var adapter: PromiseAdapter
+    private lateinit var acceptedAdapter: PromiseAdapter
+    private lateinit var requestedAdapter: PromiseAdapter
+    private lateinit var requestAdapter: PromiseAdapter
 
     //데이터 배열
-    var promiseList = ArrayList<Promise>()
+    var emptyList = ArrayList<Promise>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +39,59 @@ class PromiseListActivity : AppCompatActivity() {
         viewModel.loadPromise()
 
         binding.backBtn.setOnClickListener { this.finish() }
-        initRecyclerView()
 
-        configAcceptedPro()
+        initAcceptedRecyclerView()
+        initRequestedRecyclerView()
+        initRequestRecyclerView()
 
-        viewModel.articleList.observe(this){
-            adapter.submitList(it)
+        configPromsClickListener()
+
+        uiUpdate()
+    }
+
+
+    private fun uiUpdate() {
+        observeAndSubmitPromList()
+        updatePromVisibility()
+        isPromiseChange.observe(this){
+            if(isPromiseChange.value == true) {
+                viewModel.loadPromise()
+                isPromiseChange.postValue(false)
+            }
         }
+    }
+
+    private fun observeAndSubmitPromList() {
+        viewModel.acceptedPromList.observe(this){
+            acceptedAdapter.submitList(it)
+            //update count
+            if(it.isNotEmpty()){
+                binding.acceptedCount.visibility = View.VISIBLE
+                binding.acceptedCount.text = it.size.toString()
+            }
+
+        }
+
+         viewModel.requestedPromList.observe(this){
+            requestedAdapter.submitList(it)
+             //update count
+             if(it.isNotEmpty()) {
+                 binding.requestedCount.visibility = View.VISIBLE
+                 binding.requestedCount.text = it.size.toString()
+             }
+        }
+
+         viewModel.requestPromList.observe(this){
+            requestAdapter.submitList(it)
+             //update count
+             if(it.isNotEmpty()) {
+                 binding.requestCount.visibility = View.VISIBLE
+                 binding.requestCount.text = it.size.toString()
+             }
+        }
+    }
+
+    private fun updatePromVisibility() {
         viewModel.isAcceptedPromOpen.observe(this){
             if(viewModel.isAcceptedPromOpen.value == true){
                 binding.acceptedRcv.visibility = View.VISIBLE
@@ -54,27 +102,65 @@ class PromiseListActivity : AppCompatActivity() {
                 binding.acceptedNarrow.setImageDrawable(getDrawable(R.drawable.ic_drop_down_24))
             }
         }
-        isPromiseChange.observe(this){
-            if(isPromiseChange.value == true) {
-                viewModel.loadPromise()
-                isPromiseChange.postValue(false)
+
+        viewModel.isRequestedPromOpen.observe(this){
+            if(viewModel.isRequestedPromOpen.value == true){
+                binding.requestedRcv.visibility = View.VISIBLE
+                binding.requestedNarrow.setImageDrawable(getDrawable(R.drawable.ic_drop_up_24))
+            }
+            else{
+                binding.requestedRcv.visibility = View.GONE
+                binding.requestedNarrow.setImageDrawable(getDrawable(R.drawable.ic_drop_down_24))
             }
         }
 
-
-    }
-
-    private fun configAcceptedPro() {
-        binding.acceptedPromiseTv.setOnClickListener {
-            viewModel.clickAcceptedProm()
+        viewModel.isRequestPromOpen.observe(this){
+            if(viewModel.isRequestPromOpen.value == true){
+                binding.requestRcv.visibility = View.VISIBLE
+                binding.requestNarrow.setImageDrawable(getDrawable(R.drawable.ic_drop_up_24))
+            }
+            else{
+                binding.requestRcv.visibility = View.GONE
+                binding.requestNarrow.setImageDrawable(getDrawable(R.drawable.ic_drop_down_24))
+            }
         }
     }
 
-    private fun initRecyclerView() {
-        adapter = PromiseAdapter(this)
+    private fun configPromsClickListener() {
+        binding.acceptedPromiseTv.setOnClickListener {
+            viewModel.clickAcceptedProm()
+        }
 
-        adapter.submitList(promiseList)
+        binding.requestedPromiseTv.setOnClickListener {
+            viewModel.clickRequestedProm()
+        }
+
+        binding.requestPromiseTv.setOnClickListener {
+            viewModel.clickRequestProm()
+        }
+    }
+
+    private fun initAcceptedRecyclerView() {
+        acceptedAdapter = PromiseAdapter(this)
+
+        acceptedAdapter.submitList(emptyList)
         binding.acceptedRcv.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-        binding.acceptedRcv.adapter = adapter
+        binding.acceptedRcv.adapter = acceptedAdapter
+    }
+
+    private fun initRequestedRecyclerView() {
+        requestedAdapter = PromiseAdapter(this)
+
+        requestedAdapter.submitList(emptyList)
+        binding.acceptedRcv.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        binding.acceptedRcv.adapter = requestedAdapter
+    }
+
+    private fun initRequestRecyclerView() {
+        requestAdapter = PromiseAdapter(this)
+
+        requestAdapter.submitList(emptyList)
+        binding.acceptedRcv.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        binding.acceptedRcv.adapter = requestAdapter
     }
 }

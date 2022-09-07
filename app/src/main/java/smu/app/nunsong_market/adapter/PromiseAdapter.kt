@@ -46,11 +46,11 @@ class PromiseAdapter(context: Context) :
             // 예정된 약속
             if (promise.status == 2) configAcceptedPro(promise)
             // 요청온 악속
-            if (promise.status == 0 && promise.receiverUid == firebaseAuth.uid!!) configRequestedPro(promise)
+            else if (promise.status == 0 && promise.receiverUid == firebaseAuth.uid!!) configRequestedPro(promise)
             // 요청 보낸 약속
-            if (promise.status == 0 && promise.senderUid == firebaseAuth.uid!!) configRequestPro(promise)
+            else if (promise.status == 0 && promise.senderUid == firebaseAuth.uid!!) configRequestPro(promise)
             // 거절된 약속
-            if (promise.status == 1) configRejectedPro(promise)
+            else if (promise.status == 1) configRejectedPro(promise)
 
         }
 
