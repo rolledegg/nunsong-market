@@ -1,6 +1,7 @@
 package smu.app.nunsong_market
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
@@ -32,7 +33,8 @@ class PromiseActivity : AppCompatActivity() {
     private lateinit var location: String
     private lateinit var memo: String
 
-    private lateinit var picker: TimePickerDialog
+    private lateinit var timePicker: TimePickerDialog
+    private lateinit var datePicker: DatePickerDialog
 
 
     private companion object {
@@ -55,138 +57,36 @@ class PromiseActivity : AppCompatActivity() {
         binding.productTitleTv.text = title
 
         configTimePicker()
+        configDatePicker()
         configPublishBtnClickListener()
+    }
 
-        /*   binding.getBtn.setOnClickListener {
-               promiseApi.getPromise(myUid)
-                   .enqueue(object : Callback<List<Promise>> {
-                       override fun onResponse(
-                           call: Call<List<Promise>>,
-                           response: Response<List<Promise>>
-                       ) {
-                           Log.d(TAG, "onResponse: ..")
-                           if (response.isSuccessful.not()) {
-                               //예외처리
-                               Log.d(TAG, "onResponse: Not success")
-                               return
-                           }
+    @SuppressLint("SetTextI18n")
+    private fun configDatePicker() {
+        binding.dateTv.setOnClickListener {
+            val cldr: Calendar = Calendar.getInstance()
+            val year: Int = cldr.get(Calendar.YEAR)
+            val month: Int = cldr.get(Calendar.MONTH)
+            val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
+            // time picker dialog
+            datePicker = DatePickerDialog(this,
+                { dp, sYear, sMonth, sDate -> binding.dateTv.setText("${sMonth+1}월 ${sDate}일") }, year, month, day
+            )
+            datePicker.show()
 
-                           response.body()?.let {
-                               it.forEach { promise -> //위에도 it이 있으니 헷갈리니까 변수 명명
-                                   Log.d(TAG, promise.toString())
-                               }
-                           }
-                       }
-
-                       override fun onFailure(call: Call<List<Promise>>, t: Throwable) {
-                           Log.e(TAG, t.toString())
-                       }
-
-                   })
-
-           }
-
-           binding.putBtn.setOnClickListener {
-               promiseApi.changePromise(
-                   13.toLong(),
-                   Promise(null, itemId.toLong(), title, myUid, buyerUid, "일요일 9시", 0, "순헌관", "현금 거래")
-               )
-                   .enqueue(object : Callback<Promise> {
-                       override fun onResponse(call: Call<Promise>, response: Response<Promise>) {
-                           Log.d(TAG, "onResponse: ..")
-                           if (response.isSuccessful.not()) {
-                               //예외처리
-                               Log.d(TAG, "onResponse: Not success")
-                               return
-                           }
-
-                           response.body()?.let {
-                               Log.d(TAG, "onResponse: ${it}")
-                           }
-                       }
-
-                       override fun onFailure(call: Call<Promise>, t: Throwable) {
-                           Log.e(TAG, t.toString())
-                       }
-
-                   })
-
-           }
-
-           binding.statusBtn.setOnClickListener {
-               promiseApi.changePromiseStatus(
-                   13.toLong(),
-                   Promise(
-                       null,
-                       itemId.toLong(),
-                       title,
-                       myUid,
-                       buyerUid,
-                       "일요일 15시",
-                       0,
-                       "순헌관",
-                       "현금 거래"
-                   ),
-                   2
-               )
-                   .enqueue(object : Callback<Promise> {
-                       override fun onResponse(call: Call<Promise>, response: Response<Promise>) {
-                           Log.d(TAG, "onResponse: ..")
-                           if (response.isSuccessful.not()) {
-                               //예외처리
-                               Log.d(TAG, "onResponse: Not success")
-                               return
-                           }
-
-                           response.body()?.let {
-                               Log.d(TAG, "onResponse: ${it}")
-                           }
-                       }
-
-                       override fun onFailure(call: Call<Promise>, t: Throwable) {
-                           Log.e(TAG, t.toString())
-                       }
-
-                   })
-
-           }
-
-           binding.deleteBtn.setOnClickListener {
-               promiseApi.deletePromise(12.toLong())
-                   .enqueue(object : Callback<Int> {
-                       override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                           Log.d(TAG, "onResponse: ..")
-                           if (response.isSuccessful.not()) {
-                               //예외처리
-                               Log.d(TAG, "onResponse: Not success")
-                               return
-                           }
-
-                           response.body()?.let {
-                               Log.d(TAG, "onResponse: ${it}")
-                           }
-                       }
-
-                       override fun onFailure(call: Call<Int>, t: Throwable) {
-                           Log.e(TAG, t.toString())
-                       }
-
-
-                   })
-
-           }*/
+        }
     }
 
     private fun configTimePicker() {
-        binding.dateTv.setOnClickListener {
+        binding.timeTv.setOnClickListener {
             val cldr: Calendar = Calendar.getInstance()
             val hour: Int = cldr.get(Calendar.HOUR_OF_DAY)
             val minutes: Int = cldr.get(Calendar.MINUTE)
             // time picker dialog
-            picker = TimePickerDialog(this,
-                { tp, sHour, sMinute -> binding.dateTv.setText("$sHour:$sMinute") }, hour, minutes, true
+            timePicker = TimePickerDialog(this,
+                { tp, sHour, sMinute -> binding.timeTv.setText("$sHour:$sMinute") }, hour, minutes, true
             )
-            picker.show()
+            timePicker.show()
             
         }
     }
@@ -194,8 +94,8 @@ class PromiseActivity : AppCompatActivity() {
     private fun configPublishBtnClickListener() {
         binding.publishBtn.setOnClickListener {
 
-            date = ""
-            time = ""
+            date = binding.dateTv.text.toString()
+            time = binding.timeTv.text.toString()
             location = binding.locationEt.text.toString()
             memo = binding.memoEt.text.toString()
 
@@ -206,7 +106,7 @@ class PromiseActivity : AppCompatActivity() {
                     title,
                     myUid,
                     buyerUid,
-                    "일요일 12시",
+                    date + time,
                     0,
                     location,
                     memo

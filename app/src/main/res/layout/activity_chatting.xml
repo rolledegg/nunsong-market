@@ -141,7 +141,7 @@
         app:layout_constraintTop_toBottomOf="@id/second_line"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp"
-        tools:listitem="@layout/sent_msg" />
+        tools:listitem="@layout/item_sent_msg" />
 
     <ImageButton
         android:id="@+id/promise_btn"

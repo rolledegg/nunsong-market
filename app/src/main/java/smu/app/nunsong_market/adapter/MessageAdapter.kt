@@ -23,14 +23,14 @@ class MessageAdapter(val context: Context, val msgList: ArrayList<Message>) :
         if (viewType == 1) {
             // inflate receive
             val view: View =
-                LayoutInflater.from(context).inflate(R.layout.received_msg, parent, false)
+                LayoutInflater.from(context).inflate(R.layout.item_received_msg, parent, false)
             return ReceiveVH(view)
         } else if (viewType == 2) {
             // inflate sent
-            val view: View = LayoutInflater.from(context).inflate(R.layout.sent_msg, parent, false)
+            val view: View = LayoutInflater.from(context).inflate(R.layout.item_sent_msg, parent, false)
             return SentVH(view)
         } else {
-            val view: View = LayoutInflater.from(context).inflate(R.layout.date_msg, parent, false)
+            val view: View = LayoutInflater.from(context).inflate(R.layout.item_date_msg, parent, false)
             return DateVH(view)
         }
     }

@@ -3,117 +3,193 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:contentPaddingEnd="2dp"
-    app:cardBackgroundColor="@color/lightest_gray"
+    android:layout_marginStart="6dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:background="@color/lightest_gray"
     app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/sold_blue">
-
-        <TextView
-            android:id="@+id/msg_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text=" 어떤 약속인지에 대한 텍스트"/>
-
+        android:layout_width="200dp"
+        android:layout_height="180dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/background_promise_item">
 
         <TextView
             android:id="@+id/product_title_tv"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_margin="4dp"
             android:ellipsize="end"
-            android:maxLines="2"
-            android:paddingRight="10dp"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="에어팟 프로팝니다 "
-            android:textColor="@color/black"
-            android:textSize="13sp"
+            android:textColor="@color/main_blue"
+            android:textSize="9sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/msg_tv"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/product_date_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="1dp"
-            android:text="4월 22일 오후 02:00"
-            android:textSize="8sp"
-            app:layout_constraintStart_toStartOf="parent"
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/lightest_gray"
+            app:layout_constraintStart_toStartOf="@id/product_title_tv"
             app:layout_constraintTop_toBottomOf="@id/product_title_tv" />
-        <TextView
-            android:id="@+id/product_price_tv"
-            android:layout_width="0dp"
+
+        <LinearLayout
+            android:id="@+id/liner_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:textStyle="bold"
-            android:text="장소"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:orientation="vertical"
+            android:paddingStart="4dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="4dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/product_date_tv" />
-        <TextView
-            android:id="@+id/product_memo_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:textStyle="bold"
-            android:text="메모"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/product_price_tv" />
+            app:layout_constraintTop_toBottomOf="@id/line1">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:padding="4.5dp"
+                    android:src="@drawable/ic_time_24"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/product_date_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="4월 22일 오후 02:00"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_title_tv" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_location_on_24"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/product_price_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="1캠 정문 앞"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+                    android:maxLines="2"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_date_tv" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:padding="4.5dp"
+                    android:src="@drawable/ic_description_24" />
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/product_memo_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:hint="메모 없음"
+                    android:textColor="@color/gray"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/product_price_tv" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/msg_tv"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="요청 수락을 대기중인 약속입니다."
+                android:textColor="@color/dark_red"
+                android:textSize="9sp" />
+
+        </LinearLayout>
+
+
+
 
         <TextView
             android:id="@+id/headBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/square_sold_out"
+            android:padding="0dp"
             android:gravity="center"
             android:text="판매완료"
-            android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="8sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/product_memo_tv" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/middleBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/square_sold_out"
             android:gravity="center"
             android:text="판매완료"
-            android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="8sp"
-            app:layout_constraintStart_toEndOf="@id/headBtn"
-            app:layout_constraintTop_toBottomOf="@id/product_memo_tv" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/tailBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/square_sold_out"
             android:gravity="center"
             android:text="판매완료"
-            android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="8sp"
-            app:layout_constraintStart_toEndOf="@id/middleBtn"
-            app:layout_constraintTop_toBottomOf="@id/product_memo_tv" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,7 +61,7 @@ class PromiseListViewModel(application: Application) : AndroidViewModel(applicat
                             //위에도 it이 있으니 헷갈리니까 변수 명명
                             if (promise.status == 2) acceptedProm.add(promise)
                             else if (promise.status == 0 && promise.receiverUid == firebaseAuth.uid!!) requestedProm.add(promise)
-                            else if ((promise.status == 0 && promise.receiverUid == firebaseAuth.uid!!) || (promise.status == 1))
+                            else if ((promise.status == 0 && promise.senderUid == firebaseAuth.uid!!) || (promise.status == 1))
                                 requestProm.add(promise)
                         }
                         val empty = arrayListOf<Promise>()
@@ -69,12 +69,15 @@ class PromiseListViewModel(application: Application) : AndroidViewModel(applicat
                         // 무한으로 덧붙여지는 걸 방지하기 위해
                         acceptedPromList.postValue(empty)
                         acceptedPromList.postValue(acceptedProm)
+                        Log.d(TAG, "acceptedPromList: $acceptedProm")
 
                         requestedPromList.postValue(empty)
                         requestedPromList.postValue(requestedProm)
+                        Log.d(TAG, "requestedPromList: $requestedProm")
 
                         requestPromList.postValue(empty)
                         requestPromList.postValue(requestProm)
+                        Log.d(TAG, "requestPromList: $requestProm")
 
                     }
                 }

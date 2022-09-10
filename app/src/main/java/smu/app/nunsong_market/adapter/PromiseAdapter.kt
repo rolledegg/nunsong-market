@@ -56,29 +56,24 @@ class PromiseAdapter(context: Context) :
 
 
         private fun configAcceptedPro(promise: Promise) {
-            binding.msgTv.text = "성사된 약속"
-            binding.headBtn.apply {
-                text = "수정"
-                setOnClickListener {}
-            }
-            binding.middleBtn.visibility = View.GONE
-            binding.tailBtn.apply {
+            binding.msgTv.visibility = View.GONE
+            binding.headBtn.visibility = View.GONE
+            binding.middleBtn.apply {
                 text = "삭제"
                 setOnClickListener {
                     deleteProm(promise.promiseId!!)
-                    notifyDataSetChanged()
                 }
             }
+            binding.tailBtn.visibility = View.GONE
 
         }
 
         private fun configRequestedPro(promise: Promise) {
-            binding.msgTv.text = "요청온 약속"
+            binding.msgTv.visibility = View.GONE
             binding.headBtn.apply {
                 text = "수락"
                 setOnClickListener {
                     changeStatus(promise.promiseId!!,2)
-                    notifyDataSetChanged()
                 }
             }
             binding.middleBtn.visibility = View.GONE
@@ -86,26 +81,24 @@ class PromiseAdapter(context: Context) :
                 text = "거절"
                 setOnClickListener {
                     changeStatus(promise.promiseId!!,1)
-                    notifyDataSetChanged()
                 }
             }
         }
 
         private fun configRequestPro(promise: Promise) {
-            binding.msgTv.text = "요청보낸 약속"
+            binding.msgTv.text = "요청 수락을 대기중인 약속입니다."
             binding.headBtn.visibility = View.GONE
             binding.middleBtn.visibility = View.GONE
             binding.tailBtn.visibility = View.GONE
         }
 
         private fun configRejectedPro(promise: Promise) {
-            binding.msgTv.text = "거절된 약속"
+            binding.msgTv.text = "요청 수락을 거절당했습니다."
             binding.headBtn.visibility = View.GONE
             binding.middleBtn.apply {
                 text = "확인"
                 setOnClickListener {
                     deleteProm(promise.promiseId!!)
-                    notifyDataSetChanged()
                 }
             }
                 binding.tailBtn.visibility = View.GONE

@@ -60,7 +60,6 @@
             android:layout_height="match_parent">
 
 
-
             <LinearLayout
                 android:id="@+id/liner_layout"
                 android:layout_width="match_parent"
@@ -78,12 +77,12 @@
                     android:id="@+id/product_title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="14sp"
-                    android:textColor="@color/main_blue"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:paddingStart="4dp"
                     android:text="아이폰 12 라벤더 색상 판매합니다."
+                    android:textColor="@color/main_blue"
+                    android:textSize="14sp"
                     tools:ignore="RtlSymmetry" />
 
                 <TextView
@@ -92,8 +91,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="20dp"
                     android:paddingStart="4dp"
-                    android:textSize="11.5sp"
                     android:text="해당 게시글에 올라온 상품 거래 약속을 신청합니다."
+                    android:textColor="@color/gray"
+                    android:textSize="11.5sp"
                     tools:ignore="RtlSymmetry" />
 
 
@@ -105,6 +105,20 @@
                     android:background="@drawable/square_publish_title"
                     android:gravity="center_vertical"
                     android:hint="@string/promise_activity_date_hint"
+                    android:lines="1"
+                    android:paddingStart="13sp"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="12.5sp" />
+
+                <TextView
+                    android:id="@+id/time_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10sp"
+                    android:background="@drawable/square_publish_title"
+                    android:gravity="center_vertical"
+                    android:hint="@string/promise_activity_time_hint"
                     android:lines="1"
                     android:paddingStart="13sp"
                     android:textColorHint="@color/light_gray"
@@ -127,15 +141,14 @@
                 <!-- android:text="₩"-->
 
 
-
                 <EditText
                     android:id="@+id/memo_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20sp"
                     android:background="@drawable/square_publish_title"
-                    android:hint="@string/promise_activity_memo_hint"
                     android:gravity="clip_vertical"
+                    android:hint="@string/promise_activity_memo_hint"
                     android:lines="5"
                     android:maxLines="5"
                     android:paddingStart="12sp"
@@ -151,12 +164,12 @@
                 android:layout_height="50sp"
                 android:layout_marginStart="16sp"
                 android:layout_marginEnd="16sp"
+                android:onClick="showTimePickerDialog"
                 android:text="@string/promise_activity_publish_btn"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/liner_layout"
-                android:onClick="showTimePickerDialog"/>
+                app:layout_constraintTop_toBottomOf="@id/liner_layout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
