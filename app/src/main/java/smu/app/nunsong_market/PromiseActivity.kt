@@ -15,6 +15,7 @@ import smu.app.nunsong_market.databinding.ActivityPromiseBinding
 import smu.app.nunsong_market.dto.Promise
 import smu.app.nunsong_market.fragment.TimePickerFragment
 import smu.app.nunsong_market.util.ServiceGenerator
+import smu.app.nunsong_market.util.TimeUtil
 import java.util.*
 
 
@@ -56,6 +57,11 @@ class PromiseActivity : AppCompatActivity() {
 
         binding.productTitleTv.text = title
 
+        Log.d(
+            TAG, "onCreate: ${TimeUtil.formateTime("1:1")}/${TimeUtil.formateTime("13:1")}" +
+                    "/${TimeUtil.formateTime("3:32")}/${TimeUtil.formateTime("19:44")}"
+        )
+
         configTimePicker()
         configDatePicker()
         configPublishBtnClickListener()
@@ -68,9 +74,21 @@ class PromiseActivity : AppCompatActivity() {
             val year: Int = cldr.get(Calendar.YEAR)
             val month: Int = cldr.get(Calendar.MONTH)
             val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
+
             // time picker dialog
-            datePicker = DatePickerDialog(this,
-                { dp, sYear, sMonth, sDate -> binding.dateTv.setText("${sMonth+1}월 ${sDate}일") }, year, month, day
+            datePicker = DatePickerDialog(
+                this,
+                { dp, sYear, sMonth, sDate ->
+                    date = sYear.toString()
+
+                    if (sMonth+1 < 10) date = date + "-0" + (sMonth+ 1)
+                    else date = date + "-" + (sMonth+ 1)
+
+                    if (sDate < 10) date = date + "-0" + sDate
+                    else date = date + "-" + sDate
+
+                    binding.dateTv.setText("${sYear}년 ${sMonth + 1}월 ${sDate}일")
+                }, year, month, day
             )
             datePicker.show()
 
@@ -83,19 +101,26 @@ class PromiseActivity : AppCompatActivity() {
             val hour: Int = cldr.get(Calendar.HOUR_OF_DAY)
             val minutes: Int = cldr.get(Calendar.MINUTE)
             // time picker dialog
-            timePicker = TimePickerDialog(this,
-                { tp, sHour, sMinute -> binding.timeTv.setText("$sHour:$sMinute") }, hour, minutes, true
+            timePicker = TimePickerDialog(
+                this,
+                { tp, sHour, sMinute ->
+                    if (sHour < 10) time = "0" + sHour
+                    else time = sHour.toString()
+
+                    if (sMinute < 10) time = time + ":0" + sMinute
+                    else time = time + ":" + sMinute
+
+                    binding.timeTv.setText(TimeUtil.formateTime(time))
+                }, hour, minutes, true
             )
             timePicker.show()
-            
+
         }
     }
 
     private fun configPublishBtnClickListener() {
         binding.publishBtn.setOnClickListener {
 
-            date = binding.dateTv.text.toString()
-            time = binding.timeTv.text.toString()
             location = binding.locationEt.text.toString()
             memo = binding.memoEt.text.toString()
 
@@ -106,7 +131,7 @@ class PromiseActivity : AppCompatActivity() {
                     title,
                     myUid,
                     buyerUid,
-                    date + time,
+                    date +"T"+time,
                     0,
                     location,
                     memo

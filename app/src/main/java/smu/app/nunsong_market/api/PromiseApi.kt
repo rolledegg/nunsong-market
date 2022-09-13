@@ -22,6 +22,6 @@ interface PromiseApi {
     fun changePromiseStatus(@Path("id") id: Long, @Body Promise: Promise, @Query("status") status: Int): Call<Promise>
 
     @DELETE("/promise/{id}")
-    fun deletePromise(@Path("id") id: Long): Call<Int>
+    fun deletePromise(@Path("id") id: Long): Call<Void>
 
 }

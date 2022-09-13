@@ -68,4 +68,6 @@ interface ProductApi {
         @Part("trans") trans: RequestBody,
     ): Call<Product>
 
+    @DELETE("/items/{id}")
+    fun deleteArticle(@Path("id") id: Int): Call<Void>
 }

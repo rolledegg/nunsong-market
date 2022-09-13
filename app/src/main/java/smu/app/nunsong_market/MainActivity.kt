@@ -60,10 +60,12 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.page_post -> {
-                    val intent = Intent(this, PublishActivity::class.java)
-                    startActivityForResult(intent, 10)
                     //이렇게 하면 탭바는 돌어와도 안바뀌고, 다른 페이지에서 작성탭 클릭하면 홈 프레그먼트로 변경된 뒤에 액티비티가 띄워지는게 보임
                     //supportFragmentManager.beginTransaction().replace(R.id.container,homeFragment).commit()
+                    val intent = Intent(this, PublishActivity::class.java).apply {
+                        putExtra("mode", 0)
+                    }
+                    startActivity(intent)
                     true
                 }
                 R.id.page_chatting -> {

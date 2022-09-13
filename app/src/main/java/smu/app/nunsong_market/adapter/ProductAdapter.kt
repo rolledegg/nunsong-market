@@ -81,7 +81,7 @@ class ProductAdapter(context: Context) :
                     binding.productStatusTv.background = null
                 }
 
-                "거래 완료" -> binding.productStatusTv.background =
+                "거래완료" -> binding.productStatusTv.background =
                     context.getDrawable(R.drawable.square_sold_out)
                 else -> binding.productStatusTv.background = null
             }

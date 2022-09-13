@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -35,9 +36,14 @@ class PublishActivity : AppCompatActivity() {
     private lateinit var path: String
     private var imageFile: File? = null
     private lateinit var firebaseAuth: FirebaseAuth
+    private var mode: Int = -1
+    private var context = this
 
     private val categorySpinner: Spinner by lazy {
         binding.categorySpinner
+    }
+    private val statusSpinner: Spinner by lazy {
+        binding.statusSpinner
     }
     private val exitBtn: ImageButton by lazy {
         binding.exitBtn
@@ -48,6 +54,8 @@ class PublishActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "PUBLISH_ACTIVITY"
+        private const val PUBLISH_MODE = 0
+        private const val EDIT_MODE = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,10 +66,21 @@ class PublishActivity : AppCompatActivity() {
 
         firebaseAuth = Firebase.auth
 
+        mode = intent.getIntExtra("mode", -1)
+
+
         configDiscriptionEdtFocusChangeListener()
+        configCategorySpinner()
+
+
+        if (mode == 1) {
+            configStatusSpinner()
+            uiUpdate()
+//            configEditBtnClickLisener()
+        }
+
         configCameraBtnClickLisener()
         configPublishBtnClickLisener()
-        configSpinner()
 
         // exit btn
         exitBtn.setOnClickListener {
@@ -69,12 +88,142 @@ class PublishActivity : AppCompatActivity() {
         }
     }
 
-    private fun configSpinner() {
+
+
+    private fun uiUpdate() {
+        binding.mainTv.text = intent.getStringExtra("title")
+        binding.statusSpinner.visibility= View.VISIBLE
+        binding.publishBtn.visibility = View.INVISIBLE
+        binding.editBtn.visibility = View.VISIBLE
+
+        setArticleInfo()
+    }
+
+    private fun setArticleInfo() {
+        val itemId = intent.getIntExtra("id",-1)
+        productApi.getProductById(itemId)
+            .enqueue(object : Callback<Product> {
+                override fun onResponse(
+                    call: Call<Product>,
+                    response: Response<Product>
+                ) {
+                    Log.d(TAG, "onResponse: ..")
+                    if (response.isSuccessful.not()) {
+                        //예외처리
+                        Log.d(TAG, "onResponse: Not success")
+                        return
+                    }
+
+                    response.body()?.let {
+                        Log.d(TAG, "onResponse: ${it}")
+                        Log.d(TAG, "onResponse:" + it.toString())
+
+//                        //set article
+                        binding.productPreviewIv.isVisible= true
+                        if (it.coverSmallUrl != null){
+                            Glide
+                                .with(binding.productPreviewIv.context)
+                                .load(it.coverSmallUrl)
+                                .into(binding.productPreviewIv)
+                        }
+                        binding.titleEt.setText(it.title)
+                        binding.priceEt.setText(it.price.toString())
+                        binding.discriptionEt.setText(it.description)
+                    }
+
+                }
+
+                override fun onFailure(call: Call<Product>, t: Throwable) {
+                    Log.e(TAG, t.toString())
+                }
+
+            })
+
+    }
+
+    private fun configEditBtnClickLisener() {
+        binding.exitBtn.setOnClickListener {
+            val title = binding.titleEt.text.toString()
+            val price = binding.priceEt.text.toString()
+            val category = binding.categorySpinner.selectedItem
+            val description = binding.discriptionEt.text.toString()
+            val sellerName = firebaseAuth.currentUser!!.email.toString().split("@")[0]
+            val sellerUid = firebaseAuth.currentUser!!.uid
+            // TODO: RequestBody 만들 때 파일이 null이면 에러뜸
+            val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
+            Log.d(TAG, "configPublishBtnClickLisener: $title/$price/$description/$rImage")
+
+            if (price.equals("") || description.equals("") || title.equals("")) {
+                Toast.makeText(this, " 작성하지 않은 부분이 있습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                val multipleImage =
+                    MultipartBody.Part.createFormData("images", imageFile?.name, rImage)
+                val rTitle = RequestBody.create(MediaType.parse("text/plain"), title)
+                val rPrice = RequestBody.create(MediaType.parse("text/plain"), price)
+                val rCategory =
+                    RequestBody.create(MediaType.parse("text/plain"), category.toString())
+                val rDescripton = RequestBody.create(MediaType.parse("text/plain"), description)
+                val rSellerName = RequestBody.create(MediaType.parse("text/plain"), sellerName)
+                val rSellerUid = RequestBody.create(MediaType.parse("text/plain"), sellerUid)
+                val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
+                val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
+                val isImgEmpty = if (imageFile == null) true else false
+                Log.d(TAG, "configPublishBtnClickLisener: $isImgEmpty")
+
+                productApi.postProductImage(
+                    multipleImage,
+                    rTitle,
+                    rPrice,
+                    rCategory,
+                    rDescripton,
+                    rSellerName,
+                    rSellerUid,
+                    rStatus,
+                    rTrans
+                )
+                    .enqueue(object : Callback<Product> {
+                        override fun onResponse(
+                            call: Call<Product>,
+                            response: Response<Product>
+                        ) {
+                            Log.d(TAG, "onResponse: ..")
+                            if (response.isSuccessful.not()) {
+                                //예외처리
+                                Log.d(TAG, "onResponse: Not success")
+                                return
+                            }
+
+                            response.body()?.let {
+                                Log.d(TAG, "onResponse: ${it}")
+                                Log.d(TAG, "onResponse:" + it.toString())
+                            }
+                            // 게시글이 등록된 뒤에 종료
+                            val intent = Intent(context, MainActivity::class.java)
+                            startActivity(intent)
+
+                            context.finish()
+                        }
+
+                        override fun onFailure(call: Call<Product>, t: Throwable) {
+                            Log.e(TAG, t.toString())
+                        }
+
+                    })
+                /*val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+
+                this.finish()*/
+            }
+
+        }
+    }
+
+    private fun configCategorySpinner() {
         //category spinner
-        val categorItems = arrayOf("CLOTHES", "ELECTRONICS", "BOOKS", "ETC")
+        val categoryItems = arrayOf("의류", "전자기기", "중고도서", "기타")
 
         //TODO: Add spinner hint
-        val categoryAdapter = ArrayAdapter(this, R.layout.item_category, categorItems)
+        val categoryAdapter = ArrayAdapter(this, R.layout.item_spinner, categoryItems)
         categorySpinner.adapter = categoryAdapter
         categorySpinner.onItemLongClickListener = object : AdapterView.OnItemSelectedListener,
             AdapterView.OnItemLongClickListener {
@@ -100,6 +249,37 @@ class PublishActivity : AppCompatActivity() {
         categorySpinner.setSelection(3)
     }
 
+    private fun configStatusSpinner() {
+        //category spinner
+        val statusItems = arrayOf("판매중","거래완료")
+
+        //TODO: Add spinner hint
+        val statusAdapter = ArrayAdapter(this, R.layout.item_spinner, statusItems)
+        statusSpinner.adapter = statusAdapter
+        statusSpinner.onItemLongClickListener = object : AdapterView.OnItemSelectedListener,
+            AdapterView.OnItemLongClickListener {
+            override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemLongClick(
+                p0: AdapterView<*>?,
+                p1: View?,
+                p2: Int,
+                p3: Long
+            ): Boolean {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        categorySpinner.setSelection(0)
+    }
+
     private fun configDiscriptionEdtFocusChangeListener() {
         binding.discriptionEt.setOnFocusChangeListener { view, b ->
             // addOnLayoutChangeListener 적용안하면 키보드떄문에 가려진 작은 레이아웃안에서 가장 마지막으로 가는게 아니라
@@ -113,7 +293,6 @@ class PublishActivity : AppCompatActivity() {
     }
 
     private fun configPublishBtnClickLisener() {
-        // TODO: 등록완료하면 홈 액티비티로 돌아가기 (네비게이션 바도 홈으로 클릭외어있어야함)
         binding.publishBtn.setOnClickListener {
             val title = binding.titleEt.text.toString()
             val price = binding.priceEt.text.toString()
@@ -169,6 +348,11 @@ class PublishActivity : AppCompatActivity() {
                                 Log.d(TAG, "onResponse: ${it}")
                                 Log.d(TAG, "onResponse:" + it.toString())
                             }
+                            // 게시글이 등록된 뒤에 종료
+                            val intent = Intent(context, MainActivity::class.java)
+                            startActivity(intent)
+
+                            context.finish()
                         }
 
                         override fun onFailure(call: Call<Product>, t: Throwable) {
@@ -176,8 +360,10 @@ class PublishActivity : AppCompatActivity() {
                         }
 
                     })
+                /*val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
 
-                this.finish()
+                this.finish()*/
             }
 
         }

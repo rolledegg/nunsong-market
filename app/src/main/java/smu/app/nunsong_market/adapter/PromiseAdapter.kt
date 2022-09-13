@@ -20,6 +20,7 @@ import smu.app.nunsong_market.api.PromiseApi
 import smu.app.nunsong_market.databinding.ItemPromiseBinding
 import smu.app.nunsong_market.dto.Promise
 import smu.app.nunsong_market.util.ServiceGenerator
+import smu.app.nunsong_market.util.TimeUtil
 import smu.app.nunsong_market.viewmodel.PromiseListViewModel
 
 
@@ -39,7 +40,7 @@ class PromiseAdapter(context: Context) :
             firebaseAuth = Firebase.auth
 
             binding.productTitleTv.text = promise.title
-            binding.productDateTv.text = promise.date
+            binding.productDateTv.text = TimeUtil.formateDateTime(promise.date)
             binding.productPriceTv.text = promise.location
             binding.productMemoTv.text = promise.memo
 
@@ -109,8 +110,8 @@ class PromiseAdapter(context: Context) :
 
     fun deleteProm(promiseId: Long) {
         promiseApi.deletePromise(promiseId)
-            .enqueue(object : Callback<Int> {
-                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+            .enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     Log.d(PromiseListViewModel.TAG, "onResponse: ..")
                     if (response.isSuccessful.not()) {
                         //예외처리
@@ -123,7 +124,7 @@ class PromiseAdapter(context: Context) :
                     }
                 }
 
-                override fun onFailure(call: Call<Int>, t: Throwable) {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
                     Log.e(PromiseListViewModel.TAG, t.toString())
                 }
 

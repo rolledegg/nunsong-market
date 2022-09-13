@@ -6,14 +6,21 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.webkit.*
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.databinding.ActivityArticleBinding
+import smu.app.nunsong_market.dto.Product
 import smu.app.nunsong_market.util.BuildConfig
+import smu.app.nunsong_market.util.ServiceGenerator
 import kotlin.math.log
 
 
@@ -25,6 +32,9 @@ class ArticleActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var sellerUid: String
     private lateinit var sellerName: String
+    private var context = this
+
+    private val productApi by lazy { ServiceGenerator.createService(ProductApi::class.java) }
 
 
     private companion object {
@@ -49,11 +59,7 @@ class ArticleActivity : AppCompatActivity() {
         sellerUid = intent.getStringExtra("sellerUid").toString()
         Log.d(TAG, "onCreate: id: $itemId name: $sellerName uid: $sellerUid ")
 
-        //TODO: 본인 게시글은 어떻게 처리 할 것인지
-        //본인의 게시글에서는 채팅 버튼이 다르게
-        if (sellerUid == mAuth.currentUser?.uid) {
-            binding.chattingBtn.text = "본인 게시글임"
-        }
+        binding.sellerTv.text = sellerName
 
         if (itemId == -1) {
             Toast.makeText(this, "Can't get item id", Toast.LENGTH_SHORT)
@@ -71,7 +77,63 @@ class ArticleActivity : AppCompatActivity() {
             productWebView.addJavascriptInterface(WebAppInterface(this), "android")
         }
 
+        //본인의 게시글일 때
+        if (sellerUid == mAuth.currentUser?.uid) {
+            binding.chattingBtn.isVisible= false
+            binding.editBtn.isVisible= true
+            binding.deleteBtn.isVisible= true
+        }
+
         configChattingBtnClickListener(itemId)
+        configEditBtnClickListener(itemId)
+        configDeleteBtnClickListener(itemId)
+    }
+
+    private fun configDeleteBtnClickListener(itemId: Int) {
+        binding.deleteBtn.setOnClickListener {
+            productApi.deleteArticle(itemId)
+                .enqueue(object : Callback<Void> {
+                    override fun onResponse(
+                        call: Call<Void>,
+                        response: Response<Void>
+                    ) {
+                        Log.d(TAG, "onResponse: ..")
+                        if (response.isSuccessful.not()) {
+                            //예외처리
+                            Log.d(TAG, "onResponse: Not success")
+                            return
+                        }
+
+                        response.body()?.let {
+                            Log.d(TAG, "onResponse: ${it}")
+                            Log.d(TAG, "onResponse:" + it.toString())
+                        }
+
+                        val intent = Intent(context, MainActivity::class.java)
+                        startActivity(intent)
+
+                        context.finish()
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Log.e(TAG, t.toString())
+                    }
+
+                })
+
+        }
+
+    }
+
+    private fun configEditBtnClickListener(itemId: Int) {
+        binding.editBtn.setOnClickListener {
+            val intent = Intent(this, PublishActivity::class.java).apply {
+                putExtra("mode", 1)
+                putExtra("title","게시물 수정")
+                putExtra("id",itemId)
+            }
+            startActivity(intent)
+        }
     }
 
     private fun configChattingBtnClickListener(itemId: Int) {

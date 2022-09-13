@@ -51,9 +51,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line1"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/line1">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -156,8 +156,17 @@
                     android:hint="@string/publish_activity_title_hint"
                     android:lines="1"
                     android:paddingStart="13sp"
+                    android:textColor="@color/gray"
                     android:textColorHint="@color/light_gray"
                     android:textSize="12.5sp" />
+
+                <Spinner
+                    android:id="@+id/status_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10sp"
+                    android:visibility="gone"
+                    android:background="@drawable/square_publish_title"/>
 
                 <Spinner
                     android:id="@+id/category_spinner"
@@ -166,15 +175,15 @@
                     android:layout_marginBottom="10sp"
                     android:background="@drawable/square_publish_title"
                     android:hint="@string/publish_activity_category_hint" />
-<!---
-                <Spinner
-                    android:id="@+id/trans_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20sp"
-                    android:background="@drawable/square_publish_title"
-                    android:hint="@string/publish_activity_category_hint" />
-                    -->
+                <!---
+                                <Spinner
+                                    android:id="@+id/trans_spinner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="20sp"
+                                    android:background="@drawable/square_publish_title"
+                                    android:hint="@string/publish_activity_category_hint" />
+                                    -->
 
 
                 <EditText
@@ -209,9 +218,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20sp"
                     android:background="@drawable/square_publish_title"
+                    android:gravity="clip_vertical"
                     android:hint="@string/publish_activity_discription_hint"
                     android:lines="8"
-                    android:gravity="clip_vertical"
                     android:maxLines="8"
                     android:paddingStart="12sp"
                     android:paddingTop="12sp"
@@ -228,6 +237,19 @@
                 android:layout_marginEnd="16sp"
                 android:text="@string/publish_activity_publish_btn"
                 android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/liner_layout" />
+
+            <Button
+                android:id="@+id/edit_btn"
+                android:layout_width="0sp"
+                android:layout_height="50sp"
+                android:layout_marginStart="16sp"
+                android:layout_marginEnd="16sp"
+                android:text="@string/publish_activity_edit_btn"
+                android:textSize="15sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/liner_layout" />

@@ -107,7 +107,7 @@
                     android:hint="@string/promise_activity_date_hint"
                     android:lines="1"
                     android:paddingStart="13sp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textColorHint="@color/light_gray"
                     android:textSize="12.5sp" />
 
@@ -121,6 +121,7 @@
                     android:hint="@string/promise_activity_time_hint"
                     android:lines="1"
                     android:paddingStart="13sp"
+                    android:textColor="@color/dark_gray"
                     android:textColorHint="@color/light_gray"
                     android:textSize="12.5sp" />
 
@@ -135,7 +136,7 @@
                     android:hint="@string/promise_activity_location_hint"
                     android:lines="1"
                     android:paddingStart="13sp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textColorHint="@color/light_gray"
                     android:textSize="12.5sp" />
                 <!-- android:text="₩"-->
@@ -153,6 +154,7 @@
                     android:maxLines="5"
                     android:paddingStart="12sp"
                     android:paddingTop="12sp"
+                    android:textColor="@color/dark_gray"
                     android:textColorHint="@color/light_gray"
                     android:textSize="12.5sp" />
 

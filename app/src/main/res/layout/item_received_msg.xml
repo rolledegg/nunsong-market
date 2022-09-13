@@ -34,7 +34,7 @@
             android:text="아하 여기서 테스트 해보면 되는구나 "
             android:layout_marginStart="5dp"
             android:textColor="@color/black"
-            android:textSize="13sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/profile_iv"
             app:layout_constraintTop_toTopOf="parent" />
 
