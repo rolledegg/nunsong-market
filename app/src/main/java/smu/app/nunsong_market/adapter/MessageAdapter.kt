@@ -5,7 +5,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import smu.app.nunsong_market.R
@@ -52,6 +54,11 @@ class MessageAdapter(val context: Context, val msgList: ArrayList<Message>) :
             // do the stuff for receive view holder
 
             val viewHolder = holder as ReceiveVH
+            if (position > 1){
+                if( currentMsg.senderId == msgList[position-1].senderId){
+                    holder.receiveProfile.isVisible = false
+                }
+            }
             holder.receiveMsg.text = currentMsg.message
             holder.receiveTime.text = TimeUtil.formateTime(time!!)
         } else {
@@ -90,6 +97,7 @@ class MessageAdapter(val context: Context, val msgList: ArrayList<Message>) :
 
     class ReceiveVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val receiveMsg = itemView.findViewById<TextView>(R.id.received_msg_tv)
+        val receiveProfile = itemView.findViewById<ImageView>(R.id.profile_iv)
         val receiveTime = itemView.findViewById<TextView>(R.id.receive_time)
     }
 

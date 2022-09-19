@@ -6,18 +6,21 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.webkit.*
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import smu.app.nunsong_market.api.ProductApi
 import smu.app.nunsong_market.databinding.ActivityArticleBinding
+import smu.app.nunsong_market.dto.Keyword
 import smu.app.nunsong_market.dto.Product
 import smu.app.nunsong_market.util.BuildConfig
 import smu.app.nunsong_market.util.ServiceGenerator
@@ -37,8 +40,11 @@ class ArticleActivity : AppCompatActivity() {
     private val productApi by lazy { ServiceGenerator.createService(ProductApi::class.java) }
 
 
-    private companion object {
+    companion object {
         private const val TAG = "ARTICLE_ACTIVITY"
+        private const val HOME_FRAGMENT = 100
+        private const val MYPAGE_FRAGMENT = 101
+        var from_where: Int = 0
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -64,7 +70,8 @@ class ArticleActivity : AppCompatActivity() {
         if (itemId == -1) {
             Toast.makeText(this, "Can't get item id", Toast.LENGTH_SHORT)
         } else {
-            val loadUrl = BuildConfig.PRODUCT_URL + itemId.toString() + "?uid=" +mAuth.currentUser?.uid
+            val loadUrl =
+                BuildConfig.PRODUCT_URL + itemId.toString() + "?uid=" + mAuth.currentUser?.uid
             Log.d(TAG, "onCreate: $loadUrl")
 
             productWebView.apply {
@@ -79,14 +86,22 @@ class ArticleActivity : AppCompatActivity() {
 
         //본인의 게시글일 때
         if (sellerUid == mAuth.currentUser?.uid) {
-            binding.chattingBtn.isVisible= false
-            binding.editBtn.isVisible= true
-            binding.deleteBtn.isVisible= true
+            binding.chattingBtn.isVisible = false
+            binding.editBtn.isVisible = true
+            binding.deleteBtn.isVisible = true
         }
 
+        configExitBtn()
         configChattingBtnClickListener(itemId)
         configEditBtnClickListener(itemId)
         configDeleteBtnClickListener(itemId)
+    }
+
+
+    private fun configExitBtn() {
+        binding.backBtn.setOnClickListener {
+            backToRightActivity()
+        }
     }
 
     private fun configDeleteBtnClickListener(itemId: Int) {
@@ -109,8 +124,23 @@ class ArticleActivity : AppCompatActivity() {
                             Log.d(TAG, "onResponse:" + it.toString())
                         }
 
-                        val intent = Intent(context, MainActivity::class.java)
-                        startActivity(intent)
+                        when (from_where) {
+                            HOME_FRAGMENT -> {
+                                val intent = Intent(context, MainActivity::class.java).apply {
+                                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                }
+                                startActivity(intent)
+                            }
+                            MYPAGE_FRAGMENT -> {
+                                val intent =
+                                    Intent(context, ArticleListActivity::class.java).apply {
+                                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                        putExtra("type", 0)
+                                        putExtra("title", "내가 쓴 글")
+                                    }
+                                startActivity(intent)
+                            }
+                        }
 
                         context.finish()
                     }
@@ -129,8 +159,8 @@ class ArticleActivity : AppCompatActivity() {
         binding.editBtn.setOnClickListener {
             val intent = Intent(this, PublishActivity::class.java).apply {
                 putExtra("mode", 1)
-                putExtra("title","게시물 수정")
-                putExtra("id",itemId)
+                putExtra("title", "게시물 수정")
+                putExtra("id", itemId)
             }
             startActivity(intent)
         }
@@ -138,13 +168,43 @@ class ArticleActivity : AppCompatActivity() {
 
     private fun configChattingBtnClickListener(itemId: Int) {
         binding.chattingBtn.setOnClickListener {
-               val intent = Intent(this, ChattingActivity::class.java).apply {
-                   putExtra("id", itemId)
-                   putExtra("sellerName", sellerName)
-                   putExtra("sellerUid", sellerUid)
-               }
-               startActivity(intent)
+            val intent = Intent(this, ChattingActivity::class.java).apply {
+                putExtra("id", itemId)
+                putExtra("sellerName", sellerName)
+                putExtra("sellerUid", sellerUid)
+            }
+            startActivity(intent)
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            backToRightActivity()
+            return true
+        }
+        return false
+    }
+
+    private fun backToRightActivity(){
+            when (from_where) {
+                HOME_FRAGMENT -> {
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    }
+                    startActivity(intent)
+                }
+                MYPAGE_FRAGMENT -> {
+                    val intent =
+                        Intent(context, ArticleListActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            putExtra("type", 0)
+                            putExtra("title", "내가 쓴 글")
+                        }
+                    startActivity(intent)
+                }
+            }
+
+            context.finish()
     }
 
     inner class webChromeClient : android.webkit.WebChromeClient() {
@@ -165,7 +225,7 @@ class ArticleActivity : AppCompatActivity() {
             super.onPageFinished(view, url)
             progressBar.isVisible = false
 //            productWebView.loadUrl("javascript:getAndroidUser('" + sellerUid + "')")
-            productWebView.evaluateJavascript("javascript:getAndroidUser('" + sellerUid + "')"){
+            productWebView.evaluateJavascript("javascript:getAndroidUser('" + sellerUid + "')") {
                 Log.d(TAG, "onPageFinished: call function")
                 Log.d(TAG, "onPageFinished: $it")
             }
@@ -174,10 +234,13 @@ class ArticleActivity : AppCompatActivity() {
 
     }
 
-    inner class MyWebChromeClient: WebChromeClient(){
+    inner class MyWebChromeClient : WebChromeClient() {
         override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
             return super.onConsoleMessage(consoleMessage)
-            Log.d(TAG, "${consoleMessage?.message()},${consoleMessage?.lineNumber()}, ${consoleMessage?.sourceId()}")
+            Log.d(
+                TAG,
+                "${consoleMessage?.message()},${consoleMessage?.lineNumber()}, ${consoleMessage?.sourceId()}"
+            )
         }
     }
 

@@ -32,6 +32,7 @@ class HomeFragment : Fragment() {
         Log.d(AllProductFragment.TAG, "HomeFragment - onCreate() called")
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         viewModel.load()
+        ArticleActivity.from_where= HOME_FRAGMENT
 
     }
 
@@ -99,6 +100,14 @@ class HomeFragment : Fragment() {
     }
 
      private fun initCategory() {
+         binding.allLayout.setOnClickListener {
+             val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
+                 putExtra("type", 1)
+                 putExtra("title", "의류")
+                 putExtra("value", "CLOTHES")
+             }
+             startActivity(intent)
+         }
          binding.clothLayout.setOnClickListener() {
              Log.d(TAG, "initCategory: category clicked")
              val intent = Intent(requireContext(), ArticleListActivity::class.java).apply {
@@ -156,6 +165,7 @@ class HomeFragment : Fragment() {
 
     companion object {
         const val TAG: String = "HomeFragment"
+        private const val HOME_FRAGMENT = 100
 
         fun newInstance(): HomeFragment {
             return HomeFragment()

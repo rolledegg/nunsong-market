@@ -55,10 +55,10 @@
         android:layout_width="50dp"
         android:layout_height="40dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="2dp"
-        android:paddingTop="2dp"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
         android:background="@color/main_blue"
-        android:src="@drawable/ic_img_promise"
+        android:src="@drawable/ic_promise_24"
         app:layout_constraintBottom_toBottomOf="@id/search_etv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/search_etv" />
@@ -86,6 +86,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divide_line"
         app:layout_constraintBottom_toTopOf="@id/recent_article_list_tv">
+
+        <LinearLayout
+            android:id="@+id/all_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:paddingTop="7.5dp"
+                android:src="@drawable/ic_img_all"
+                android:background="@drawable/background_category"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="전체보기"
+                android:textColor="@color/gray"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
 
         <LinearLayout
@@ -169,31 +195,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/another_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:padding="3.5dp"
-                android:background="@drawable/background_category"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="중고도서"
-                android:textColor="@color/gray"
-
-                android:textSize="9sp"
-                android:textStyle="bold" />
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/etc_layout"

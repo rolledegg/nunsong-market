@@ -42,6 +42,11 @@ class PromiseListActivity : AppCompatActivity() {
 
         binding.backBtn.setOnClickListener { this.finish() }
 
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.loadPromise()
+            binding.swipeRefresh.isRefreshing=false
+        }
+
         initAcceptedRecyclerView()
         initRequestedRecyclerView()
         initRequestRecyclerView()

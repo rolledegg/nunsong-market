@@ -32,10 +32,10 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:text="아하 여기서 테스트 해보면 되는구나 "
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="35dp"
             android:textColor="@color/black"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/profile_iv"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

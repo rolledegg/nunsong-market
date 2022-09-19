@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable-v24/background_promise_count_zero.xml" value="0.2115" />
         <entry key="app/src/main/res/drawable-v24/background_promise_item.xml" value="0.2245" />
         <entry key="app/src/main/res/drawable-v24/background_searching_box_white.xml" value="0.2245" />
+        <entry key="app/src/main/res/drawable-v24/background_white_btn.xml" value="0.2185" />
         <entry key="app/src/main/res/drawable-v24/category_background.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable-v24/ic_add_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable-v24/ic_close_24.xml" value="0.168" />
@@ -28,6 +29,7 @@
         <entry key="app/src/main/res/drawable/ic_cloth_48.xml" value="0.2055" />
         <entry key="app/src/main/res/drawable/ic_electronics_48.xml" value="0.1125" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.18" />
+        <entry key="app/src/main/res/drawable/ic_main_background.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/ic_phone_48.xml" value="0.2335" />
         <entry key="app/src/main/res/drawable/ic_promise_24.xml" value="0.221" />
         <entry key="app/src/main/res/drawable/ic_send_msg.xml" value="0.1645" />
@@ -37,7 +39,7 @@
         <entry key="app/src/main/res/drawable/send_msg_background.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable/sent_msg_background.xml" value="0.2335" />
         <entry key="app/src/main/res/drawable/square_category.xml" value="0.1755" />
-        <entry key="app/src/main/res/layout/activity_article.xml" value="0.22083333333333333" />
+        <entry key="app/src/main/res/layout/activity_article.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_article_list.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_category_artcles.xml" value="0.2890625" />
         <entry key="app/src/main/res/layout/activity_chatting.xml" value="0.335" />
@@ -57,7 +59,7 @@
         <entry key="app/src/main/res/layout/item_category.xml" value="0.14427083333333332" />
         <entry key="app/src/main/res/layout/item_chat_list.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_promise.xml" value="0.45" />
-        <entry key="app/src/main/res/layout/item_received_msg.xml" value="0.20989583333333334" />
+        <entry key="app/src/main/res/layout/item_received_msg.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_search_word.xml" value="0.625" />
         <entry key="app/src/main/res/layout/item_sent_msg.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/layout/item_spinner.xml" value="0.2765625" />
@@ -66,6 +68,8 @@
         <entry key="app/src/main/res/layout/sent_msg.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.18020833333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.18" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_main.xml" value="0.1535" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_main_round.xml" value="0.1535" />
       </map>
     </option>
   </component>

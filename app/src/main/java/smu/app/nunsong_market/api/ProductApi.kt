@@ -24,7 +24,7 @@ interface ProductApi {
     fun getProductsSearch(@Query("keyword") keyword: String): Call<List<Product>>
 
 
-    fun postProduct(
+/*    fun postProduct(
         images: MultipartBody.Part,
         title: RequestBody,
         price: RequestBody,
@@ -40,7 +40,7 @@ interface ProductApi {
             true -> return postProductNoImage(title,price,category,description,sellerName,sellerUid,status,trans)
             false -> return postProductImage(images,title,price,category,description,sellerName,sellerUid,status,trans)
         }
-    }
+    }*/
 
     @Multipart
     @POST("/items/imagesitems")
@@ -56,7 +56,22 @@ interface ProductApi {
         @Part("trans") trans: RequestBody,
     ): Call<Product>
 
-    @POST("/items/imagesitems")
+    @Multipart
+    @PUT("/items/app/{id}")
+    fun editProductImage(
+        @Path("id") id: Int,
+        @Part("title") title: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("category") category: RequestBody,
+        @Part("content") description: RequestBody,
+        @Part("sellerName") sellerName: RequestBody,
+        @Part("sellerUID") sellerUid: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("trans") trans: RequestBody,
+        @Part images: MultipartBody.Part? = null,
+    ): Call<Product>
+
+/*    @POST("/items/imagesitems")
     fun postProductNoImage(
         @Part("title") title: RequestBody,
         @Part("price") price: RequestBody,
@@ -66,7 +81,7 @@ interface ProductApi {
         @Part("sellerUID") sellerUid: RequestBody,
         @Part("status") status: RequestBody,
         @Part("trans") trans: RequestBody,
-    ): Call<Product>
+    ): Call<Product>*/
 
     @DELETE("/items/{id}")
     fun deleteArticle(@Path("id") id: Int): Call<Void>

@@ -114,13 +114,13 @@ class LoginActivity : AppCompatActivity() {
                 if (authResult.additionalUserInfo!!.isNewUser) {
                     // user is new = Account created
                     Log.d(TAG, "firebaseAuthWithGoogleAccount: [Account created] ${email}")
-                    Toast.makeText(this, "Account created... ${email}", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "Account created... ${email}", Toast.LENGTH_SHORT).show()
 
                     signUp(email, uid)
                 } else {
                     //existing user - LoggedIn
                     Log.d(TAG, "firebaseAuthWithGoogleAccount: [Existing user] ${email}")
-                    Toast.makeText(this, "LoggedIn... ${email}", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "LoggedIn... ${email}", Toast.LENGTH_SHORT).show()
                 }
 
                 //start main activity
@@ -137,7 +137,7 @@ class LoginActivity : AppCompatActivity() {
                         TAG,
                         "firebaseAuthWithGoogleAccount: not a sookmyuung email delete account"
                     )
-                    Toast.makeText(this, "your not a sookmyung student", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "숙명 계정을 이용해주세요", Toast.LENGTH_SHORT).show()
                 }
 
             }

@@ -7,7 +7,7 @@
     <string name="bottom_nav_tap_mypage">내 정보</string>
 
     // HomeFragment
-    <string name="recent_article_list_title">최근 게시글</string>
+    <string name="recent_article_list_title">최신 게시글</string>
 
     // PublishActivity
     <string name="publish_activity_title">상품 등록</string>

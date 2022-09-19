@@ -36,6 +36,8 @@ class PublishActivity : AppCompatActivity() {
     private lateinit var path: String
     private var imageFile: File? = null
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var sellerUid: String
+    private lateinit var sellerName: String
     private var mode: Int = -1
     private var context = this
 
@@ -73,10 +75,11 @@ class PublishActivity : AppCompatActivity() {
         configCategorySpinner()
 
 
-        if (mode == 1) {
+        if (mode == EDIT_MODE) {
+            val itemId = intent.getIntExtra("id", -1)
             configStatusSpinner()
-            uiUpdate()
-//            configEditBtnClickLisener()
+            uiUpdate(itemId)
+            configEditBtnClickLisener(itemId)
         }
 
         configCameraBtnClickLisener()
@@ -84,23 +87,25 @@ class PublishActivity : AppCompatActivity() {
 
         // exit btn
         exitBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+            startActivity(intent)
             this.finish()
         }
     }
 
 
-
-    private fun uiUpdate() {
+    private fun uiUpdate(itemId: Int) {
         binding.mainTv.text = intent.getStringExtra("title")
-        binding.statusSpinner.visibility= View.VISIBLE
+        binding.statusSpinner.visibility = View.VISIBLE
         binding.publishBtn.visibility = View.INVISIBLE
         binding.editBtn.visibility = View.VISIBLE
 
-        setArticleInfo()
+        setArticleInfo(itemId)
     }
 
-    private fun setArticleInfo() {
-        val itemId = intent.getIntExtra("id",-1)
+    private fun setArticleInfo(itemId: Int) {
         productApi.getProductById(itemId)
             .enqueue(object : Callback<Product> {
                 override fun onResponse(
@@ -118,9 +123,11 @@ class PublishActivity : AppCompatActivity() {
                         Log.d(TAG, "onResponse: ${it}")
                         Log.d(TAG, "onResponse:" + it.toString())
 
+                        sellerName = it.sellerName
+                        sellerUid = it.sellerUid
 //                        //set article
-                        binding.productPreviewIv.isVisible= true
-                        if (it.coverSmallUrl != null){
+                        binding.productPreviewIv.isVisible = true
+                        if (it.coverSmallUrl != null) {
                             Glide
                                 .with(binding.productPreviewIv.context)
                                 .load(it.coverSmallUrl)
@@ -129,6 +136,20 @@ class PublishActivity : AppCompatActivity() {
                         binding.titleEt.setText(it.title)
                         binding.priceEt.setText(it.price.toString())
                         binding.discriptionEt.setText(it.description)
+
+                        when(it.category){
+                            //순서: "의류", "전자기기", "중고도서", "기타"
+                            "CLOTHES" -> binding.categorySpinner.setSelection(0)
+                            "ELECTRONICS" -> binding.categorySpinner.setSelection(1)
+                            "BOOKS" -> binding.categorySpinner.setSelection(2)
+                            "ETC" -> binding.categorySpinner.setSelection(3)
+                        }
+
+                        when(it.status){
+                            //순서: "판매중", "거래완료"
+                            "판매중"-> binding.statusSpinner.setSelection(0)
+                            "거래완료"-> binding.statusSpinner.setSelection(1)
+                        }
                     }
 
                 }
@@ -141,23 +162,25 @@ class PublishActivity : AppCompatActivity() {
 
     }
 
-    private fun configEditBtnClickLisener() {
-        binding.exitBtn.setOnClickListener {
+    private fun configEditBtnClickLisener(itemId: Int) {
+        binding.editBtn.setOnClickListener {
             val title = binding.titleEt.text.toString()
             val price = binding.priceEt.text.toString()
-            val category = binding.categorySpinner.selectedItem
+            val category = korToEng(binding.categorySpinner.selectedItem.toString())
             val description = binding.discriptionEt.text.toString()
             val sellerName = firebaseAuth.currentUser!!.email.toString().split("@")[0]
             val sellerUid = firebaseAuth.currentUser!!.uid
-            // TODO: RequestBody 만들 때 파일이 null이면 에러뜸
-            val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
-            Log.d(TAG, "configPublishBtnClickLisener: $title/$price/$description/$rImage")
+            val status = binding.statusSpinner.selectedItem
 
             if (price.equals("") || description.equals("") || title.equals("")) {
                 Toast.makeText(this, " 작성하지 않은 부분이 있습니다.", Toast.LENGTH_SHORT).show()
             } else {
+//                val multipleImage: MultipartBody.Part
+//                if (imageFile != null) {
+                val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
                 val multipleImage =
                     MultipartBody.Part.createFormData("images", imageFile?.name, rImage)
+//                }
                 val rTitle = RequestBody.create(MediaType.parse("text/plain"), title)
                 val rPrice = RequestBody.create(MediaType.parse("text/plain"), price)
                 val rCategory =
@@ -165,13 +188,12 @@ class PublishActivity : AppCompatActivity() {
                 val rDescripton = RequestBody.create(MediaType.parse("text/plain"), description)
                 val rSellerName = RequestBody.create(MediaType.parse("text/plain"), sellerName)
                 val rSellerUid = RequestBody.create(MediaType.parse("text/plain"), sellerUid)
-                val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
-                val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
-                val isImgEmpty = if (imageFile == null) true else false
-                Log.d(TAG, "configPublishBtnClickLisener: $isImgEmpty")
+                val rStatus = RequestBody.create(MediaType.parse("text/plain"), status.toString())
+                val rTrans = RequestBody.create(MediaType.parse("text/plain"), "")
 
-                productApi.postProductImage(
-                    multipleImage,
+
+                productApi.editProductImage(
+                    itemId,
                     rTitle,
                     rPrice,
                     rCategory,
@@ -179,7 +201,8 @@ class PublishActivity : AppCompatActivity() {
                     rSellerName,
                     rSellerUid,
                     rStatus,
-                    rTrans
+                    rTrans,
+                    multipleImage
                 )
                     .enqueue(object : Callback<Product> {
                         override fun onResponse(
@@ -198,9 +221,13 @@ class PublishActivity : AppCompatActivity() {
                                 Log.d(TAG, "onResponse:" + it.toString())
                             }
                             // 게시글이 등록된 뒤에 종료
-                            val intent = Intent(context, MainActivity::class.java)
+                            val intent = Intent(context, ArticleActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                putExtra("id", itemId)
+                                putExtra("sellerName",sellerName)
+                                putExtra("sellerUid",sellerUid)
+                            }
                             startActivity(intent)
-
                             context.finish()
                         }
 
@@ -209,10 +236,6 @@ class PublishActivity : AppCompatActivity() {
                         }
 
                     })
-                /*val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-
-                this.finish()*/
             }
 
         }
@@ -251,7 +274,7 @@ class PublishActivity : AppCompatActivity() {
 
     private fun configStatusSpinner() {
         //category spinner
-        val statusItems = arrayOf("판매중","거래완료")
+        val statusItems = arrayOf("판매중", "거래완료")
 
         //TODO: Add spinner hint
         val statusAdapter = ArrayAdapter(this, R.layout.item_spinner, statusItems)
@@ -296,13 +319,13 @@ class PublishActivity : AppCompatActivity() {
         binding.publishBtn.setOnClickListener {
             val title = binding.titleEt.text.toString()
             val price = binding.priceEt.text.toString()
-            val category = binding.categorySpinner.selectedItem
+            val category = korToEng(binding.categorySpinner.selectedItem.toString())
             val description = binding.discriptionEt.text.toString()
             val sellerName = firebaseAuth.currentUser!!.email.toString().split("@")[0]
             val sellerUid = firebaseAuth.currentUser!!.uid
             // TODO: RequestBody 만들 때 파일이 null이면 에러뜸
             val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
-            Log.d(TAG, "configPublishBtnClickLisener: $title/$price/$description/$rImage")
+            Log.d(TAG, "configPublishBtnClickLisener: $title/$price/$description")
 
             if (price.equals("") || description.equals("") || title.equals("")) {
                 Toast.makeText(this, " 작성하지 않은 부분이 있습니다.", Toast.LENGTH_SHORT).show()
@@ -317,9 +340,14 @@ class PublishActivity : AppCompatActivity() {
                 val rSellerName = RequestBody.create(MediaType.parse("text/plain"), sellerName)
                 val rSellerUid = RequestBody.create(MediaType.parse("text/plain"), sellerUid)
                 val rStatus = RequestBody.create(MediaType.parse("text/plain"), "판매중")
-                val rTrans = RequestBody.create(MediaType.parse("text/plain"), "NOCHOICE")
-                val isImgEmpty = if (imageFile == null) true else false
-                Log.d(TAG, "configPublishBtnClickLisener: $isImgEmpty")
+                val rTrans = RequestBody.create(MediaType.parse("text/plain"), "")
+//                val multipleImage:MultipartBody.Part?
+//                if (imageFile != null){
+//                    val rImage = RequestBody.create(MediaType.parse("image/*"), imageFile)
+//                    multipleImage =
+//                        MultipartBody.Part.createFormData("images", imageFile?.name, rImage)
+//
+//                } else {multipleImage = null}
 
                 productApi.postProductImage(
                     multipleImage,
@@ -349,7 +377,9 @@ class PublishActivity : AppCompatActivity() {
                                 Log.d(TAG, "onResponse:" + it.toString())
                             }
                             // 게시글이 등록된 뒤에 종료
-                            val intent = Intent(context, MainActivity::class.java)
+                            val intent = Intent(context, MainActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            }
                             startActivity(intent)
 
                             context.finish()
@@ -405,6 +435,15 @@ class PublishActivity : AppCompatActivity() {
             binding.productPreviewIv.isVisible = true
             imageFile = File(path)
 
+        }
+    }
+
+    fun korToEng(category: String):String{
+        when(category){
+            "의류" -> return "CLOTHES"
+            "전자기기" -> return "ELECTRONICS"
+            "중고도서" -> return "BOOKS"
+            else -> return "ETC"
         }
     }
 }

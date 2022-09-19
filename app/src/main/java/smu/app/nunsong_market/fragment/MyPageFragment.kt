@@ -75,6 +75,7 @@ class MyPageFragment : Fragment() {
 
     private fun configMyArticleBtn() {
         binding.myArticleTv.setOnClickListener() {
+            ArticleActivity.from_where = MYPAGE_FRAGMENT
             Log.d(TAG, "onCreateView: recyclerview clicked")
             val intent = Intent(requireContext(), ArticleListActivity::class.java).apply{
                 putExtra("type",0)
@@ -134,6 +135,7 @@ class MyPageFragment : Fragment() {
     companion object {
         private  const val RC_SIGN_IN = 110
         private  const val TAG = "GOOGLE_SIGN_IN"
+        private const val MYPAGE_FRAGMENT = 101
 
         fun newInstance(): MyPageFragment {
             return MyPageFragment()

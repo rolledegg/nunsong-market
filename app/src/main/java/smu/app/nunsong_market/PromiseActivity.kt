@@ -57,6 +57,8 @@ class PromiseActivity : AppCompatActivity() {
 
         binding.productTitleTv.text = title
 
+        binding.exitBtn.setOnClickListener { this.finish() }
+
         Log.d(
             TAG, "onCreate: ${TimeUtil.formateTime("1:1")}/${TimeUtil.formateTime("13:1")}" +
                     "/${TimeUtil.formateTime("3:32")}/${TimeUtil.formateTime("19:44")}"

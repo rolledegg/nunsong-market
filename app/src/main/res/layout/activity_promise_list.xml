@@ -43,198 +43,207 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_title_tv" />
 
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line1">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/accepted_promise_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="17dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="예정된 약속"
-                android:textColor="@color/dark_gray"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/accepted_count"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginEnd="50dp"
-                android:background="@drawable/background_promise_count"
-                android:gravity="center"
-                android:text="5"
-                android:textColor="@color/white"
-                android:textSize="9sp"
-                android:textStyle="bold"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@id/accepted_promise_tv"
-                app:layout_constraintEnd_toEndOf="@id/accepted_promise_tv"
-                app:layout_constraintTop_toTopOf="@id/accepted_promise_tv" />
-
-
-            <ImageView
-                android:id="@+id/accepted_narrow"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="14dp"
-                android:src="@drawable/ic_drop_down_24"
-                app:layout_constraintBottom_toBottomOf="@id/accepted_promise_tv"
-                app:layout_constraintEnd_toEndOf="@id/accepted_promise_tv"
-                app:layout_constraintTop_toTopOf="@id/accepted_promise_tv" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/accepted_rcv"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/lightest_gray"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:visibility="visible" />
-
-        <View
-            android:id="@+id/line2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lightest_gray"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/requested_promise_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="17dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="요청받은 약속"
-                android:textColor="@color/dark_gray"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/requested_count"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginEnd="50dp"
-                android:background="@drawable/background_promise_count"
-                android:gravity="center"
-                android:text="5"
-                android:textColor="@color/white"
-                android:textSize="9sp"
-                android:textStyle="bold"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@id/requested_promise_tv"
-                app:layout_constraintEnd_toEndOf="@id/requested_promise_tv"
-                app:layout_constraintTop_toTopOf="@id/requested_promise_tv" />
-
-            <ImageView
-                android:id="@+id/requested_narrow"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="14dp"
-                android:src="@drawable/ic_drop_down_24"
-                app:layout_constraintBottom_toBottomOf="@id/requested_promise_tv"
-                app:layout_constraintEnd_toEndOf="@id/requested_promise_tv"
-                app:layout_constraintTop_toTopOf="@id/requested_promise_tv" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/requested_rcv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/lightest_gray"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:visibility="visible" />
-
-        <View
-            android:id="@+id/line3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lightest_gray"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/requested_promise_tv" />
+            app:layout_constraintTop_toBottomOf="@id/line1">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/request_promise_tv"
+                <TextView
+                    android:id="@+id/accepted_promise_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="17dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="예정된 약속"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/accepted_count"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="50dp"
+                    android:background="@drawable/background_promise_count"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/accepted_promise_tv"
+                    app:layout_constraintEnd_toEndOf="@id/accepted_promise_tv"
+                    app:layout_constraintTop_toTopOf="@id/accepted_promise_tv" />
+
+
+                <ImageView
+                    android:id="@+id/accepted_narrow"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="14dp"
+                    android:src="@drawable/ic_drop_down_24"
+                    app:layout_constraintBottom_toBottomOf="@id/accepted_promise_tv"
+                    app:layout_constraintEnd_toEndOf="@id/accepted_promise_tv"
+                    app:layout_constraintTop_toTopOf="@id/accepted_promise_tv" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/accepted_rcv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="17dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="요청된 약속"
-                android:textColor="@color/dark_gray"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/request_count"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginEnd="50dp"
-                android:background="@drawable/background_promise_count"
-                android:gravity="center"
-                android:text="5"
-                android:textColor="@color/white"
-                android:textSize="9sp"
-                android:textStyle="bold"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@id/request_promise_tv"
-                app:layout_constraintEnd_toEndOf="@id/request_promise_tv"
-                app:layout_constraintTop_toTopOf="@id/request_promise_tv" />
-
-            <ImageView
-                android:id="@+id/request_narrow"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="14dp"
-                android:src="@drawable/ic_drop_down_24"
-                app:layout_constraintBottom_toBottomOf="@id/request_promise_tv"
-                app:layout_constraintEnd_toEndOf="@id/request_promise_tv"
-                app:layout_constraintTop_toTopOf="@id/request_promise_tv" />
+                android:background="@color/lightest_gray"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:visibility="visible" />
 
             <View
-                android:id="@+id/line4"
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightest_gray"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/requested_promise_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="17dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="요청받은 약속"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/requested_count"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="50dp"
+                    android:background="@drawable/background_promise_count"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/requested_promise_tv"
+                    app:layout_constraintEnd_toEndOf="@id/requested_promise_tv"
+                    app:layout_constraintTop_toTopOf="@id/requested_promise_tv" />
+
+                <ImageView
+                    android:id="@+id/requested_narrow"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="14dp"
+                    android:src="@drawable/ic_drop_down_24"
+                    app:layout_constraintBottom_toBottomOf="@id/requested_promise_tv"
+                    app:layout_constraintEnd_toEndOf="@id/requested_promise_tv"
+                    app:layout_constraintTop_toTopOf="@id/requested_promise_tv" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/requested_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/lightest_gray"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:visibility="visible" />
+
+            <View
+                android:id="@+id/line3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/lightest_gray"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/request_promise_tv" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@id/requested_promise_tv" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/request_rcv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/lightest_gray"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:visibility="visible" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/request_promise_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="17dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="요청된 약속"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/request_count"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="50dp"
+                    android:background="@drawable/background_promise_count"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/request_promise_tv"
+                    app:layout_constraintEnd_toEndOf="@id/request_promise_tv"
+                    app:layout_constraintTop_toTopOf="@id/request_promise_tv" />
+
+                <ImageView
+                    android:id="@+id/request_narrow"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="14dp"
+                    android:src="@drawable/ic_drop_down_24"
+                    app:layout_constraintBottom_toBottomOf="@id/request_promise_tv"
+                    app:layout_constraintEnd_toEndOf="@id/request_promise_tv"
+                    app:layout_constraintTop_toTopOf="@id/request_promise_tv" />
+
+                <View
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightest_gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/request_promise_tv" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/request_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/lightest_gray"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
